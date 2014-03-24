@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <item action="poi" icon="ic_launcher" title="Places"></item>
+    <item action="event" icon="ic_launcher" title="Events"></item>
+	<item action="route" icon="ic_launcher" title="Itineraries"></item>
+</resources>

@@ -1,0 +1,13 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/menu_settings_search" >
+        <EditTextPreference
+            android:dialogTitle="@string/menu_events_number_days"
+            android:inputType="number"
+            android:key="prefs_menu_events_number_days"
+            android:defaultValue="7"
+            android:summary="7"
+            android:title="@string/menu_events_number_days" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

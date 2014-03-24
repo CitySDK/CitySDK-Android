@@ -1,8 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">CitySDKDemo</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <color name="blue">#009FE3</color>
+
+    <string name="app_name" translatable="false">CitySDK Demo</string>
+    <string name="drawer_open" translatable="false">CitySDK Demo</string>
+    <string name="drawer_close" translatable="false">CitySDK Demo</string>
+    <string name="action_websearch" translatable="false">Web search</string>
+    <string name="app_not_available" translatable="false">Sorry, there\'s no web browser available</string>
 
 </resources>

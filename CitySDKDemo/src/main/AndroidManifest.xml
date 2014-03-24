@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.citysdk.citysdkdemo" >
+          package="org.citysdk.citysdkdemo"
+          android:versionCode="19"
+          android:versionName="0.20140321" >
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_SYNC_STATS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="org.citysdk.citysdkdemo.MainActivity"
+            android:name="org.citysdk.citysdkdemo.activities.ActNavigationDrawer"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,6 +34,47 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="org.citysdk.citysdkdemo.activities.ShowMoreInfoActivity" >
+        </activity>
+        <activity android:name="org.citysdk.citysdkdemo.activities.SettingsActivity" >
+        </activity>
+
+        <provider
+            android:name="org.citysdk.citysdkdemo.contracts.PoisProvider"
+            android:authorities="org.citysdk.citysdkdemo"
+            android:exported="false" />
+
+        <service
+            android:name="org.citysdk.citysdkdemo.sync.SyncService"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+        </service>
+        <service android:name="org.citysdk.citysdkdemo.accounts.GenericAccountService" >
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+            <!-- This points to an XMLf ile which describes our account service. -->
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+         android:value="AIzaSyDstEwNcZglY8JMyOfzmR1XNJXureNUHwk" />
+
+        <!--android:value="***REMOVED***" />-->
+
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>
