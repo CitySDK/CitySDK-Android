@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="4dp"
-                android:background="@drawable/card_background"
+                android:background="@drawable/bg_card"
                 android:orientation="vertical"
                 android:visibility="gone" >
 
@@ -174,7 +174,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="4dp"
-                android:background="@drawable/card_background"
+                android:background="@drawable/bg_card"
                 android:orientation="vertical"
                 android:visibility="gone" >
 
@@ -257,7 +257,7 @@
                 android:id="@+id/act_show_more_info_text_desc"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/card_background"
+                android:background="@drawable/bg_card"
                 android:orientation="vertical"
                 android:visibility="gone" >
 
