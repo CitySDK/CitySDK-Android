@@ -97,7 +97,9 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        System.out.println("onCreate");
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
@@ -153,9 +155,14 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
                 listActivity).commit();
 
         if (selectedView.equalsIgnoreCase(VIEW_MAPS)) {
+            //getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,
+              //      mapsActivity).commit();
+
             supportFragmentManager.beginTransaction().detach(listActivity).commit();
             supportFragmentManager.beginTransaction().attach(mapsActivity).commit();
         } else if (selectedView.equalsIgnoreCase(VIEW_LIST)) {
+            //getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,
+              //      listActivity).commit();
             supportFragmentManager.beginTransaction().detach(mapsActivity).commit();
             supportFragmentManager.beginTransaction().attach(listActivity).commit();
         }
@@ -189,6 +196,9 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
             selectedCategories = new ArrayList<String>(selectedItineraries);
         }
         //performSearch();
+        if(mPoi == null || mPoi.size() == 0 ) {
+            getPois();
+        }
     }
 
     @Override
@@ -332,10 +342,14 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
         if (id > 100 && id < 200) {
             updateSetSelected(label, 100);
             if (label.equalsIgnoreCase(VIEW_MAPS) && !selectedView.equalsIgnoreCase(VIEW_MAPS)) {
+                //getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,
+                  //      mapsActivity).commit();
                 getSupportFragmentManager().beginTransaction().detach(listActivity).commit();
                 getSupportFragmentManager().beginTransaction().attach(mapsActivity).commit();
                 //performSearch();
             } else if (label.equalsIgnoreCase(VIEW_LIST) && !selectedView.equalsIgnoreCase(VIEW_LIST)) {
+                //getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,
+                  //      listActivity).commit();
                 getSupportFragmentManager().beginTransaction().detach(mapsActivity).commit();
                 getSupportFragmentManager().beginTransaction().attach(listActivity).commit();
                 //performSearch();

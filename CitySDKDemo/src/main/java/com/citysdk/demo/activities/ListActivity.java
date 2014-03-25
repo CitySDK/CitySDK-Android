@@ -51,16 +51,18 @@ public class ListActivity extends Fragment implements Observer {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setRetainInstance(true);
         View fragmentView = inflater.inflate(R.layout.act_list, container, false);
 		mListView = (ListView) fragmentView.findViewById(R.id.act_list_listview);
-		actNavigationDrawer.getObservableClass().addObserver(this);
 		return fragmentView;
 	}	
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		if(actNavigationDrawer.getObservableClass().getValue() != null && actNavigationDrawer.getObservableClass().getValue().size()!=0) {
+        actNavigationDrawer.getObservableClass().addObserver(this);
+
+        if(actNavigationDrawer.getObservableClass().getValue() != null && actNavigationDrawer.getObservableClass().getValue().size()!=0) {
 			showMarker(actNavigationDrawer.getObservableClass().getValue());
 		}
 	}
@@ -68,7 +70,16 @@ public class ListActivity extends Fragment implements Observer {
 	@Override
 	public void onPause() {
 		super.onPause();
-	}	
+        actNavigationDrawer.getObservableClass().deleteObserver(this);
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        actNavigationDrawer.getObservableClass().deleteObserver(this);
+    }
+
 
 	public void showMarker(POIS<POI> pois) {
 		if(pois == null || pois.size()<=0) {
