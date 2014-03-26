@@ -78,7 +78,6 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        actNavigationDrawer.getObservableClass().addObserver(this);
 
         FragmentManager fm = getChildFragmentManager();
         fragment = (SupportMapFragment) fm.findFragmentById(R.id.act_maps_mapfragment);
@@ -92,6 +91,7 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
     public void onResume() {
         super.onResume();
         setupMap();
+        actNavigationDrawer.getObservableClass().addObserver(this);
 
         //if(actNavigationDrawer.getObservableClass().getValue() != null && actNavigationDrawer
           //      .getObservableClass().getValue().size()!=0) {

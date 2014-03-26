@@ -156,13 +156,13 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
 
         if (selectedView.equalsIgnoreCase(VIEW_MAPS)) {
             //getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,
-              //      mapsActivity).commit();
+            //      mapsActivity).commit();
 
             supportFragmentManager.beginTransaction().detach(listActivity).commit();
             supportFragmentManager.beginTransaction().attach(mapsActivity).commit();
         } else if (selectedView.equalsIgnoreCase(VIEW_LIST)) {
             //getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,
-              //      listActivity).commit();
+            //      listActivity).commit();
             supportFragmentManager.beginTransaction().detach(mapsActivity).commit();
             supportFragmentManager.beginTransaction().attach(listActivity).commit();
         }
@@ -343,13 +343,13 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
             updateSetSelected(label, 100);
             if (label.equalsIgnoreCase(VIEW_MAPS) && !selectedView.equalsIgnoreCase(VIEW_MAPS)) {
                 //getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,
-                  //      mapsActivity).commit();
+                //      mapsActivity).commit();
                 getSupportFragmentManager().beginTransaction().detach(listActivity).commit();
                 getSupportFragmentManager().beginTransaction().attach(mapsActivity).commit();
                 //performSearch();
             } else if (label.equalsIgnoreCase(VIEW_LIST) && !selectedView.equalsIgnoreCase(VIEW_LIST)) {
                 //getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,
-                  //      listActivity).commit();
+                //      listActivity).commit();
                 getSupportFragmentManager().beginTransaction().detach(mapsActivity).commit();
                 getSupportFragmentManager().beginTransaction().attach(listActivity).commit();
                 //performSearch();
@@ -584,11 +584,15 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
                                   String bytesOfMessage) {
 
         if (id == 1) {
+
             if (poi == null || ((POIS<POI>) poi).size() == 0) {
+                System.out.println("onResultFinished 0" );
                 observerClass.setValue(null);
 
+            } else {
+                System.out.println("onResultFinished"+((POIS<POI>) poi).size());
+                observerClass.setValue((POIS<POI>) poi);
             }
-            observerClass.setValue((POIS<POI>) poi);
         } else if (id == 2) {
 
             if (poi == null) {
