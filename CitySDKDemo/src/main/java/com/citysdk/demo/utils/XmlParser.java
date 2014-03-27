@@ -13,13 +13,14 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-final public class XmlParser  {
+final public class XmlParser {
 
-    private XmlParser() {}
+    private XmlParser() {
+    }
 
     static public Document processXMLAssets(Context ctx, String file) {
         Document doc = null;
-        InputSource is=null;
+        InputSource is = null;
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
 
@@ -42,7 +43,7 @@ final public class XmlParser  {
         }
         return doc;
     }
-    
+
     static public Document processXMLInternalStorage(Context ctx, String file) {
         Document doc = null;
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();

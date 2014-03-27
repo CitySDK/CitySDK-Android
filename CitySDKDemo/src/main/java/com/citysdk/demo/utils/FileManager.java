@@ -18,68 +18,67 @@ import citysdk.tourism.client.poi.single.POI;
 
 final public class FileManager {
 
-	public static final String SEPARATOR = "Foo-";
+    public static final String SEPARATOR = "Foo-";
 
-	public static List<String> listFiles(Context context) {
-		
-		List<String> returnList = new ArrayList<String>();
-		for(String s : Arrays.asList(context.fileList())) {
-			if(s.startsWith(SEPARATOR)) {
-				returnList.add(s);
-			}
-		}
-		return returnList;
-	}
+    public static List<String> listFiles(Context context) {
 
-	public static void removeFiles(Context context, String filename) {
-		context.getApplicationContext().deleteFile(filename);
-	}
+        List<String> returnList = new ArrayList<String>();
+        for (String s : Arrays.asList(context.fileList())) {
+            if (s.startsWith(SEPARATOR)) {
+                returnList.add(s);
+            }
+        }
+        return returnList;
+    }
 
-	public static void writePoisToFile(Context context, String name, POIS<POI> poi) {
-		try {
-			
-			if(poi == null || poi.size() <= 0) {
-				return;
-			}
-			Log.d("","Write Filename:" + name);
+    public static void removeFiles(Context context, String filename) {
+        context.getApplicationContext().deleteFile(filename);
+    }
+
+    public static void writePoisToFile(Context context, String name, POIS<POI> poi) {
+        try {
+
+            if (poi == null || poi.size() <= 0) {
+                return;
+            }
+            Log.d("", "Write Filename:" + name);
 //			FileOutputStream fos = context.openFileOutput(name, Context.MODE_PRIVATE);
 //			fos.write(serializeObject(poi));
 //			fos.close();
-			FileOutputStream fos = context.openFileOutput(name, Context.MODE_PRIVATE);
-			ObjectOutputStream os = new ObjectOutputStream(fos);
-			os.writeObject(poi);
-			os.close();
-		}
-		catch (IOException e) {
-			Log.e("Exception", "File write failed: " + e.toString());
-		} 
-	}
+            FileOutputStream fos = context.openFileOutput(name, Context.MODE_PRIVATE);
+            ObjectOutputStream os = new ObjectOutputStream(fos);
+            os.writeObject(poi);
+            os.close();
+        } catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
 
-	public static POIS<POI> readPoisFromFile(Context context, String name) {
+    public static POIS<POI> readPoisFromFile(Context context, String name) {
 
-	//	byte[] b;
-		try {
-			Log.d("","Read Filename:" + name);
+        //	byte[] b;
+        try {
+            Log.d("", "Read Filename:" + name);
 
 //			FileInputStream fis = context.openFileInput(name);
 //			b = org.apache.commons.io.IOUtils.toByteArray(fis);
 //			return ((POIS<POI>)deserializeObject(b));		
-			FileInputStream fis = context.openFileInput(name);
-			ObjectInputStream is = new ObjectInputStream(fis);
-			POIS<POI> simpleClass = (POIS<POI>) is.readObject();
-			is.close();
-			return simpleClass;
+            FileInputStream fis = context.openFileInput(name);
+            ObjectInputStream is = new ObjectInputStream(fis);
+            POIS<POI> simpleClass = (POIS<POI>) is.readObject();
+            is.close();
+            return simpleClass;
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} 			
-		return null;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
 
-	}
+    }
 
 //	private static byte[] serializeObject(Object o) { 
 //		ByteArrayOutputStream bos = new ByteArrayOutputStream(); 

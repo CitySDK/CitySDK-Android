@@ -95,8 +95,8 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
         actNavigationDrawer.getObservableClass().addObserver(this);
 
         //if(actNavigationDrawer.getObservableClass().getValue() != null && actNavigationDrawer
-          //      .getObservableClass().getValue().size()!=0) {
-            //showMarker(actNavigationDrawer.getObservableClass().getValue());
+        //      .getObservableClass().getValue().size()!=0) {
+        //showMarker(actNavigationDrawer.getObservableClass().getValue());
         //} else {
         //    clearMarker();
         //}
@@ -109,11 +109,11 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
         SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.clear();
-        if(map != null) {
+        if (map != null) {
             editor.putFloat("zoom", map.getCameraPosition().zoom);
             editor.putFloat("tilt", map.getCameraPosition().tilt);
-            editor.putFloat("latitude", (float)map.getCameraPosition().target.latitude);
-            editor.putFloat("longitude", (float)map.getCameraPosition().target.longitude);
+            editor.putFloat("latitude", (float) map.getCameraPosition().target.latitude);
+            editor.putFloat("longitude", (float) map.getCameraPosition().target.longitude);
             editor.putFloat("bearing", map.getCameraPosition().bearing);
         }
         editor.commit();
@@ -152,12 +152,12 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
     public void onConnected(Bundle connectionHint) {
 
         Location loc = locationClient.getLastLocation();
-        if(loc == null) {
+        if (loc == null) {
             return;
         }
         LatLng coord = new LatLng(loc.getLatitude(), loc.getLongitude());
 
-        if(!myPositionFlag) {
+        if (!myPositionFlag) {
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(coord, 17);
             map.animateCamera(cameraUpdate);
         }
@@ -198,7 +198,7 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
         mClusterManager.setRenderer(new MarkerRenderer());
 
 
-        if(latitude == 0 && longitude == 0) {
+        if (latitude == 0 && longitude == 0) {
             myPositionFlag = false;
         } else {
             myPositionFlag = true;
@@ -227,10 +227,10 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
     public void clearMarker() {
         if (fragment != null) {
             map = fragment.getMap();
-            if(map != null) {
+            if (map != null) {
                 map.clear();
             }
-            if(mClusterManager != null) {
+            if (mClusterManager != null) {
                 mClusterManager.clearItems();
             }
         }
@@ -267,16 +267,16 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
 
     public void showMarker(POIS<POI> pois) {
 
-        if(fragment == null || fragment.getMap() == null) {
+        if (fragment == null || fragment.getMap() == null) {
             return;
         }
 
-        if(pois == null || pois.size() == 0) {
+        if (pois == null || pois.size() == 0) {
             clearMarker();
             return;
         }
 
-        if(mClusterManager == null) {
+        if (mClusterManager == null) {
             setupMap();
         }
 
@@ -284,8 +284,8 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
         clearMarker();
         drawSearchPoint(null);
         Locale locale = (Locale) TourismAPI.getURL(getActivity().getApplicationContext())[1];
-        System.out.println(""+locale);
-        for(int i = 0 ; i < pois.size() ; i++) {
+        System.out.println("" + locale);
+        for (int i = 0; i < pois.size(); i++) {
 
             POI poi = pois.get(i);
             try {
@@ -293,14 +293,14 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
                 if (latlng == null || latlng.size() == 0) {
                     continue;
                 }
-                for(LocationDetails point : latlng) {
-                    if(point.getType() == 1) {
+                for (LocationDetails point : latlng) {
+                    if (point.getType() == 1) {
                         LatLng pointToWrite = point.getLatLngList().get(0);
                         mClusterManager.addItem(new Marker(pointToWrite.latitude, pointToWrite.longitude, DataReader.getLabel(poi, Term.LABEL_TERM_PRIMARY, locale), DataReader.getCategories(poi, locale).get(0), poi.getId(), poi.getBase()));
-                    } else if(point.getType() == 2){
+                    } else if (point.getType() == 2) {
                         PolylineOptions rectOptions = new PolylineOptions();
                         rectOptions.width(3);
-                        for(LatLng pointToWrite : point.getLatLngList()) {
+                        for (LatLng pointToWrite : point.getLatLngList()) {
                             rectOptions.add(pointToWrite);
                         }
                         LatLng latlngToWrite = centroPosition(point.getLatLngList());
@@ -308,10 +308,10 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
 
                         map.addPolyline(rectOptions);
 
-                    } else if(point.getType() == 3) {
+                    } else if (point.getType() == 3) {
                         PolylineOptions rectOptions = new PolylineOptions();
                         rectOptions.width(2f);
-                        for(LatLng pointToWrite : point.getLatLngList()) {
+                        for (LatLng pointToWrite : point.getLatLngList()) {
                             rectOptions.add(pointToWrite);
                         }
                         LatLng latlngToWrite = centroPosition(point.getLatLngList());
@@ -330,9 +330,9 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
     private List<LocationDetails> getLocation(POI poi) throws Exception {
 
         java.util.List<GeometryContent> list = DataReader.getLocationGeometry(poi, Term.POINT_TERM_ENTRANCE);
-        if(list.size() == 0) {
+        if (list.size() == 0) {
             list = DataReader.getLocationGeometry(poi, Term.POINT_TERM_CENTER);
-            if(list.size() == 0) {
+            if (list.size() == 0) {
                 list = DataReader.getLocationGeometry(poi, Term.POINT_TERM_NAVIGATION_POINT);
             }
         }
@@ -342,7 +342,7 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
 
         List<LocationDetails> listLatLng = new ArrayList<LocationDetails>();
 
-        for(GeometryContent gc : list) {
+        for (GeometryContent gc : list) {
             int numGeo = gc.getNumGeo();
 
             if (numGeo == 1) {
@@ -363,7 +363,7 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
             if (numGeo > 2) {
                 LocationDetails locationDetails = new LocationDetails(3);
                 PolygonContent content = (PolygonContent) gc;
-                for( LocationContent locationContent : content.getValues()) {
+                for (LocationContent locationContent : content.getValues()) {
                     locationDetails.addLatLngList(new LatLng((Float.parseFloat(locationContent.getLatitude())), (Float.parseFloat(locationContent.getLongitude()))));
                 }
                 listLatLng.add(locationDetails);
@@ -373,8 +373,8 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
         return listLatLng;
     }
 
-    private  LatLng centroPosition(List<LatLng> points) {
-        double[] centroid = { 0.0, 0.0 };
+    private LatLng centroPosition(List<LatLng> points) {
+        double[] centroid = {0.0, 0.0};
 
         for (int i = 0; i < points.size(); i++) {
             centroid[0] += points.get(i).latitude;
@@ -396,7 +396,7 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
         CharSequence[] arr = new CharSequence[cluster.getSize()];
 
         final Marker[] list = cluster.getItems().toArray(new Marker[cluster.getItems().size()]);
-        for(int i = 0; i< list.length; i++) {
+        for (int i = 0; i < list.length; i++) {
             arr[i] = list[i].getName();
         }
 
@@ -432,6 +432,35 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
         startActivity(i);
     }
 
+    private void drawSearchPoint(LatLng point) {
+
+        LatLng pointToAdd;
+        if (point == null) {
+            SharedPreferences userDetails = getActivity().getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
+            float lat = userDetails.getFloat("latPoint", 0);
+            float lng = userDetails.getFloat("lngPoint", 0);
+            pointToAdd = new LatLng(lat, lng);
+        } else {
+            pointToAdd = point;
+        }
+
+        if (markerMyPosition != null) {
+            markerMyPosition.remove();
+        }
+        markerMyPosition = map.addMarker(new MarkerOptions()
+                .position(pointToAdd).draggable(false).visible(true));
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        POIS<POI> poi = actNavigationDrawer.getObservableClass().getValue();
+        if (poi == null) {
+            clearMarker();
+        } else {
+            System.out.println("update Observable");
+            showMarker(poi);
+        }
+    }
 
     private class MarkerRenderer extends DefaultClusterRenderer<Marker> {
         private final IconGenerator mIconGenerator = new IconGenerator(getActivity());
@@ -485,36 +514,6 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
         protected boolean shouldRenderAsCluster(Cluster cluster) {
             // Always render clusters.
             return cluster.getSize() > 1;
-        }
-    }
-
-    private void drawSearchPoint(LatLng point) {
-
-        LatLng pointToAdd;
-        if(point == null) {
-            SharedPreferences userDetails = getActivity().getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
-            float lat = userDetails.getFloat("latPoint", 0);
-            float lng = userDetails.getFloat("lngPoint", 0);
-            pointToAdd = new LatLng(lat, lng);
-        } else {
-            pointToAdd = point;
-        }
-
-        if (markerMyPosition != null) {
-            markerMyPosition.remove();
-        }
-        markerMyPosition = map.addMarker(new MarkerOptions()
-                .position(pointToAdd).draggable(false).visible(true));
-    }
-
-    @Override
-    public void update(Observable observable, Object data) {
-        POIS<POI> poi = actNavigationDrawer.getObservableClass().getValue();
-        if( poi == null) {
-            clearMarker();
-        } else {
-            System.out.println("update Observable");
-            showMarker(poi);
         }
     }
 }

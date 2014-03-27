@@ -114,11 +114,11 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
         if (location != null) {
             onLocationChanged(location);
         }
-        if(mapsActivity == null) {
+        if (mapsActivity == null) {
             mapsActivity = new MapsActivity(this);
         }
 
-        if(listActivity == null) {
+        if (listActivity == null) {
             listActivity = new ListActivity(this);
         }
 
@@ -140,9 +140,8 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
         }
 
         SyncUtils.CreateSyncAccount(getApplicationContext());
-        Bundle b = new Bundle();
-        b.putString("type", "full");
-        SyncUtils.TriggerRefresh(b);
+
+        SyncUtils.TriggerRefresh();
 
 
         getSupportLoaderManager().initLoader(FETCH_CATEGORIES, null, this);
@@ -155,14 +154,9 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
                 listActivity).commit();
 
         if (selectedView.equalsIgnoreCase(VIEW_MAPS)) {
-            //getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,
-            //      mapsActivity).commit();
-
             supportFragmentManager.beginTransaction().detach(listActivity).commit();
             supportFragmentManager.beginTransaction().attach(mapsActivity).commit();
         } else if (selectedView.equalsIgnoreCase(VIEW_LIST)) {
-            //getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,
-            //      listActivity).commit();
             supportFragmentManager.beginTransaction().detach(mapsActivity).commit();
             supportFragmentManager.beginTransaction().attach(listActivity).commit();
         }
@@ -196,7 +190,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
             selectedCategories = new ArrayList<String>(selectedItineraries);
         }
         //performSearch();
-        if(mPoi == null || mPoi.size() == 0 ) {
+        if (mPoi == null || mPoi.size() == 0) {
             getPois();
         }
     }
@@ -381,10 +375,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
 
 
     private void updateCategories() {
-        //saveMenuOptions();
-        Bundle b = new Bundle();
-        b.putString("type", "search");
-        SyncUtils.TriggerRefresh(b);
+        SyncUtils.TriggerRefresh();
     }
 
     @Override
@@ -586,11 +577,11 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
         if (id == 1) {
 
             if (poi == null || ((POIS<POI>) poi).size() == 0) {
-                System.out.println("onResultFinished 0" );
+                System.out.println("onResultFinished 0");
                 observerClass.setValue(null);
 
             } else {
-                System.out.println("onResultFinished"+((POIS<POI>) poi).size());
+                System.out.println("onResultFinished" + ((POIS<POI>) poi).size());
                 observerClass.setValue((POIS<POI>) poi);
             }
         } else if (id == 2) {
@@ -625,7 +616,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
                             TourismAPI.setURL(this, link.getValue(), "el-GR");
                         }
 
-                        SyncUtils.TriggerRefresh(b);
+                        SyncUtils.TriggerRefresh();
 
                     }
                 }

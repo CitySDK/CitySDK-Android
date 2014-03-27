@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/navmenusection_label"
@@ -11,14 +11,14 @@
         android:paddingLeft="7dp"
         android:paddingTop="7dp"
         android:text="Section"
-        android:textStyle="bold"
         android:textColor="#4C4646"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:textStyle="bold"/>
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/navmenusection_label"
-        android:background="@android:color/darker_gray" />
+        android:background="@android:color/darker_gray"/>
 
 </RelativeLayout>

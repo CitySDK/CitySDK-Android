@@ -8,13 +8,13 @@ public class NavMenuSection implements NavDrawerItem {
 
     private NavMenuSection() {
     }
-    
-    public static NavMenuSection create( int id, String label ) {
+
+    public static NavMenuSection create(int id, String label) {
         NavMenuSection section = new NavMenuSection();
         section.setLabel(label);
         return section;
     }
-    
+
     @Override
     public int getType() {
         return SECTION_TYPE;

@@ -17,192 +17,191 @@ import com.citysdk.demo.R;
 
 public abstract class AbstractNavDrawerActivity extends FragmentActivity {
 
-	private DrawerLayout mDrawerLayout;
-	private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
 
-	private ListView mDrawerList;
+    private ListView mDrawerList;
 
-	private CharSequence mDrawerTitle;
-	private CharSequence mTitle;
+    private CharSequence mDrawerTitle;
+    private CharSequence mTitle;
 
-	private NavDrawerActivityConfiguration navConf ;
+    private NavDrawerActivityConfiguration navConf;
 
-	protected abstract NavDrawerActivityConfiguration getNavDrawerConfiguration();
+    protected abstract NavDrawerActivityConfiguration getNavDrawerConfiguration();
 
-	protected abstract void onNavItemSelected( int id, String label );
-	
-	protected abstract void performSearch();
+    protected abstract void onNavItemSelected(int id, String label);
+
+    protected abstract void performSearch();
 
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		navConf = getNavDrawerConfiguration();
+        navConf = getNavDrawerConfiguration();
 
-		setContentView(navConf.getMainLayout()); 
+        setContentView(navConf.getMainLayout());
 
-		mTitle = mDrawerTitle = getTitle();
+        mTitle = mDrawerTitle = getTitle();
 
-		mDrawerLayout = (DrawerLayout) findViewById(navConf.getDrawerLayoutId());
-		mDrawerList = (ListView) findViewById(navConf.getLeftDrawerId());
-		mDrawerList.setAdapter(navConf.getBaseAdapter());
-		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        mDrawerLayout = (DrawerLayout) findViewById(navConf.getDrawerLayoutId());
+        mDrawerList = (ListView) findViewById(navConf.getLeftDrawerId());
+        mDrawerList.setAdapter(navConf.getBaseAdapter());
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-		mDrawerList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        mDrawerList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
-		this.initDrawerShadow();
+        this.initDrawerShadow();
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
 
-		mDrawerToggle = new ActionBarDrawerToggle(
-				this,
-				mDrawerLayout,
-				getDrawerIcon(),
-				navConf.getDrawerOpenDesc(),
-				navConf.getDrawerCloseDesc()
-				) {
-			public void onDrawerClosed(View view) {
-				getActionBar().setTitle(mTitle);
-				performSearch();
-				//TourismAPI.getPlaceCategories((OnResultsListener)getFragmentManager().findFragmentById(MapsActivity().this) ,list);
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                mDrawerLayout,
+                getDrawerIcon(),
+                navConf.getDrawerOpenDesc(),
+                navConf.getDrawerCloseDesc()
+        ) {
+            public void onDrawerClosed(View view) {
+                getActionBar().setTitle(mTitle);
+                performSearch();
+                //TourismAPI.getPlaceCategories((OnResultsListener)getFragmentManager().findFragmentById(MapsActivity().this) ,list);
 
-				invalidateOptionsMenu();
-				
-			}
+                invalidateOptionsMenu();
 
-			public void onDrawerOpened(View drawerView) {
-				getActionBar().setTitle(mDrawerTitle);
-				invalidateOptionsMenu();
-			}
-		};
-		mDrawerLayout.setDrawerListener(mDrawerToggle);
-	}
+            }
 
-	protected void openDrawer() {
-		mDrawerLayout.openDrawer(GravityCompat.START);
-	}
-	protected void closeDrawer() {
-		mDrawerLayout.closeDrawer(GravityCompat.START);
-	}
-	
-	protected void initDrawerShadow() {
-		mDrawerLayout.setDrawerShadow(navConf.getDrawerShadow(), GravityCompat.START);
-	}
+            public void onDrawerOpened(View drawerView) {
+                getActionBar().setTitle(mDrawerTitle);
+                invalidateOptionsMenu();
+            }
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+    }
 
-	protected int getDrawerIcon() {
-		return R.drawable.ic_drawer;
-	}
+    protected void openDrawer() {
+        mDrawerLayout.openDrawer(GravityCompat.START);
+    }
 
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		mDrawerToggle.syncState();
-	}
+    protected void closeDrawer() {
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+    }
 
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		mDrawerToggle.onConfigurationChanged(newConfig);
-	}
+    protected void initDrawerShadow() {
+        mDrawerLayout.setDrawerShadow(navConf.getDrawerShadow(), GravityCompat.START);
+    }
 
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		if ( navConf.getActionMenuItemsToHideWhenDrawerOpen() != null ) {
-			boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-			for( int iItem : navConf.getActionMenuItemsToHideWhenDrawerOpen()) {
-				menu.findItem(iItem).setVisible(!drawerOpen);
-			}
-		}
-		return super.onPrepareOptionsMenu(menu);
-	}
+    protected int getDrawerIcon() {
+        return R.drawable.ic_drawer;
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (mDrawerToggle.onOptionsItemSelected(item)) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if ( keyCode == KeyEvent.KEYCODE_MENU ) {
-			if ( this.mDrawerLayout.isDrawerOpen(this.mDrawerList)) {
-				this.mDrawerLayout.closeDrawer(this.mDrawerList);
-			}
-			else {
-				this.mDrawerLayout.openDrawer(this.mDrawerList);
-			}
-			return true;
-		}
-		return super.onKeyDown(keyCode, event);
-	}
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
 
-	protected DrawerLayout getDrawerLayout() {
-		return mDrawerLayout;
-	}
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (navConf.getActionMenuItemsToHideWhenDrawerOpen() != null) {
+            boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+            for (int iItem : navConf.getActionMenuItemsToHideWhenDrawerOpen()) {
+                menu.findItem(iItem).setVisible(!drawerOpen);
+            }
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
 
-	protected ActionBarDrawerToggle getDrawerToggle() {
-		return mDrawerToggle;
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-	private class DrawerItemClickListener implements ListView.OnItemClickListener {
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			selectItem(position);
-		}
-	}
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
+            if (this.mDrawerLayout.isDrawerOpen(this.mDrawerList)) {
+                this.mDrawerLayout.closeDrawer(this.mDrawerList);
+            } else {
+                this.mDrawerLayout.openDrawer(this.mDrawerList);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
-	public void selectItem(int position) {
-		NavDrawerItem selectedItem = navConf.getNavItems()[position];
+    protected DrawerLayout getDrawerLayout() {
+        return mDrawerLayout;
+    }
 
-		this.onNavItemSelected(selectedItem.getId(), selectedItem.getLabel());
-		//mDrawerList.setItemChecked(position, true);
+    protected ActionBarDrawerToggle getDrawerToggle() {
+        return mDrawerToggle;
+    }
 
-		if ( selectedItem.updateActionBarTitle()) {
-			setTitle(selectedItem.getLabel());
-		}
+    public void selectItem(int position) {
+        NavDrawerItem selectedItem = navConf.getNavItems()[position];
 
-		if ( this.mDrawerLayout.isDrawerOpen(this.mDrawerList)) {
-			// mDrawerLayout.closeDrawer(mDrawerList);
-		}
-	}
+        this.onNavItemSelected(selectedItem.getId(), selectedItem.getLabel());
+        //mDrawerList.setItemChecked(position, true);
 
-	public void selectItemMine(int id, String label) {
+        if (selectedItem.updateActionBarTitle()) {
+            setTitle(selectedItem.getLabel());
+        }
 
-		NavDrawerItem[] list = navConf.getNavItems();
-		for(int i = 0; i < list.length; i++) {
-			if (list[i].getId() > id && list[i].getId() < id+100 ) {
-				if (list[i].getLabel().equalsIgnoreCase(label)) {
-					mDrawerList.setItemChecked(i, true);
-				} else {
-					mDrawerList.setItemChecked(i, false);
-				}
+        if (this.mDrawerLayout.isDrawerOpen(this.mDrawerList)) {
+            // mDrawerLayout.closeDrawer(mDrawerList);
+        }
+    }
 
-			}	
-		}
-	}
+    public void selectItemMine(int id, String label) {
 
-	public void setItemCheckedCategories(int id, String label, boolean bool) {
-		NavDrawerItem[] list = navConf.getNavItems();
-		for(int i = 0; i < list.length; i++) {
-			if (list[i].getId() > id && list[i].getId() < id+100 && list[i].getLabel().equalsIgnoreCase(label)) {
-				mDrawerList.setItemChecked(i, bool);
-			} 
-		}	
-	}
+        NavDrawerItem[] list = navConf.getNavItems();
+        for (int i = 0; i < list.length; i++) {
+            if (list[i].getId() > id && list[i].getId() < id + 100) {
+                if (list[i].getLabel().equalsIgnoreCase(label)) {
+                    mDrawerList.setItemChecked(i, true);
+                } else {
+                    mDrawerList.setItemChecked(i, false);
+                }
 
-	public void setAdapterMine(NavDrawerItem[] menu) {
-		mDrawerList.setAdapter(new NavDrawerAdapter(this, R.layout.act_navdrawer_item, menu ));
-	}
+            }
+        }
+    }
 
-	@Override
-	public void setTitle(CharSequence title) {
-		mTitle = title;
-		getActionBar().setTitle(mTitle);
-	}
+    public void setItemCheckedCategories(int id, String label, boolean bool) {
+        NavDrawerItem[] list = navConf.getNavItems();
+        for (int i = 0; i < list.length; i++) {
+            if (list[i].getId() > id && list[i].getId() < id + 100 && list[i].getLabel().equalsIgnoreCase(label)) {
+                mDrawerList.setItemChecked(i, bool);
+            }
+        }
+    }
+
+    public void setAdapterMine(NavDrawerItem[] menu) {
+        mDrawerList.setAdapter(new NavDrawerAdapter(this, R.layout.act_navdrawer_item, menu));
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        getActionBar().setTitle(mTitle);
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+    }
 }

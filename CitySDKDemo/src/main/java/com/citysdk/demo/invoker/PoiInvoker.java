@@ -10,21 +10,21 @@ import citysdk.tourism.client.requests.TourismClient;
 import citysdk.tourism.client.requests.TourismClientFactory;
 
 public class PoiInvoker extends Invoker {
-	
-	@Override
-	public POI invoke(ParameterList parameterList, String homeUrl) {
-		try {
-			TourismClient client = TourismClientFactory.getInstance().getClient(homeUrl);
-			client.useVersion(version);
-			return client.getPoi(base, id);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (UnknownErrorException e) {
-			e.printStackTrace();
-		} catch (ServerErrorException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
+
+    @Override
+    public POI invoke(ParameterList parameterList, String homeUrl) {
+        try {
+            TourismClient client = TourismClientFactory.getInstance().getClient(homeUrl);
+            client.useVersion(version);
+            return client.getPoi(base, id);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (UnknownErrorException e) {
+            e.printStackTrace();
+        } catch (ServerErrorException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

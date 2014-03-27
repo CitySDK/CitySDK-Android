@@ -12,9 +12,9 @@ import android.os.IBinder;
 import android.util.Log;
 
 public class GenericAccountService extends Service {
+    public static final String ACCOUNT_NAME = "sync";
     private static final String TAG = "GenericAccountService";
     private static final String ACCOUNT_TYPE = "com.citysdk.demo";
-    public static final String ACCOUNT_NAME = "sync";
     private Authenticator mAuthenticator;
 
     public static Account GetAccount() {

@@ -74,12 +74,13 @@ class SyncAdapter extends AbstractThreadedSyncAdapter implements OnResultsListen
 
     @Override
     public void onResultsFinished(POI poi, int id, String parameterTerm, String bytesOfMessage) {
-        if(id == 0) {
+        if (id == 0) {
             if (poi == null) {
                 return;
             }
 
-            List<CategoryDomain> list = TourismAPI.getCategoriesInformation(context, poi, parameterTerm.toString());
+            List<CategoryDomain> list = TourismAPI.getCategoriesInformation(context, poi,
+                    parameterTerm.toString());
 
             try {
                 handleCategories(list, parameterTerm);
@@ -92,7 +93,8 @@ class SyncAdapter extends AbstractThreadedSyncAdapter implements OnResultsListen
         }
     }
 
-    private void handleCategories(List<CategoryDomain> list, String parameterTerm) throws RemoteException, OperationApplicationException {
+    private void handleCategories(List<CategoryDomain> list, String parameterTerm) throws
+            RemoteException, OperationApplicationException {
 
         SyncResult syncResult = new SyncResult();
 
@@ -108,7 +110,9 @@ class SyncAdapter extends AbstractThreadedSyncAdapter implements OnResultsListen
             }
         }
         Uri uri = PoisContract.Category.CONTENT_URI;
-        Cursor c = contentResolver.query(uri, PoisContract.Category.PROJECTION_CATEGORY, PoisContract.Category.COLUMN_CATEGORY_OPTION + "= '" +  parameterTerm + "'", null, null);
+        Cursor c = contentResolver.query(uri, PoisContract.Category.PROJECTION_CATEGORY,
+                PoisContract.Category.COLUMN_CATEGORY_OPTION + "= '" + parameterTerm + "'", null,
+                null);
         assert c != null;
 
         int id;
@@ -126,7 +130,8 @@ class SyncAdapter extends AbstractThreadedSyncAdapter implements OnResultsListen
             CategoryDomain match = entryMap.get(oid);
             if (match != null) {
                 entryMap.remove(oid);
-                Uri existingUri = PoisContract.Category.CONTENT_URI.buildUpon().appendPath(Integer.toString(id)).build();
+                Uri existingUri = PoisContract.Category.CONTENT_URI.buildUpon().appendPath
+                        (Integer.toString(id)).build();
 
                 if ((match.getId() != null && !match.getId().equals(oid)) ||
                         (match.getOption() != null && !match.getOption().equals(option)) ||
