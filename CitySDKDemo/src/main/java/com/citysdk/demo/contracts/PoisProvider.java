@@ -1,7 +1,5 @@
 package com.citysdk.demo.contracts;
 
-import com.citysdk.demo.utils.SelectionBuilder;
-
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,6 +8,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+
+import com.citysdk.demo.utils.SelectionBuilder;
 
 public class PoisProvider extends ContentProvider {
 

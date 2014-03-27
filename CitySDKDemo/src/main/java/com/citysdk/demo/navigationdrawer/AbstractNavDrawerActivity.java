@@ -1,7 +1,5 @@
 package com.citysdk.demo.navigationdrawer;
 
-import com.citysdk.demo.R;
-
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -14,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.citysdk.demo.R;
 
 public abstract class AbstractNavDrawerActivity extends FragmentActivity {
 

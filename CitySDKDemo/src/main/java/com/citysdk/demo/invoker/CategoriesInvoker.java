@@ -7,10 +7,10 @@ import citysdk.tourism.client.exceptions.ResourceNotAllowedException;
 import citysdk.tourism.client.exceptions.ServerErrorException;
 import citysdk.tourism.client.exceptions.UnknownErrorException;
 import citysdk.tourism.client.exceptions.VersionNotAvailableException;
+import citysdk.tourism.client.poi.single.POI;
+import citysdk.tourism.client.requests.ParameterList;
 import citysdk.tourism.client.requests.TourismClient;
 import citysdk.tourism.client.requests.TourismClientFactory;
-import citysdk.tourism.client.requests.ParameterList;
-import citysdk.tourism.client.poi.single.POI;
 
 public class CategoriesInvoker extends Invoker {
 	

@@ -1,54 +1,5 @@
 package com.citysdk.demo.activities;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-
-import net.fortuna.ical4j.data.CalendarBuilder;
-import net.fortuna.ical4j.data.ParserException;
-import net.fortuna.ical4j.model.Calendar;
-import net.fortuna.ical4j.model.Component;
-import net.fortuna.ical4j.model.Property;
-
-import org.apache.commons.lang3.StringUtils;
-import com.citysdk.demo.R;
-import com.citysdk.demo.listener.OnResultsListener;
-import com.citysdk.demo.utils.TourismAPI;
-
-import citysdk.tourism.client.exceptions.InvalidParameterException;
-import citysdk.tourism.client.exceptions.InvalidValueException;
-import citysdk.tourism.client.parser.DataReader;
-import citysdk.tourism.client.parser.data.ImageContent;
-import citysdk.tourism.client.poi.base.POITermType;
-import citysdk.tourism.client.poi.single.POI;
-import citysdk.tourism.client.poi.single.PointOfInterest;
-import citysdk.tourism.client.requests.Parameter;
-import citysdk.tourism.client.requests.ParameterList;
-import citysdk.tourism.client.terms.ParameterTerms;
-import citysdk.tourism.client.terms.Term;
-
-
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-
-import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-
-import ezvcard.Ezvcard;
-import ezvcard.VCard;
-import ezvcard.property.Address;
-import ezvcard.property.Email;
-import ezvcard.property.Telephone;
-import ezvcard.property.Url;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -64,6 +15,52 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.citysdk.demo.R;
+import com.citysdk.demo.listener.OnResultsListener;
+import com.citysdk.demo.utils.TourismAPI;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+
+import net.fortuna.ical4j.data.CalendarBuilder;
+import net.fortuna.ical4j.data.ParserException;
+import net.fortuna.ical4j.model.Calendar;
+import net.fortuna.ical4j.model.Component;
+import net.fortuna.ical4j.model.Property;
+
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+
+import citysdk.tourism.client.exceptions.InvalidParameterException;
+import citysdk.tourism.client.exceptions.InvalidValueException;
+import citysdk.tourism.client.parser.DataReader;
+import citysdk.tourism.client.parser.data.ImageContent;
+import citysdk.tourism.client.poi.base.POITermType;
+import citysdk.tourism.client.poi.single.POI;
+import citysdk.tourism.client.poi.single.PointOfInterest;
+import citysdk.tourism.client.requests.Parameter;
+import citysdk.tourism.client.requests.ParameterList;
+import citysdk.tourism.client.terms.ParameterTerms;
+import citysdk.tourism.client.terms.Term;
+import ezvcard.Ezvcard;
+import ezvcard.VCard;
+import ezvcard.property.Address;
+import ezvcard.property.Email;
+import ezvcard.property.Telephone;
+import ezvcard.property.Url;
 
 public class ShowMoreInfoActivity extends Activity implements OnResultsListener {
 

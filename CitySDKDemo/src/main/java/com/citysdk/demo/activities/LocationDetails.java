@@ -1,9 +1,9 @@
 package com.citysdk.demo.activities;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.android.gms.maps.model.LatLng;
 
 public class LocationDetails {
 

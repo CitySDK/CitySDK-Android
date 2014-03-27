@@ -20,8 +20,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import com.citysdk.demo.R;
 import com.citysdk.demo.contracts.PoisContract;
 import com.citysdk.demo.domain.CategoryDomain;
@@ -35,6 +33,8 @@ import com.citysdk.demo.navigationdrawer.NavMenuSection;
 import com.citysdk.demo.sync.SyncUtils;
 import com.citysdk.demo.utils.TourismAPI;
 import com.citysdk.demo.utils.XmlParser;
+import com.google.android.gms.maps.model.LatLng;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;

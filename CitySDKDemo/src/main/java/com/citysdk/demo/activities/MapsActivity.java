@@ -1,13 +1,5 @@
 package com.citysdk.demo.activities;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Observable;
-import java.util.Observer;
-
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,15 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import citysdk.tourism.client.parser.DataReader;
-import citysdk.tourism.client.poi.lists.POIS;
-import citysdk.tourism.client.poi.single.POI;
-import citysdk.tourism.client.terms.Term;
-import citysdk.tourism.client.parser.data.GeometryContent;
-import citysdk.tourism.client.parser.data.LineContent;
-import citysdk.tourism.client.parser.data.LocationContent;
-import citysdk.tourism.client.parser.data.PointContent;
-import citysdk.tourism.client.parser.data.PolygonContent;
+
 import com.citysdk.demo.R;
 import com.citysdk.demo.maps.Marker;
 import com.citysdk.demo.utils.TourismAPI;
@@ -52,6 +36,23 @@ import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.google.maps.android.ui.IconGenerator;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Observable;
+import java.util.Observer;
+
+import citysdk.tourism.client.parser.DataReader;
+import citysdk.tourism.client.parser.data.GeometryContent;
+import citysdk.tourism.client.parser.data.LineContent;
+import citysdk.tourism.client.parser.data.LocationContent;
+import citysdk.tourism.client.parser.data.PointContent;
+import citysdk.tourism.client.parser.data.PolygonContent;
+import citysdk.tourism.client.poi.lists.POIS;
+import citysdk.tourism.client.poi.single.POI;
+import citysdk.tourism.client.terms.Term;
 
 public class MapsActivity extends Fragment implements Observer, ConnectionCallbacks, OnConnectionFailedListener, ClusterManager.OnClusterClickListener<Marker>, ClusterManager.OnClusterItemClickListener<Marker>, OnMapLongClickListener {
 

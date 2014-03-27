@@ -1,10 +1,5 @@
 package com.citysdk.demo.utils;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -17,6 +12,11 @@ import com.citysdk.demo.invoker.ListPoiInvoker;
 import com.citysdk.demo.invoker.ListRouteInvoker;
 import com.citysdk.demo.invoker.PoiInvoker;
 import com.citysdk.demo.listener.OnResultsListener;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import citysdk.tourism.client.exceptions.InvalidParameterException;
 import citysdk.tourism.client.exceptions.InvalidParameterTermException;

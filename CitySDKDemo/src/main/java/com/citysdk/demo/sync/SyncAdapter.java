@@ -7,30 +7,27 @@ import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.OperationApplicationException;
-import android.content.SharedPreferences;
 import android.content.SyncResult;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.preference.PreferenceManager;
-import android.util.Log;
+
+import com.citysdk.demo.contracts.PoisContract;
+import com.citysdk.demo.domain.CategoryDomain;
+import com.citysdk.demo.listener.OnResultsListener;
+import com.citysdk.demo.utils.TourismAPI;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import citysdk.tourism.client.exceptions.InvalidParameterException;
 import citysdk.tourism.client.exceptions.InvalidValueException;
 import citysdk.tourism.client.poi.single.POI;
 import citysdk.tourism.client.requests.Parameter;
 import citysdk.tourism.client.requests.ParameterList;
 import citysdk.tourism.client.terms.ParameterTerms;
-import com.citysdk.demo.activities.SettingsActivity;
-import com.citysdk.demo.contracts.PoisContract;
-import com.citysdk.demo.domain.CategoryDomain;
-import com.citysdk.demo.listener.OnResultsListener;
-import com.citysdk.demo.utils.TourismAPI;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
 
 
 class SyncAdapter extends AbstractThreadedSyncAdapter implements OnResultsListener {

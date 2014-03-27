@@ -1,5 +1,8 @@
 package com.citysdk.demo.utils;
 
+import android.content.Context;
+import android.util.Log;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -9,11 +12,9 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import citysdk.tourism.client.poi.lists.POIS;
 import citysdk.tourism.client.poi.single.POI;
-
-import android.content.Context;
-import android.util.Log;
 
 final public class FileManager {
 

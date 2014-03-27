@@ -1,12 +1,13 @@
 package com.citysdk.demo.utils;
 
 
+import android.os.AsyncTask;
+
 import com.citysdk.demo.invoker.Invoker;
 import com.citysdk.demo.listener.OnResultsListener;
 
-import android.os.AsyncTask;
-import citysdk.tourism.client.requests.ParameterList;
 import citysdk.tourism.client.poi.single.POI;
+import citysdk.tourism.client.requests.ParameterList;
 
 public class FetchTourismDataTask extends AsyncTask<ParameterList, Void, POI> {
 	private OnResultsListener listener;
