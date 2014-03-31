@@ -209,8 +209,18 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
                     .tilt(tilt)
                     .build();
             map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
         }
+
+        SharedPreferences userDetails = getActivity().getSharedPreferences("sharedPrefs",
+                Context.MODE_PRIVATE);
+        float lat = userDetails.getFloat("latPoint", 0);
+        float lng = userDetails.getFloat("lngPoint", 0);
+
+        if(lat != 0 && lng != 0) {
+            LatLng latlng = new LatLng(lat, lng);
+            drawSearchPoint(latlng);
+        }
+
         locationClient = new LocationClient(getActivity(), this, this);
         locationClient.connect();
 
@@ -284,7 +294,6 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
         clearMarker();
         drawSearchPoint(null);
         Locale locale = (Locale) TourismAPI.getURL(getActivity().getApplicationContext())[1];
-        System.out.println("" + locale);
         for (int i = 0; i < pois.size(); i++) {
 
             POI poi = pois.get(i);
@@ -409,16 +418,12 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
                     }
                 });
         builder.show();
-        //	    cluster.getItems().
-        //		for(Marker marker : cluster.getItems()) {
-        //			System.out.println("--> "+marker.getName());
-        //		}
+
         return true;
     }
 
     @Override
     public boolean onClusterItemClick(Marker item) {
-        //Toast.makeText(getActivity(), item.getCategory() + "\n" + item.getName(), Toast.LENGTH_SHORT).show();
         callMoreInfo(item);
         return true;
     }
@@ -457,44 +462,22 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
         if (poi == null) {
             clearMarker();
         } else {
-            System.out.println("update Observable");
             showMarker(poi);
         }
     }
 
     private class MarkerRenderer extends DefaultClusterRenderer<Marker> {
         private final IconGenerator mIconGenerator = new IconGenerator(getActivity());
-        //private final IconGenerator mClusterIconGenerator = new IconGenerator(getActivity());
 
         private String mTextName = "";
 
         public MarkerRenderer() {
             super(getActivity(), map, mClusterManager);
-            //
-            //			View multiProfile = getActivity().getLayoutInflater().inflate(R.layout.act_maps_marker, null);
-            //			TextView name = (TextView) multiProfile.findViewById(R.id.act_maps_marker_name);
-            //			name.setText(mTextName);
-            //			name.setWidth(100);
-            //			name.setHeight(20);
-            //
-            //			mIconGenerator.setContentView(multiProfile);
-            //			mClusterImageView = (ImageView) multiProfile.findViewById(R.id.image);
-            //
-            //			mImageView = new ImageView(getApplicationContext());
-            //			mDimension = (int) getResources().getDimension(R.dimen.custom_profile_image);
-            //			mImageView.setLayoutParams(new ViewGroup.LayoutParams(mDimension, mDimension));
-            //			int padding = (int) getResources().getDimension(R.dimen.custom_profile_padding);
-            //			mImageView.setPadding(padding, padding, padding, padding);
-            //			mIconGenerator.setContentView(mImageView);
+
         }
 
         @Override
         protected void onBeforeClusterItemRendered(Marker person, MarkerOptions markerOptions) {
-            // Draw a single person.
-            // Set the info window to show their name.
-            //			mImageView.setImageResource(person.profilePhoto);
-            //			Bitmap icon = mIconGenerator.makeIcon();
-            //markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).title(person.name);
 
             mTextName = person.getName();
 
@@ -502,8 +485,7 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
             View multiProfile = getActivity().getLayoutInflater().inflate(R.layout.act_maps_marker, null);
             TextView name = (TextView) multiProfile.findViewById(R.id.act_maps_marker_name);
             name.setText(mTextName);
-            //			name.setWidth(100);
-            //			name.setHeight(20);
+
             mIconGenerator.setContentView(multiProfile);
 
             Bitmap icon = mIconGenerator.makeIcon();
@@ -512,7 +494,6 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
 
         @Override
         protected boolean shouldRenderAsCluster(Cluster cluster) {
-            // Always render clusters.
             return cluster.getSize() > 1;
         }
     }

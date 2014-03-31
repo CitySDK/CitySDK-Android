@@ -1,6 +1,6 @@
 <resources>
 
-    <color name="blue">#009FE3</color>
+    <color name="orange">#f26522</color>
 
     <string name="app_name" translatable="false">CitySDK Demo</string>
     <string name="drawer_open" translatable="false">CitySDK Demo</string>

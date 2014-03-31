@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.util.Log;
 
 import com.citysdk.demo.contracts.PoisContract;
 import com.citysdk.demo.domain.CategoryDomain;
@@ -33,7 +34,7 @@ import citysdk.tourism.client.terms.ParameterTerms;
 class SyncAdapter extends AbstractThreadedSyncAdapter implements OnResultsListener {
 
     private final ContentResolver mContentResolver;
-
+    private final static String TAG = "SyncAdapter";
     private Context context;
 
     public SyncAdapter(Context context, boolean autoInitialize) {
@@ -51,6 +52,8 @@ class SyncAdapter extends AbstractThreadedSyncAdapter implements OnResultsListen
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority,
                               ContentProviderClient provider, SyncResult syncResult) {
+        Log.i(TAG, "onPerformSync()");
+
         getCategories(ParameterTerms.POIS.getTerm());
         getCategories(ParameterTerms.EVENTS.getTerm());
         getCategories(ParameterTerms.ROUTES.getTerm());
@@ -91,6 +94,7 @@ class SyncAdapter extends AbstractThreadedSyncAdapter implements OnResultsListen
                 e.printStackTrace();
             }
         }
+
     }
 
     private void handleCategories(List<CategoryDomain> list, String parameterTerm) throws

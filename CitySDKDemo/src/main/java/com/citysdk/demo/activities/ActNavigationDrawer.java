@@ -15,9 +15,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.citysdk.demo.R;
@@ -97,9 +99,9 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         super.onCreate(savedInstanceState);
-        System.out.println("onCreate");
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
@@ -398,6 +400,17 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
 
         java.util.Collections.sort(selectedCategories);
 
+        Boolean hasPois = mPoi != null && mPoi.size() != 0;
+        String hash = getSavedCategories();
+
+        if(hash.equals(selectedOptions+selectedCategories.hashCode()) && hasPois && compareFloat
+                (getSavedPoint()[0], lat) && compareFloat(getSavedPoint()[1], lng)) {
+            Log.d(TAG, "Already has the information");
+            return;
+        }
+
+        setProgressBarIndeterminateVisibility(true);
+
         ParameterList list = new ParameterList();
 
         try {
@@ -423,8 +436,47 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
         } catch (InvalidParameterException e) {
             e.printStackTrace();
         }
+        saveCategories();
+        savePoint();
 
+    }
 
+    private void savePoint() {
+
+        SharedPreferences userDetails = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
+        float latitude = userDetails.getFloat("latPoint", 0);
+        float longitude = userDetails.getFloat("lngPoint", 0);
+
+        SharedPreferences preferences = getSharedPreferences("sharedPrefs", 0);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putFloat("selectedPointLatToSearch", latitude);
+        editor.putFloat("selectedPointLngToSearch", longitude);
+        editor.commit();
+    }
+
+    private void saveCategories() {
+        SharedPreferences preferences = getSharedPreferences("sharedPrefs", 0);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("selectedCategoriesHash", selectedOptions+selectedCategories.hashCode());
+        editor.commit();
+    }
+
+    private String getSavedCategories() {
+        SharedPreferences userDetails = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
+        return userDetails.getString("selectedCategoriesHash", "");
+    }
+
+    private float[] getSavedPoint() {
+        SharedPreferences userDetails = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
+        float latitude = userDetails.getFloat("selectedPointLatToSearch", 0);
+        float longitude = userDetails.getFloat("selectedPointLngToSearch", 0);
+        float[] arr = {latitude, longitude};
+        return  arr;
+    }
+
+    private boolean compareFloat(float f1, float f2) {
+        float epsilon = 0.000001f;
+        return (Math.abs(f1 - f2) < epsilon);
     }
 
     private String getTimeParam() {
@@ -511,6 +563,8 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
         }
         updateList(mergeMenus(null, null, generateViewFromList("Categories", 300, mCategories)));
         c.close();
+        setProgressBarIndeterminateVisibility(false);
+
     }
 
     @Override
@@ -535,25 +589,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
 
     @Override
     public void onLocationChanged(Location location) {
-        //		double lat = location.getLatitude();
-        //		double lng = location.getLongitude();
-        //
-        //		Toast.makeText(this, "Location Changed "+ lat +", "+lng, Toast.LENGTH_SHORT).show();
-        //
-        //		ParameterList list = new ParameterList();
-        //		try {
-        //			list.add(new Parameter(ParameterTerms.LIMIT, -1));
-        //
-        //			list.add(new Parameter(ParameterTerms.COORDS, lat+" "+lng));
-        //		} catch (InvalidParameterException e) {
-        //			// TODO Auto-generated catch block
-        //			e.printStackTrace();
-        //		} catch (InvalidValueException e) {
-        //			// TODO Auto-generated catch block
-        //			e.printStackTrace();
-        //		}
-        //
-        //		TourismAPI.getEndpoint(this, list);
+
     }
 
     @Override
@@ -577,13 +613,13 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
         if (id == 1) {
 
             if (poi == null || ((POIS<POI>) poi).size() == 0) {
-                System.out.println("onResultFinished 0");
                 observerClass.setValue(null);
 
             } else {
-                System.out.println("onResultFinished" + ((POIS<POI>) poi).size());
                 observerClass.setValue((POIS<POI>) poi);
             }
+            setProgressBarIndeterminateVisibility(false);
+
         } else if (id == 2) {
 
             if (poi == null) {
@@ -601,10 +637,6 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
             for (POITermType link : links) {
                 if (link.getTerm().equals(Term.LINK_TERM_DESCRIBEDBY.getTerm())) {
                     if (!link.getValue().equals("")) {
-
-                        Bundle b = new Bundle();
-                        b.putString("type", "full");
-                        System.out.println("value ----" + link.getValue());
 
                         if (link.getValue().equalsIgnoreCase("http://tourism.citysdk.cm-lisboa.pt/resources")) {
                             TourismAPI.setURL(this, link.getValue(), "pt-PT");
@@ -625,6 +657,8 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
     }
 
     public void changeEndpoint(LatLng point) {
+        setProgressBarIndeterminateVisibility(true);
+
         SharedPreferences userDetails = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
         float latitude = userDetails.getFloat("latPoint", 0);
         float longitude = userDetails.getFloat("lngPoint", 0);

@@ -14,7 +14,7 @@
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#D9F8F8F8"
+        android:background="#ffffff"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"/>
 
