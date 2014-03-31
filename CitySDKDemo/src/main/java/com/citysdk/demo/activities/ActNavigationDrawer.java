@@ -657,7 +657,6 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
     }
 
     public void changeEndpoint(LatLng point) {
-        setProgressBarIndeterminateVisibility(true);
 
         SharedPreferences userDetails = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
         float latitude = userDetails.getFloat("latPoint", 0);
@@ -686,6 +685,8 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
             e.printStackTrace();
         }
         if ((oldPoint.latitude == 0 && oldPoint.longitude == 0) || distanceToPoints(oldPoint, newPoint) > 10000) {
+            setProgressBarIndeterminateVisibility(true);
+
             TourismAPI.getEndpoint((OnResultsListener) this, list);
             updateCategories();
         }
