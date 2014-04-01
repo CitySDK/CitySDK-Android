@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="#E0E0E0">
+            android:layout_height="fill_parent">
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
@@ -18,7 +17,6 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="10dp"
-            android:text=""
             android:textColor="@android:color/white"
             android:textSize="24sp"
             android:textStyle="bold"/>
@@ -26,7 +24,7 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
             android:layout_width="fill_parent"
-            android:layout_height="600px"
+            android:layout_height="600dp"
             android:background="#E0E0E0"/>
 
         <TextView
@@ -50,10 +48,10 @@
                 android:id="@+id/act_show_more_info_text_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="15px"
+                android:paddingBottom="15dp"
                 android:paddingLeft="8dp"
                 android:textColor="#f26522"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold"/>
 
             <LinearLayout
@@ -72,8 +70,8 @@
                     android:paddingBottom="10dp"
                     android:paddingLeft="15dp"
                     android:paddingTop="10dp"
-                    android:text="Contactos"
-                    android:textSize="20sp"
+                    android:text="@string/contacts"
+                    android:textSize="18sp"
                     android:textStyle="bold"/>
 
                 <View
@@ -82,91 +80,103 @@
                     android:layout_height="1dp"
                     android:background="#E0E0E0"/>
 
-                <RelativeLayout
+                <LinearLayout
                     android:id="@+id/act_show_more_info_text_contacts_rel"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingBottom="15dp"
                     android:paddingTop="15dp">
 
-                    <TextView
-                        android:id="@+id/act_show_more_info_text_contactos_tel"
+                    <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
-                        android:text="Telefone:"
-                        android:textSize="18sp"/>
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/act_show_more_info_text_contactos_tel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:text="@string/phone"
+                            android:textSize="16sp"/>
 
-                    <TextView
-                        android:id="@+id/act_show_more_info_text_contactos_tel_input"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/act_show_more_info_text_contactos_tel"
-                        android:layout_toRightOf="@+id/act_show_more_info_text_contactos_tel"
-                        android:autoLink="phone"
-                        android:text=""
-                        android:textSize="18sp"/>
+                        <TextView
+                            android:id="@+id/act_show_more_info_text_contactos_tel_input"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/act_show_more_info_text_contactos_tel"
+                            android:autoLink="phone"
+                            android:text=""
+                            android:textSize="16sp"/>
+                    </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/act_show_more_info_text_contactos_mail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/act_show_more_info_text_contactos_tel"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
-                        android:text="Email:"
-                        android:textSize="18sp"/>
 
-                    <TextView
-                        android:id="@+id/act_show_more_info_text_contactos_mail_input"
+                    <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/act_show_more_info_text_contactos_mail"
-                        android:layout_toRightOf="@+id/act_show_more_info_text_contactos_mail"
-                        android:autoLink="email"
-                        android:text=""
-                        android:textSize="18sp"/>
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/act_show_more_info_text_contactos_mail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:text="@string/mail"
+                            android:textSize="16sp"/>
 
-                    <TextView
-                        android:id="@+id/act_show_more_info_text_contactos_url"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/act_show_more_info_text_contactos_mail"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
-                        android:text="Url:"
-                        android:textSize="18sp"/>
+                        <TextView
+                            android:id="@+id/act_show_more_info_text_contactos_mail_input"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/act_show_more_info_text_contactos_mail"
+                            android:autoLink="email"
+                            android:text=""
+                            android:textSize="16sp"/>
+                    </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/act_show_more_info_text_contactos_url_input"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/act_show_more_info_text_contactos_url"
-                        android:layout_toRightOf="@+id/act_show_more_info_text_contactos_url"
-                        android:autoLink="web"
-                        android:text=""
-                        android:textSize="18sp"/>
 
-                    <TextView
-                        android:id="@+id/act_show_more_info_text_contactos_address"
+                    <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/act_show_more_info_text_contactos_url"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
-                        android:text="Morada:"
-                        android:textSize="18sp"/>
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/act_show_more_info_text_contactos_url"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:text="@string/url"
+                            android:textSize="16sp"/>
 
-                    <TextView
-                        android:id="@+id/act_show_more_info_text_contactos_address_input"
+                        <TextView
+                            android:id="@+id/act_show_more_info_text_contactos_url_input"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/act_show_more_info_text_contactos_url"
+                            android:autoLink="web"
+                            android:text=""
+                            android:textSize="16sp"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/act_show_more_info_text_contactos_address"
-                        android:layout_toRightOf="@+id/act_show_more_info_text_contactos_address"
-                        android:text=""
-                        android:textSize="18sp"/>
-                </RelativeLayout>
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/act_show_more_info_text_contactos_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:text="@string/address"
+                            android:textSize="16sp"/>
+
+                        <TextView
+                            android:id="@+id/act_show_more_info_text_contactos_address_input"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/act_show_more_info_text_contactos_address"
+                            android:text=""
+                            android:textSize="16sp"/>
+                    </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -185,8 +195,8 @@
                     android:paddingBottom="10dp"
                     android:paddingLeft="15dp"
                     android:paddingTop="10dp"
-                    android:text="Horário de Funcionamento"
-                    android:textSize="20sp"
+                    android:text="@string/workhour"
+                    android:textSize="18sp"
                     android:textStyle="bold"/>
 
                 <View
@@ -208,8 +218,8 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
-                        android:text="De:"
-                        android:textSize="18sp"/>
+                        android:text="@string/since"
+                        android:textSize="16sp"/>
 
                     <TextView
                         android:id="@+id/act_show_more_info_text_start_input"
@@ -218,7 +228,7 @@
                         android:layout_alignBottom="@+id/act_show_more_info_text_start"
                         android:layout_toRightOf="@+id/act_show_more_info_text_start"
                         android:text=""
-                        android:textSize="18sp"/>
+                        android:textSize="16sp"/>
 
                     <TextView
                         android:id="@+id/act_show_more_info_text_end"
@@ -227,8 +237,8 @@
                         android:layout_below="@+id/act_show_more_info_text_start"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
-                        android:text="Até:"
-                        android:textSize="18sp"/>
+                        android:text="@string/until"
+                        android:textSize="16sp"/>
 
                     <TextView
                         android:id="@+id/act_show_more_info_text_end_input"
@@ -237,7 +247,7 @@
                         android:layout_alignBottom="@+id/act_show_more_info_text_end"
                         android:layout_toRightOf="@+id/act_show_more_info_text_end"
                         android:text=""
-                        android:textSize="18sp"/>
+                        android:textSize="16sp"/>
                 </RelativeLayout>
 
                 <TextView
@@ -249,7 +259,7 @@
                     android:paddingRight="15dp"
                     android:paddingTop="15dp"
                     android:text=""
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:visibility="gone"/>
             </LinearLayout>
 
@@ -268,8 +278,8 @@
                     android:paddingBottom="10dp"
                     android:paddingLeft="15dp"
                     android:paddingTop="10dp"
-                    android:text="Descrição"
-                    android:textSize="20sp"
+                    android:text="@string/description"
+                    android:textSize="18sp"
                     android:textStyle="bold"/>
 
                 <View
@@ -286,7 +296,7 @@
                     android:paddingRight="15dp"
                     android:paddingTop="10dp"
                     android:text=""
-                    android:textSize="18sp"/>
+                    android:textSize="16sp"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

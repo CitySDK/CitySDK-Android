@@ -403,7 +403,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
         Boolean hasPois = mPoi != null && mPoi.size() != 0;
         String hash = getSavedCategories();
 
-        if(hash.equals(selectedOptions+selectedCategories.hashCode()) && hasPois && compareFloat
+        if (hash.equals(selectedOptions + selectedCategories.hashCode()) && hasPois && compareFloat
                 (getSavedPoint()[0], lat) && compareFloat(getSavedPoint()[1], lng)) {
             Log.d(TAG, "Already has the information");
             return;
@@ -457,7 +457,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
     private void saveCategories() {
         SharedPreferences preferences = getSharedPreferences("sharedPrefs", 0);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("selectedCategoriesHash", selectedOptions+selectedCategories.hashCode());
+        editor.putString("selectedCategoriesHash", selectedOptions + selectedCategories.hashCode());
         editor.commit();
     }
 
@@ -471,7 +471,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
         float latitude = userDetails.getFloat("selectedPointLatToSearch", 0);
         float longitude = userDetails.getFloat("selectedPointLngToSearch", 0);
         float[] arr = {latitude, longitude};
-        return  arr;
+        return arr;
     }
 
     private boolean compareFloat(float f1, float f2) {
@@ -629,7 +629,8 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
             mPoi = (POIS<POI>) poi;
             //for(int i=0; i< mPoi.size(); i++) {
             if (mPoi.size() == 0) {
-                Toast.makeText(getApplicationContext(), "No endpoint available for this position. Try in other position please", Toast.LENGTH_SHORT);
+                Toast.makeText(getApplicationContext(), "No endpoint available for this position." +
+                        " Try in other position please", Toast.LENGTH_SHORT).show();
                 return;
             }
             List<POITermType> links = mPoi.get(0).getLink();
@@ -687,7 +688,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
         if ((oldPoint.latitude == 0 && oldPoint.longitude == 0) || distanceToPoints(oldPoint, newPoint) > 10000) {
             setProgressBarIndeterminateVisibility(true);
 
-            TourismAPI.getEndpoint((OnResultsListener) this, list);
+            TourismAPI.getEndpoint(this, list);
             updateCategories();
         }
     }

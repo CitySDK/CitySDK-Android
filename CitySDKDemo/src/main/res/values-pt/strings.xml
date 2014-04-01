@@ -1,12 +1,20 @@
 <resources>
 
-    <string name="app_name" translatable="false">CitySDK Demo</string>
-    <string name="drawer_open" translatable="false">CitySDK Demo</string>
-    <string name="drawer_close" translatable="false">CitySDK Demo</string>
-    <string name="action_websearch" translatable="false">Web search</string>
-    <string name="app_not_available" translatable="false">Sorry, there\'s no web browser available</string>
+    <string name="app_name">CitySDK Demo</string>
+    <string name="drawer_open">CitySDK Demo</string>
+    <string name="drawer_close">CitySDK Demo</string>
     <string name="menu_settings">Opções</string>
     <string name="menu_settings_search">Opções de Procura</string>
     <string name="menu_events_number_days">Dias de procura para eventos</string>
+
+    <string name="contacts">Contactos</string>
+    <string name="phone">Telefone:</string>
+    <string name="mail">Mail:</string>
+    <string name="url">URL:</string>
+    <string name="address">Morada:</string>
+    <string name="workhour">Horário de Funcionamento:</string>
+    <string name="since">De:</string>
+    <string name="until">Até:</string>
+    <string name="description">Descrição</string>
 
 </resources>

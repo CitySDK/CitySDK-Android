@@ -33,8 +33,8 @@ import citysdk.tourism.client.terms.ParameterTerms;
 
 class SyncAdapter extends AbstractThreadedSyncAdapter implements OnResultsListener {
 
-    private final ContentResolver mContentResolver;
     private final static String TAG = "SyncAdapter";
+    private final ContentResolver mContentResolver;
     private Context context;
 
     public SyncAdapter(Context context, boolean autoInitialize) {

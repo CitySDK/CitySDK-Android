@@ -216,7 +216,7 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
         float lat = userDetails.getFloat("latPoint", 0);
         float lng = userDetails.getFloat("lngPoint", 0);
 
-        if(lat != 0 && lng != 0) {
+        if (lat != 0 && lng != 0) {
             LatLng latlng = new LatLng(lat, lng);
             drawSearchPoint(latlng);
         }

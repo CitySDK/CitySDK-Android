@@ -17,10 +17,12 @@ public class PoisProvider extends ContentProvider {
     public static final int CATEGORY_ID = 2;
     private static final String AUTHORITY = PoisContract.CONTENT_AUTHORITY;
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+
     static {
         sUriMatcher.addURI(AUTHORITY, "categories", CATEGORY);
         sUriMatcher.addURI(AUTHORITY, "categories/*", CATEGORY_ID);
     }
+
     FeedDatabase mDatabaseHelper;
 
     @Override

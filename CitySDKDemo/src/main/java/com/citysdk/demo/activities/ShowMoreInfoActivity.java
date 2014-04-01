@@ -11,9 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.citysdk.demo.R;
@@ -106,8 +104,6 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
         Intent i = getIntent();
         String id = i.getStringExtra("id");
         String base = i.getStringExtra("base");
-        String name = i.getStringExtra("name");
-        String category = i.getStringExtra("category");
 
         try {
             ParameterList list = new ParameterList();
@@ -159,12 +155,12 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
             boolean allDisabled = true;
 
             if (vcard == null || vcard.getTelephoneNumbers() == null || vcard.getTelephoneNumbers().size() == 0 || vcard.getTelephoneNumbers().get(0).getText() == "") {
-                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_tel)).setVisibility(View.GONE);
-                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_tel_input)).setVisibility(View.GONE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_tel).setVisibility(View.GONE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_tel_input).setVisibility(View.GONE);
             } else {
                 allDisabled = false;
-                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_tel)).setVisibility(View.VISIBLE);
-                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_tel_input)).setVisibility(View.VISIBLE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_tel).setVisibility(View.VISIBLE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_tel_input).setVisibility(View.VISIBLE);
                 StringBuilder sb = new StringBuilder();
                 for (Telephone t : vcard.getTelephoneNumbers()) {
                     sb.append(separator).append(t.getText());
@@ -174,12 +170,12 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
             }
 
             if (vcard == null || vcard.getEmails() == null || vcard.getEmails().size() == 0 || vcard.getEmails().get(0).getValue() == "") {
-                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_mail)).setVisibility(View.GONE);
-                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_mail_input)).setVisibility(View.GONE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_mail).setVisibility(View.GONE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_mail_input).setVisibility(View.GONE);
             } else {
                 allDisabled = false;
-                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_mail)).setVisibility(View.VISIBLE);
-                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_mail_input)).setVisibility(View.VISIBLE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_mail).setVisibility(View.VISIBLE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_mail_input).setVisibility(View.VISIBLE);
                 StringBuilder sb = new StringBuilder();
                 for (Email t : vcard.getEmails()) {
                     sb.append(separator).append(t.getValue());
@@ -189,12 +185,12 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
             }
 
             if (vcard == null || vcard.getUrls() == null || vcard.getUrls().size() == 0 || vcard.getUrls().get(0).getValue() == "") {
-                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_url)).setVisibility(View.GONE);
-                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_url_input)).setVisibility(View.GONE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_url).setVisibility(View.GONE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_url_input).setVisibility(View.GONE);
             } else {
                 allDisabled = false;
-                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_url)).setVisibility(View.VISIBLE);
-                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_url_input)).setVisibility(View.VISIBLE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_url).setVisibility(View.VISIBLE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_url_input).setVisibility(View.VISIBLE);
                 StringBuilder sb = new StringBuilder();
                 for (Url t : vcard.getUrls()) {
                     sb.append(separator).append(t.getValue());
@@ -204,12 +200,12 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
             }
 
             if (vcard == null || vcard.getAddresses() == null || vcard.getAddresses().size() == 0 || vcard.getAddresses().get(0).getExtendedAddress() == "") {
-                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_address)).setVisibility(View.GONE);
-                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_address_input)).setVisibility(View.GONE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_address).setVisibility(View.GONE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_address_input).setVisibility(View.GONE);
             } else {
                 allDisabled = false;
-                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_address)).setVisibility(View.VISIBLE);
-                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_address_input)).setVisibility(View.VISIBLE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_address).setVisibility(View.VISIBLE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_address_input).setVisibility(View.VISIBLE);
                 StringBuilder sb = new StringBuilder();
                 for (Address t : vcard.getAddresses()) {
                     sb.append(separator).append(t.getExtendedAddress());
@@ -218,27 +214,27 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
                 ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_address_input)).setText(result);
             }
             if (allDisabled = true) {
-                ((LinearLayout) activity.findViewById(R.id.act_show_more_info_text_contacts)).setVisibility(View.GONE);
+                activity.findViewById(R.id.act_show_more_info_text_contacts).setVisibility(View.GONE);
             }
-            ((LinearLayout) activity.findViewById(R.id.act_show_more_info_text_contacts)).setVisibility(View.VISIBLE);
+            activity.findViewById(R.id.act_show_more_info_text_contacts).setVisibility(View.VISIBLE);
 
         } else {
-            ((LinearLayout) activity.findViewById(R.id.act_show_more_info_text_contacts)).setVisibility(View.GONE);
+            activity.findViewById(R.id.act_show_more_info_text_contacts).setVisibility(View.GONE);
         }
 
         if (pois.getTime() == null || pois.getTime().size() == 0) {
-            ((LinearLayout) activity.findViewById(R.id.act_show_more_info_text_sch)).setVisibility(View.GONE);
+            activity.findViewById(R.id.act_show_more_info_text_sch).setVisibility(View.GONE);
         } else {
-            ((LinearLayout) activity.findViewById(R.id.act_show_more_info_text_sch)).setVisibility(View.VISIBLE);
+            activity.findViewById(R.id.act_show_more_info_text_sch).setVisibility(View.VISIBLE);
 
             for (POITermType poiTermType : pois.getTime()) {
                 if (poiTermType.getType() == null || !poiTermType.getType().equalsIgnoreCase("text/icalendar")) {
-                    ((RelativeLayout) activity.findViewById(R.id.act_show_more_info_text_start_end)).setVisibility(View.GONE);
-                    ((TextView) activity.findViewById(R.id.act_show_more_info_text_all)).setVisibility(View.VISIBLE);
+                    activity.findViewById(R.id.act_show_more_info_text_start_end).setVisibility(View.GONE);
+                    activity.findViewById(R.id.act_show_more_info_text_all).setVisibility(View.VISIBLE);
                     ((TextView) activity.findViewById(R.id.act_show_more_info_text_all)).setText(poiTermType.getValue());
                 } else if (poiTermType.getType().equalsIgnoreCase("text/icalendar")) {
-                    ((RelativeLayout) activity.findViewById(R.id.act_show_more_info_text_start_end)).setVisibility(View.VISIBLE);
-                    ((TextView) activity.findViewById(R.id.act_show_more_info_text_all)).setVisibility(View.GONE);
+                    activity.findViewById(R.id.act_show_more_info_text_start_end).setVisibility(View.VISIBLE);
+                    activity.findViewById(R.id.act_show_more_info_text_all).setVisibility(View.GONE);
 
                     StringReader sin = new StringReader(poiTermType.getValue());
                     CalendarBuilder builder = new CalendarBuilder();
@@ -287,9 +283,9 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
         }
 
         if (description == null || description == "") {
-            ((LinearLayout) activity.findViewById(R.id.act_show_more_info_text_desc)).setVisibility(View.GONE);
+            activity.findViewById(R.id.act_show_more_info_text_desc).setVisibility(View.GONE);
         } else {
-            ((LinearLayout) activity.findViewById(R.id.act_show_more_info_text_desc)).setVisibility(View.VISIBLE);
+            activity.findViewById(R.id.act_show_more_info_text_desc).setVisibility(View.VISIBLE);
             ((TextView) activity.findViewById(R.id.act_show_more_info_text_description)).setText(description);
         }
 

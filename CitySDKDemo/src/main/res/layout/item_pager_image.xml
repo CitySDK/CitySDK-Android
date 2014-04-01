@@ -8,8 +8,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:adjustViewBounds="true"
-        android:contentDescription="hehe"/>
+        android:adjustViewBounds="true"/>
 
     <ProgressBar
         android:id="@+id/loading"

@@ -9,6 +9,7 @@ public class PoisContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     private static final String PATH_CATEGORIES = "categories";
     private static final String PATH_POIS = "pois";
+
     private PoisContract() {
     }
 
