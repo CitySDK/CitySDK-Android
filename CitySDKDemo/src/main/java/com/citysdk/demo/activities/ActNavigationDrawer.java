@@ -688,7 +688,12 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
         if ((oldPoint.latitude == 0 && oldPoint.longitude == 0) || distanceToPoints(oldPoint, newPoint) > 10000) {
             setProgressBarIndeterminateVisibility(true);
 
-            TourismAPI.getEndpoint(this, list);
+            selectedCategories = new ArrayList<String>();
+            editor.putStringSet("selectedCategories", new HashSet<String>(selectedCategories));
+            editor.commit();
+
+            TourismAPI.getEndpoint((OnResultsListener) this, list);
+
             updateCategories();
         }
     }
