@@ -501,9 +501,23 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
     private void selectElementCategories(String label) {
 
         if (selectedCategories.contains(label)) {
+            Log.d(TAG, "contains: "+label);
             setItemCheckedCategories(300, label, false);
             selectedCategories.remove(selectedCategories.indexOf(label));
         } else {
+            if(label.equalsIgnoreCase("All Categories")) {
+                for(String s : selectedCategories) {
+                        setItemCheckedCategories(300, s, false);
+                }
+                selectedCategories.clear();
+            } else {
+                if(selectedCategories.contains("All Categories")) {
+                    setItemCheckedCategories(300, "All Categories", false);
+                    selectedCategories.remove(selectedCategories.indexOf("All Categories"));
+                }
+            }
+
+            Log.d(TAG, "not contains: "+label);
             setItemCheckedCategories(300, label, true);
             selectedCategories.add(label);
         }
