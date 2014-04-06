@@ -1,5 +1,7 @@
 package com.citysdk.demo.activities;
 
+import com.citysdk.demo.R;
+
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
@@ -7,9 +9,8 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
-import com.citysdk.demo.R;
-
-public class SettingsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener {
+public class SettingsFragment extends PreferenceFragment
+        implements OnSharedPreferenceChangeListener {
 
 
     @Override
@@ -17,9 +18,11 @@ public class SettingsFragment extends PreferenceFragment implements OnSharedPref
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(getActivity());
         Preference connectionPref = findPreference(SettingsActivity.PREF_MENU_EVENTS_DAYS);
-        connectionPref.setSummary(sharedPreferences.getString(SettingsActivity.PREF_MENU_EVENTS_DAYS, "7"));
+        connectionPref.setSummary(
+                sharedPreferences.getString(SettingsActivity.PREF_MENU_EVENTS_DAYS, "7"));
     }
 
 

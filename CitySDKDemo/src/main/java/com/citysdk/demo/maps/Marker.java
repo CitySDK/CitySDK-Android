@@ -4,10 +4,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 
 public class Marker implements ClusterItem {
+
     private final LatLng mPosition;
+
     private String name;
+
     private String category;
+
     private String id;
+
     private String base;
 
     public Marker(double lat, double lng, String name, String category, String id, String base) {

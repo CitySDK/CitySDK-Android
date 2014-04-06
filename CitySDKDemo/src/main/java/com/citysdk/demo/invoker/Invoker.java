@@ -4,11 +4,17 @@ import citysdk.tourism.client.poi.single.POI;
 import citysdk.tourism.client.requests.ParameterList;
 
 public abstract class Invoker {
+
     protected String version = "1.0";
+
     protected String base;
+
     protected String id;
+
     protected String term;
+
     private int itemId = -1;
+
     private String link;
 
     public String getVersion() {

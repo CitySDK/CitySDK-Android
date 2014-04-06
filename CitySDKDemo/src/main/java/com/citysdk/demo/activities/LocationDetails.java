@@ -8,6 +8,7 @@ import java.util.List;
 public class LocationDetails {
 
     private int type = 0;
+
     private List<LatLng> list;
 
     public LocationDetails(int type) {

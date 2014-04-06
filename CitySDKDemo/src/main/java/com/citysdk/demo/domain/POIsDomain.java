@@ -3,8 +3,11 @@ package com.citysdk.demo.domain;
 public class POIsDomain {
 
     private String id;
+
     private String name;
+
     private String category;
+
     private String coord;
 
     public POIsDomain(String id, String name, String category, String coord) {

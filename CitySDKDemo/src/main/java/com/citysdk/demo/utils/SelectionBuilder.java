@@ -12,13 +12,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SelectionBuilder {
+
     private static final String TAG = "basicsyncadapter";
 
 
     private String mTable = null;
+
     //private Map<String, String> mProjectionMap = Maps.newHashMap();
     private Map<String, String> mProjectionMap = new HashMap<String, String>();
+
     private StringBuilder mSelection = new StringBuilder();
+
     //private ArrayList<String> mSelectionArgs = Lists.newArrayList();
     private ArrayList<String> mSelectionArgs = new ArrayList<String>();
 
@@ -124,9 +128,11 @@ public class SelectionBuilder {
      * Execute query using the current internal state as {@code WHERE} clause.
      */
     public Cursor query(SQLiteDatabase db, String[] columns, String groupBy,
-                        String having, String orderBy, String limit) {
+            String having, String orderBy, String limit) {
         assertTable();
-        if (columns != null) mapColumns(columns);
+        if (columns != null) {
+            mapColumns(columns);
+        }
         //Log.v(TAG, "query(columns=" + Arrays.toString(columns) + ") " + this);
         return db.query(mTable, columns, getSelection(), getSelectionArgs(), groupBy, having,
                 orderBy, limit);

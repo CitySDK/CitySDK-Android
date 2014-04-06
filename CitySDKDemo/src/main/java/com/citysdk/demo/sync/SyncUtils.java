@@ -1,5 +1,8 @@
 package com.citysdk.demo.sync;
 
+import com.citysdk.demo.accounts.GenericAccountService;
+import com.citysdk.demo.contracts.PoisContract;
+
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.ContentResolver;
@@ -8,13 +11,13 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.citysdk.demo.accounts.GenericAccountService;
-import com.citysdk.demo.contracts.PoisContract;
-
 
 public class SyncUtils {
+
     private static final long SYNC_FREQUENCY = 60 * 600;  // 1 hour (in seconds)
+
     private static final String CONTENT_AUTHORITY = PoisContract.CONTENT_AUTHORITY;
+
     private static final String PREF_SETUP_COMPLETE = "setup_complete";
 
     private static Context mContext;
@@ -26,7 +29,8 @@ public class SyncUtils {
                 .getDefaultSharedPreferences(context).getBoolean(PREF_SETUP_COMPLETE, false);
 
         Account account = GenericAccountService.GetAccount();
-        AccountManager accountManager = (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
+        AccountManager accountManager = (AccountManager) context
+                .getSystemService(Context.ACCOUNT_SERVICE);
         if (accountManager.addAccountExplicitly(account, null, null)) {
             ContentResolver.setIsSyncable(account, CONTENT_AUTHORITY, 1);
             newAccount = true;

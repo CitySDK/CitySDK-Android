@@ -1,5 +1,7 @@
 package com.citysdk.demo.navigationdrawer;
 
+import com.citysdk.demo.R;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.citysdk.demo.R;
 
 public class NavDrawerAdapter extends ArrayAdapter<NavDrawerItem> {
 
@@ -61,7 +61,7 @@ public class NavDrawerAdapter extends ArrayAdapter<NavDrawerItem> {
     }
 
     public View getSectionView(View convertView, ViewGroup parentView,
-                               NavDrawerItem navDrawerItem) {
+            NavDrawerItem navDrawerItem) {
 
         NavMenuSection menuSection = (NavMenuSection) navDrawerItem;
         NavMenuSectionHolder navMenuItemHolder = null;
@@ -102,11 +102,14 @@ public class NavDrawerAdapter extends ArrayAdapter<NavDrawerItem> {
 
 
     private static class NavMenuItemHolder {
+
         private TextView labelView;
+
         private ImageView iconView;
     }
 
     private class NavMenuSectionHolder {
+
         private TextView labelView;
     }
 }

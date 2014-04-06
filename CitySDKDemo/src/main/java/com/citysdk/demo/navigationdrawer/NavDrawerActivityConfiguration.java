@@ -5,13 +5,21 @@ import android.widget.BaseAdapter;
 public class NavDrawerActivityConfiguration {
 
     private int mainLayout;
+
     private int drawerShadow;
+
     private int drawerLayoutId;
+
     private int leftDrawerId;
+
     private int[] actionMenuItemsToHideWhenDrawerOpen;
+
     private NavDrawerItem[] navItems;
+
     private int drawerOpenDesc;
+
     private int drawerCloseDesc;
+
     private BaseAdapter baseAdapter;
 
     public int getMainLayout() {

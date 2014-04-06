@@ -1,5 +1,10 @@
 package com.citysdk.demo.sync;
 
+import com.citysdk.demo.contracts.PoisContract;
+import com.citysdk.demo.domain.CategoryDomain;
+import com.citysdk.demo.listener.OnResultsListener;
+import com.citysdk.demo.utils.TourismAPI;
+
 import android.accounts.Account;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
@@ -13,11 +18,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.Log;
-
-import com.citysdk.demo.contracts.PoisContract;
-import com.citysdk.demo.domain.CategoryDomain;
-import com.citysdk.demo.listener.OnResultsListener;
-import com.citysdk.demo.utils.TourismAPI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +34,9 @@ import citysdk.tourism.client.terms.ParameterTerms;
 class SyncAdapter extends AbstractThreadedSyncAdapter implements OnResultsListener {
 
     private final static String TAG = "SyncAdapter";
+
     private final ContentResolver mContentResolver;
+
     private Context context;
 
     public SyncAdapter(Context context, boolean autoInitialize) {
@@ -51,7 +53,7 @@ class SyncAdapter extends AbstractThreadedSyncAdapter implements OnResultsListen
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority,
-                              ContentProviderClient provider, SyncResult syncResult) {
+            ContentProviderClient provider, SyncResult syncResult) {
         Log.i(TAG, "onPerformSync()");
 
         getCategories(ParameterTerms.POIS.getTerm());
@@ -143,7 +145,8 @@ class SyncAdapter extends AbstractThreadedSyncAdapter implements OnResultsListen
 
                     batch.add(ContentProviderOperation.newUpdate(existingUri)
                             .withValue(PoisContract.Category.COLUMN_CATEGORY_OID, match.getId())
-                            .withValue(PoisContract.Category.COLUMN_CATEGORY_OPTION, match.getOption())
+                            .withValue(PoisContract.Category.COLUMN_CATEGORY_OPTION,
+                                    match.getOption())
                             .withValue(PoisContract.Category.COLUMN_CATEGORY_NAME, match.getName())
                             .build());
                     syncResult.stats.numUpdates++;

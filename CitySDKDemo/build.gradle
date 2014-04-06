@@ -54,7 +54,8 @@ android {
         // having libraries with different minSdkVersions. Play Services has a min version of 9 (Gingerbread)
         // but Android Maps Utils supports 8 (Froyo) still
         variant.processManifest.doFirst {
-            File manifestFile = file("${buildDir}/exploded-aar/com.google.maps.android/android-maps-utils/0.3/AndroidManifest.xml")
+            File manifestFile = file(
+                    "${buildDir}/exploded-aar/com.google.maps.android/android-maps-utils/0.3/AndroidManifest.xml")
             if (manifestFile.exists()) {
                 println("Replacing minSdkVersion in Android Maps Utils")
                 String content = manifestFile.getText('UTF-8')

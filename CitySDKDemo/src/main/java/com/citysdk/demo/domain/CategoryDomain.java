@@ -3,7 +3,9 @@ package com.citysdk.demo.domain;
 public class CategoryDomain {
 
     private String id;
+
     private String option;
+
     private String name;
 
     public CategoryDomain(String id, String option, String name) {

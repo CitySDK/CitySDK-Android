@@ -5,9 +5,13 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 public class PoisContract {
+
     public static final String CONTENT_AUTHORITY = "com.citysdk.demo";
+
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+
     private static final String PATH_CATEGORIES = "categories";
+
     private static final String PATH_POIS = "pois";
 
     private PoisContract() {
@@ -27,7 +31,9 @@ public class PoisContract {
         public static final String TABLE_NAME = "category";
 
         public static final String COLUMN_CATEGORY_OID = "categoryId";
+
         public static final String COLUMN_CATEGORY_OPTION = "option";
+
         public static final String COLUMN_CATEGORY_NAME = "name";
 
         public static final String[] PROJECTION_CATEGORY = new String[]{
@@ -38,8 +44,11 @@ public class PoisContract {
         };
 
         public static final int CATEGORY_COLUMN_ID = 0;
+
         public static final int CATEGORY_COLUMN_OID = 1;
+
         public static final int CATEGORY_COLUMN_OPTION = 2;
+
         public static final int CATEGORY_COLUMN_NAME = 3;
 
     }

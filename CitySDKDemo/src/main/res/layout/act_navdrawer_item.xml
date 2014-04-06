@@ -10,20 +10,20 @@
                 android:textAppearance="?android:attr/textAppearanceListItemSmall">
 
     <View
-        android:id="@+id/navmenuitem_view"
-        android:layout_width="12dp"
-        android:layout_height="50dp"
-        android:layout_centerVertical="true"
-        android:background="@drawable/act_nav_bg_selector"/>
+            android:id="@+id/navmenuitem_view"
+            android:layout_width="12dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/act_nav_bg_selector"/>
 
     <TextView
-        android:id="@+id/navmenuitem_label"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_toRightOf="@id/navmenuitem_view"
-        android:gravity="center_vertical"
-        android:paddingLeft="20dp"
-        android:text=""
-        android:textColor="@drawable/act_nav_text_selector"/>
+            android:id="@+id/navmenuitem_label"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_toRightOf="@id/navmenuitem_view"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:text=""
+            android:textColor="@drawable/act_nav_text_selector"/>
 
 </RelativeLayout>

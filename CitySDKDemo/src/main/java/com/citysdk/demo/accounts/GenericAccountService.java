@@ -12,9 +12,13 @@ import android.os.IBinder;
 import android.util.Log;
 
 public class GenericAccountService extends Service {
+
     public static final String ACCOUNT_NAME = "sync";
+
     private static final String TAG = "GenericAccountService";
+
     private static final String ACCOUNT_TYPE = "com.citysdk.demo";
+
     private Authenticator mAuthenticator;
 
     public static Account GetAccount() {
@@ -39,33 +43,34 @@ public class GenericAccountService extends Service {
     }
 
     public class Authenticator extends AbstractAccountAuthenticator {
+
         public Authenticator(Context context) {
             super(context);
         }
 
         @Override
         public Bundle editProperties(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                     String s) {
+                String s) {
             throw new UnsupportedOperationException();
         }
 
         @Override
         public Bundle addAccount(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                 String s, String s2, String[] strings, Bundle bundle)
+                String s, String s2, String[] strings, Bundle bundle)
                 throws NetworkErrorException {
             return null;
         }
 
         @Override
         public Bundle confirmCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                         Account account, Bundle bundle)
+                Account account, Bundle bundle)
                 throws NetworkErrorException {
             return null;
         }
 
         @Override
         public Bundle getAuthToken(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                   Account account, String s, Bundle bundle)
+                Account account, String s, Bundle bundle)
                 throws NetworkErrorException {
             throw new UnsupportedOperationException();
         }
@@ -77,14 +82,14 @@ public class GenericAccountService extends Service {
 
         @Override
         public Bundle updateCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                        Account account, String s, Bundle bundle)
+                Account account, String s, Bundle bundle)
                 throws NetworkErrorException {
             throw new UnsupportedOperationException();
         }
 
         @Override
         public Bundle hasFeatures(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                  Account account, String[] strings)
+                Account account, String[] strings)
                 throws NetworkErrorException {
             throw new UnsupportedOperationException();
         }

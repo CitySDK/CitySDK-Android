@@ -1,5 +1,7 @@
 package com.citysdk.demo.navigationdrawer;
 
+import com.citysdk.demo.R;
+
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -13,16 +15,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.citysdk.demo.R;
-
 public abstract class AbstractNavDrawerActivity extends FragmentActivity {
 
     private DrawerLayout mDrawerLayout;
+
     private ActionBarDrawerToggle mDrawerToggle;
 
     private ListView mDrawerList;
 
     private CharSequence mDrawerTitle;
+
     private CharSequence mTitle;
 
     private NavDrawerActivityConfiguration navConf;
@@ -182,7 +184,8 @@ public abstract class AbstractNavDrawerActivity extends FragmentActivity {
     public void setItemCheckedCategories(int id, String label, boolean bool) {
         NavDrawerItem[] list = navConf.getNavItems();
         for (int i = 0; i < list.length; i++) {
-            if (list[i].getId() > id && list[i].getId() < id + 100 && list[i].getLabel().equalsIgnoreCase(label)) {
+            if (list[i].getId() > id && list[i].getId() < id + 100 && list[i].getLabel()
+                    .equalsIgnoreCase(label)) {
                 mDrawerList.setItemChecked(i, bool);
             }
         }
@@ -199,6 +202,7 @@ public abstract class AbstractNavDrawerActivity extends FragmentActivity {
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
+
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectItem(position);

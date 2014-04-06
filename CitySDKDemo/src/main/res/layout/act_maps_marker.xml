@@ -5,14 +5,14 @@
              android:padding="2dp">
 
     <TextView
-        android:id="@+id/act_maps_marker_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:alpha=".8"
-        android:paddingLeft="2dp"
-        android:paddingRight="2dp"
-        android:textAppearance="@style/Bubble.TextAppearance.Light"
-        android:textColor="@android:color/black"/>
+            android:id="@+id/act_maps_marker_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:alpha=".8"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:textAppearance="@style/Bubble.TextAppearance.Light"
+            android:textColor="@android:color/black"/>
 
 </FrameLayout>

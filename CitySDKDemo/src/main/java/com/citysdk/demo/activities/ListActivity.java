@@ -1,5 +1,12 @@
 package com.citysdk.demo.activities;
 
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+
+import com.citysdk.demo.R;
+import com.citysdk.demo.maps.Marker;
+import com.citysdk.demo.utils.TourismAPI;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,12 +19,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.citysdk.demo.R;
-import com.citysdk.demo.maps.Marker;
-import com.citysdk.demo.utils.TourismAPI;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +39,11 @@ import citysdk.tourism.client.terms.Term;
 public class ListActivity extends Fragment implements Observer {
 
     private SupportMapFragment mFragment;
+
     private MarkerAdapter mAdapter;
+
     private ListView mListView;
+
     private ActNavigationDrawer actNavigationDrawer;
 
     public ListActivity(ActNavigationDrawer actNavigationDrawer) {
@@ -47,7 +51,8 @@ public class ListActivity extends Fragment implements Observer {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         setRetainInstance(true);
         View fragmentView = inflater.inflate(R.layout.act_list, container, false);
         mListView = (ListView) fragmentView.findViewById(R.id.act_list_listview);
@@ -59,7 +64,8 @@ public class ListActivity extends Fragment implements Observer {
         super.onResume();
         actNavigationDrawer.getObservableClass().addObserver(this);
 
-        if (actNavigationDrawer.getObservableClass().getValue() != null && actNavigationDrawer.getObservableClass().getValue().size() != 0) {
+        if (actNavigationDrawer.getObservableClass().getValue() != null
+                && actNavigationDrawer.getObservableClass().getValue().size() != 0) {
             showMarker(actNavigationDrawer.getObservableClass().getValue());
         }
     }
@@ -85,7 +91,6 @@ public class ListActivity extends Fragment implements Observer {
         }
         final ArrayList<Marker> lista = new ArrayList<Marker>();
 
-
         Locale locale = (Locale) TourismAPI.getURL(getActivity().getApplicationContext())[1];
 
         for (int i = 0; i < pois.size(); i++) {
@@ -98,7 +103,10 @@ public class ListActivity extends Fragment implements Observer {
                 for (LocationDetails point : latlng) {
                     if (point.getType() == 1) {
                         LatLng pointToWrite = point.getLatLngList().get(0);
-                        lista.add(new Marker(pointToWrite.latitude, pointToWrite.longitude, DataReader.getLabel(poi, Term.LABEL_TERM_PRIMARY, locale), DataReader.getCategories(poi, locale).get(0), poi.getId(), poi.getBase()));
+                        lista.add(new Marker(pointToWrite.latitude, pointToWrite.longitude,
+                                DataReader.getLabel(poi, Term.LABEL_TERM_PRIMARY, locale),
+                                DataReader.getCategories(poi, locale).get(0), poi.getId(),
+                                poi.getBase()));
                     }
                 }
             } catch (Exception e) {
@@ -112,7 +120,7 @@ public class ListActivity extends Fragment implements Observer {
         mListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+                    int position, long id) {
 
                 Intent i = new Intent(getActivity(), ShowMoreInfoActivity.class);
                 i.putExtra("id", lista.get(position).getId());
@@ -128,11 +136,12 @@ public class ListActivity extends Fragment implements Observer {
 
     private List<LocationDetails> getLocation(POI poi) throws Exception {
 
-        java.util.List<GeometryContent> list = DataReader.getLocationGeometry(poi, Term.POINT_TERM_ENTRANCE);
+        java.util.List<GeometryContent> list = DataReader
+                .getLocationGeometry(poi, Term.POINT_TERM_ENTRANCE);
 
-
-        if (list.size() == 0)
+        if (list.size() == 0) {
             throw new Exception("POI " + poi.getId() + " has no geometries");
+        }
 
         List<LocationDetails> listLatLng = new ArrayList<LocationDetails>();
 
@@ -143,14 +152,19 @@ public class ListActivity extends Fragment implements Observer {
                 LocationDetails locationDetails = new LocationDetails(1);
                 PointContent content = (PointContent) gc;
                 LocationContent location = content.getLocation();
-                locationDetails.addLatLngList(new LatLng((Float.parseFloat(location.getLatitude())), (Float.parseFloat(location.getLongitude()))));
+                locationDetails.addLatLngList(new LatLng((Float.parseFloat(location.getLatitude())),
+                        (Float.parseFloat(location.getLongitude()))));
                 listLatLng.add(locationDetails);
             }
             if (numGeo == 2) {
                 LocationDetails locationDetails = new LocationDetails(2);
                 LineContent content = (LineContent) gc;
-                locationDetails.addLatLngList(new LatLng((Float.parseFloat(content.getPointOne().getLatitude())), (Float.parseFloat(content.getPointOne().getLongitude()))));
-                locationDetails.addLatLngList(new LatLng((Float.parseFloat(content.getPointTwo().getLatitude())), (Float.parseFloat(content.getPointTwo().getLongitude()))));
+                locationDetails.addLatLngList(
+                        new LatLng((Float.parseFloat(content.getPointOne().getLatitude())),
+                                (Float.parseFloat(content.getPointOne().getLongitude()))));
+                locationDetails.addLatLngList(
+                        new LatLng((Float.parseFloat(content.getPointTwo().getLatitude())),
+                                (Float.parseFloat(content.getPointTwo().getLongitude()))));
                 listLatLng.add(locationDetails);
             }
 
@@ -158,7 +172,9 @@ public class ListActivity extends Fragment implements Observer {
                 LocationDetails locationDetails = new LocationDetails(3);
                 PolygonContent content = (PolygonContent) gc;
                 for (LocationContent locationContent : content.getValues()) {
-                    locationDetails.addLatLngList(new LatLng((Float.parseFloat(locationContent.getLatitude())), (Float.parseFloat(locationContent.getLongitude()))));
+                    locationDetails.addLatLngList(
+                            new LatLng((Float.parseFloat(locationContent.getLatitude())),
+                                    (Float.parseFloat(locationContent.getLongitude()))));
                 }
                 listLatLng.add(locationDetails);
             }
@@ -176,6 +192,7 @@ public class ListActivity extends Fragment implements Observer {
     }
 
     public class MarkerAdapter extends ArrayAdapter<Marker> {
+
         public MarkerAdapter(Context context, ArrayList<Marker> users) {
             super(context, R.layout.act_list_element, users);
         }
@@ -186,7 +203,8 @@ public class ListActivity extends Fragment implements Observer {
             Marker user = getItem(position);
             // Check if an existing view is being reused, otherwise inflate the view
             if (convertView == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.act_list_element, null);
+                convertView = LayoutInflater.from(getContext())
+                        .inflate(R.layout.act_list_element, null);
             }
             // Lookup view for data population
             TextView tvName = (TextView) convertView.findViewById(R.id.secondLine);

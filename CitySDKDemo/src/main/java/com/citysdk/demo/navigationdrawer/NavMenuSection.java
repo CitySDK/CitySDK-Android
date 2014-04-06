@@ -3,7 +3,9 @@ package com.citysdk.demo.navigationdrawer;
 public class NavMenuSection implements NavDrawerItem {
 
     public static final int SECTION_TYPE = 0;
+
     private int id;
+
     private String label;
 
     private NavMenuSection() {

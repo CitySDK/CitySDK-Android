@@ -1,5 +1,7 @@
 package com.citysdk.demo.contracts;
 
+import com.citysdk.demo.utils.SelectionBuilder;
+
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,13 +11,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
-import com.citysdk.demo.utils.SelectionBuilder;
-
 public class PoisProvider extends ContentProvider {
 
     public static final int CATEGORY = 1;
+
     public static final int CATEGORY_ID = 2;
+
     private static final String AUTHORITY = PoisContract.CONTENT_AUTHORITY;
+
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
@@ -46,7 +49,7 @@ public class PoisProvider extends ContentProvider {
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
-                        String sortOrder) {
+            String sortOrder) {
         SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
         SelectionBuilder builder = new SelectionBuilder();
         int uriMatch = sUriMatcher.match(uri);
@@ -158,10 +161,13 @@ public class PoisProvider extends ContentProvider {
     }
 
     static class FeedDatabase extends SQLiteOpenHelper {
+
         public static final int DATABASE_VERSION = 1;
+
         public static final String DATABASE_NAME = "citysdk.db";
 
         private static final String TYPE_TEXT = " TEXT";
+
         private static final String TYPE_BLOB = " BLOB";
 
         private static final String COMMA_SEP = ",";

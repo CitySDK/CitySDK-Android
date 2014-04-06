@@ -1,5 +1,25 @@
 package com.citysdk.demo.activities;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import com.citysdk.demo.R;
+import com.citysdk.demo.contracts.PoisContract;
+import com.citysdk.demo.domain.CategoryDomain;
+import com.citysdk.demo.listener.OnResultsListener;
+import com.citysdk.demo.navigationdrawer.AbstractNavDrawerActivity;
+import com.citysdk.demo.navigationdrawer.NavDrawerActivityConfiguration;
+import com.citysdk.demo.navigationdrawer.NavDrawerAdapter;
+import com.citysdk.demo.navigationdrawer.NavDrawerItem;
+import com.citysdk.demo.navigationdrawer.NavMenuItem;
+import com.citysdk.demo.navigationdrawer.NavMenuSection;
+import com.citysdk.demo.sync.SyncUtils;
+import com.citysdk.demo.utils.TourismAPI;
+import com.citysdk.demo.utils.XmlParser;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,25 +42,6 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Toast;
 
-import com.citysdk.demo.R;
-import com.citysdk.demo.contracts.PoisContract;
-import com.citysdk.demo.domain.CategoryDomain;
-import com.citysdk.demo.listener.OnResultsListener;
-import com.citysdk.demo.navigationdrawer.AbstractNavDrawerActivity;
-import com.citysdk.demo.navigationdrawer.NavDrawerActivityConfiguration;
-import com.citysdk.demo.navigationdrawer.NavDrawerAdapter;
-import com.citysdk.demo.navigationdrawer.NavDrawerItem;
-import com.citysdk.demo.navigationdrawer.NavMenuItem;
-import com.citysdk.demo.navigationdrawer.NavMenuSection;
-import com.citysdk.demo.sync.SyncUtils;
-import com.citysdk.demo.utils.TourismAPI;
-import com.citysdk.demo.utils.XmlParser;
-import com.google.android.gms.maps.model.LatLng;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -58,17 +59,27 @@ import citysdk.tourism.client.requests.ParameterList;
 import citysdk.tourism.client.terms.ParameterTerms;
 import citysdk.tourism.client.terms.Term;
 
-public class ActNavigationDrawer extends AbstractNavDrawerActivity implements OnResultsListener, LocationListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class ActNavigationDrawer extends AbstractNavDrawerActivity
+        implements OnResultsListener, LocationListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String TAG = "NavigationDrawer";
+
     private static final int FETCH_CATEGORIES = 0;
+
     private static String STR_PLACE = "places";
+
     private static String STR_EVENT = "events";
+
     private static String STR_ITINERARIES = "itineraries";
+
     private static String DB_PLACE = "poi";
+
     private static String DB_EVENT = "event";
+
     private static String DB_ITINERARIES = "route";
+
     private static String VIEW_MAPS = "maps";
+
     private static String VIEW_LIST = "list";
 
     private NavDrawerItem[] view, options, categories;
@@ -76,9 +87,11 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
     private NavDrawerActivityConfiguration navDrawerActivityConfiguration;
 
     private POIS<POI> mPoi;
+
     private List<CategoryDomain> mCategories;
 
     private String selectedView = "";
+
     private String selectedOptions = "";
 
     private ArrayList<String> selectedCategories = new ArrayList<String>();
@@ -86,13 +99,17 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
 
 
     private ArrayList<String> selectedPlaces = new ArrayList<String>();
+
     private ArrayList<String> selectedEvents = new ArrayList<String>();
+
     private ArrayList<String> selectedItineraries = new ArrayList<String>();
 
     private MapsActivity mapsActivity;
+
     private ListActivity listActivity;
 
     private LocationManager locationManager;
+
     private String provider;
 
     private ObservableClass observerClass;
@@ -145,9 +162,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
 
         SyncUtils.TriggerRefresh();
 
-
         getSupportLoaderManager().initLoader(FETCH_CATEGORIES, null, this);
-
 
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         supportFragmentManager.beginTransaction().add(R.id.content_frame,
@@ -171,13 +186,18 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
 
         SharedPreferences userDetails = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
 
-        selectedCategories = new ArrayList<String>(userDetails.getStringSet("selectedCategories", new HashSet<String>()));
+        selectedCategories = new ArrayList<String>(
+                userDetails.getStringSet("selectedCategories", new HashSet<String>()));
 
-        selectedPlaces = new ArrayList<String>(userDetails.getStringSet("selectedPlaces", new HashSet<String>()));
-        selectedEvents = new ArrayList<String>(userDetails.getStringSet("selectedEvents", new HashSet<String>()));
-        selectedItineraries = new ArrayList<String>(userDetails.getStringSet("selectedItineraries", new HashSet<String>()));
+        selectedPlaces = new ArrayList<String>(
+                userDetails.getStringSet("selectedPlaces", new HashSet<String>()));
+        selectedEvents = new ArrayList<String>(
+                userDetails.getStringSet("selectedEvents", new HashSet<String>()));
+        selectedItineraries = new ArrayList<String>(
+                userDetails.getStringSet("selectedItineraries", new HashSet<String>()));
 
-        selectedCategories = new ArrayList<String>(userDetails.getStringSet("selectedCategories", new HashSet<String>()));
+        selectedCategories = new ArrayList<String>(
+                userDetails.getStringSet("selectedCategories", new HashSet<String>()));
 
         updateSetSelected(selectedView, 100);
         updateSetSelected(selectedOptions, 200);
@@ -252,7 +272,8 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
         navDrawerActivityConfiguration.setDrawerShadow(R.drawable.drawer_shadow);
         navDrawerActivityConfiguration.setDrawerOpenDesc(R.string.drawer_open);
         navDrawerActivityConfiguration.setDrawerCloseDesc(R.string.drawer_close);
-        navDrawerActivityConfiguration.setBaseAdapter(new NavDrawerAdapter(this, R.layout.act_navdrawer_item, menu));
+        navDrawerActivityConfiguration
+                .setBaseAdapter(new NavDrawerAdapter(this, R.layout.act_navdrawer_item, menu));
         return navDrawerActivityConfiguration;
     }
 
@@ -287,7 +308,8 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
         updateSetSelectedCategories(selectedOptions, 300);
     }
 
-    private NavDrawerItem[] mergeMenus(NavDrawerItem[] view, NavDrawerItem[] options, NavDrawerItem[] categories) {
+    private NavDrawerItem[] mergeMenus(NavDrawerItem[] view, NavDrawerItem[] options,
+            NavDrawerItem[] categories) {
         if (this.view == null) {
             this.view = view;
         }
@@ -311,12 +333,14 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
         return result.toArray(new NavDrawerItem[result.size()]);
     }
 
-    private NavDrawerItem[] generateViewFromList(String header, int code, List<CategoryDomain> list) {
+    private NavDrawerItem[] generateViewFromList(String header, int code,
+            List<CategoryDomain> list) {
         List<NavDrawerItem> result = new ArrayList<NavDrawerItem>();
         result.add(NavMenuSection.create(code, header));
         for (CategoryDomain categoryDomain : list) {
             code++;
-            result.add(NavMenuItem.create(code, categoryDomain.getName(), categoryDomain.getName(), false, this));
+            result.add(NavMenuItem
+                    .create(code, categoryDomain.getName(), categoryDomain.getName(), false, this));
         }
         return result.toArray(new NavDrawerItem[result.size()]);
     }
@@ -343,7 +367,8 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
                 getSupportFragmentManager().beginTransaction().detach(listActivity).commit();
                 getSupportFragmentManager().beginTransaction().attach(mapsActivity).commit();
                 //performSearch();
-            } else if (label.equalsIgnoreCase(VIEW_LIST) && !selectedView.equalsIgnoreCase(VIEW_LIST)) {
+            } else if (label.equalsIgnoreCase(VIEW_LIST) && !selectedView
+                    .equalsIgnoreCase(VIEW_LIST)) {
                 //getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,
                 //      listActivity).commit();
                 getSupportFragmentManager().beginTransaction().detach(mapsActivity).commit();
@@ -391,7 +416,8 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
         float lat = userDetails.getFloat("latPoint", 0);
         float lng = userDetails.getFloat("lngPoint", 0);
 
-        List<String> selectedCategories = new ArrayList<String>(userDetails.getStringSet("selectedCategories", new HashSet<String>()));
+        List<String> selectedCategories = new ArrayList<String>(
+                userDetails.getStringSet("selectedCategories", new HashSet<String>()));
 
         if (selectedCategories == null || selectedCategories.size() == 0) {
             observerClass.setValue(null);
@@ -501,23 +527,23 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
     private void selectElementCategories(String label) {
 
         if (selectedCategories.contains(label)) {
-            Log.d(TAG, "contains: "+label);
+            Log.d(TAG, "contains: " + label);
             setItemCheckedCategories(300, label, false);
             selectedCategories.remove(selectedCategories.indexOf(label));
         } else {
-            if(label.equalsIgnoreCase("All Categories")) {
-                for(String s : selectedCategories) {
-                        setItemCheckedCategories(300, s, false);
+            if (label.equalsIgnoreCase("All Categories")) {
+                for (String s : selectedCategories) {
+                    setItemCheckedCategories(300, s, false);
                 }
                 selectedCategories.clear();
             } else {
-                if(selectedCategories.contains("All Categories")) {
+                if (selectedCategories.contains("All Categories")) {
                     setItemCheckedCategories(300, "All Categories", false);
                     selectedCategories.remove(selectedCategories.indexOf("All Categories"));
                 }
             }
 
-            Log.d(TAG, "not contains: "+label);
+            Log.d(TAG, "not contains: " + label);
             setItemCheckedCategories(300, label, true);
             selectedCategories.add(label);
         }
@@ -565,7 +591,8 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
         Cursor c = contentResolver.query(
                 PoisContract.Category.CONTENT_URI,
                 PoisContract.Category.PROJECTION_CATEGORY,
-                PoisContract.Category.COLUMN_CATEGORY_OPTION + "= '" + convertSTRtoDB(selectedOptions) + "'",
+                PoisContract.Category.COLUMN_CATEGORY_OPTION + "= '" + convertSTRtoDB(
+                        selectedOptions) + "'",
                 null,
                 PoisContract.Category.COLUMN_CATEGORY_NAME + " ASC");
         assert c != null;
@@ -586,7 +613,8 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
         CursorLoader cursorLoaderCategories = new CursorLoader(getApplicationContext(),
                 PoisContract.Category.CONTENT_URI,
                 PoisContract.Category.PROJECTION_CATEGORY,
-                PoisContract.Category.COLUMN_CATEGORY_OPTION + " = ' " + convertSTRtoDB(selectedOptions) + "'",
+                PoisContract.Category.COLUMN_CATEGORY_OPTION + " = ' " + convertSTRtoDB(
+                        selectedOptions) + "'",
                 null,
                 null);
         return cursorLoaderCategories;
@@ -622,7 +650,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
 
     @Override
     public void onResultsFinished(POI poi, int id, String parameterTerm,
-                                  String bytesOfMessage) {
+            String bytesOfMessage) {
 
         if (id == 1) {
 
@@ -653,13 +681,17 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
                 if (link.getTerm().equals(Term.LINK_TERM_DESCRIBEDBY.getTerm())) {
                     if (!link.getValue().equals("")) {
 
-                        if (link.getValue().equalsIgnoreCase("http://tourism.citysdk.cm-lisboa.pt/resources")) {
+                        if (link.getValue().equalsIgnoreCase(
+                                "http://tourism.citysdk.cm-lisboa.pt/resources")) {
                             TourismAPI.setURL(this, link.getValue(), "pt-PT");
-                        } else if (link.getValue().equalsIgnoreCase("http://citysdk.dmci.hva.nl/CitySDK/resources")) {
+                        } else if (link.getValue()
+                                .equalsIgnoreCase("http://citysdk.dmci.hva.nl/CitySDK/resources")) {
                             TourismAPI.setURL(this, link.getValue(), "nl-NL");
-                        } else if (link.getValue().equalsIgnoreCase("http://citysdk.inroma.roma.it/CitySDK/resources")) {
+                        } else if (link.getValue().equalsIgnoreCase(
+                                "http://citysdk.inroma.roma.it/CitySDK/resources")) {
                             TourismAPI.setURL(this, link.getValue(), "it-IT");
-                        } else if (link.getValue().equalsIgnoreCase("http://tourism.citysdk.lamia-city.gr/resources")) {
+                        } else if (link.getValue().equalsIgnoreCase(
+                                "http://tourism.citysdk.lamia-city.gr/resources")) {
                             TourismAPI.setURL(this, link.getValue(), "el-GR");
                         }
 
@@ -689,7 +721,6 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
 
         LatLng newPoint = new LatLng(lat, lng);
 
-
         ParameterList list = new ParameterList();
         try {
             list.add(new Parameter(ParameterTerms.LIMIT, -1));
@@ -699,7 +730,8 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
         } catch (InvalidValueException e) {
             e.printStackTrace();
         }
-        if ((oldPoint.latitude == 0 && oldPoint.longitude == 0) || distanceToPoints(oldPoint, newPoint) > 10000) {
+        if ((oldPoint.latitude == 0 && oldPoint.longitude == 0)
+                || distanceToPoints(oldPoint, newPoint) > 10000) {
             setProgressBarIndeterminateVisibility(true);
 
             selectedCategories = new ArrayList<String>();
@@ -724,6 +756,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity implements On
     }
 
     public class ObservableClass extends Observable {
+
         private POIS<POI> poi;
 
         public POIS<POI> getValue() {

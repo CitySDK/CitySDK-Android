@@ -1,19 +1,5 @@
 package com.citysdk.demo.activities;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-
 import com.citysdk.demo.R;
 import com.citysdk.demo.listener.OnResultsListener;
 import com.citysdk.demo.utils.TourismAPI;
@@ -32,6 +18,20 @@ import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.model.Property;
 
 import org.apache.commons.lang3.StringUtils;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -67,7 +67,9 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
     DisplayImageOptions options;
 
     ViewPager pager;
+
     int positionGeral = 1;
+
     TextView imageNumber;
 
     @Override
@@ -75,7 +77,8 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_show_more_info);
 
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext()).build();
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+                getApplicationContext()).build();
         ImageLoader.getInstance().init(config);
 
         Bundle bundle = getIntent().getExtras();
@@ -139,14 +142,14 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
 
         String contacts = DataReader.getContacts(pois);
 
-
-        String categories = StringUtils.join(DataReader.getCategories(pois, locale).toArray(), "\n");
+        String categories = StringUtils
+                .join(DataReader.getCategories(pois, locale).toArray(), "\n");
 
         String description = DataReader.getDescription(pois, locale);
 
-
         ((TextView) activity.findViewById(R.id.act_show_more_info_text_title)).setText(name);
-        ((TextView) activity.findViewById(R.id.act_show_more_info_text_category)).setText(categories);
+        ((TextView) activity.findViewById(R.id.act_show_more_info_text_category))
+                .setText(categories);
 
         if (contacts != null && contacts != "") {
 
@@ -154,69 +157,98 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
             String separator = ", ";
             boolean allDisabled = true;
 
-            if (vcard == null || vcard.getTelephoneNumbers() == null || vcard.getTelephoneNumbers().size() == 0 || vcard.getTelephoneNumbers().get(0).getText() == "") {
-                activity.findViewById(R.id.act_show_more_info_text_contactos_tel).setVisibility(View.GONE);
-                activity.findViewById(R.id.act_show_more_info_text_contactos_tel_input).setVisibility(View.GONE);
+            if (vcard == null || vcard.getTelephoneNumbers() == null
+                    || vcard.getTelephoneNumbers().size() == 0
+                    || vcard.getTelephoneNumbers().get(0).getText() == "") {
+                activity.findViewById(R.id.act_show_more_info_text_contactos_tel)
+                        .setVisibility(View.GONE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_tel_input)
+                        .setVisibility(View.GONE);
             } else {
                 allDisabled = false;
-                activity.findViewById(R.id.act_show_more_info_text_contactos_tel).setVisibility(View.VISIBLE);
-                activity.findViewById(R.id.act_show_more_info_text_contactos_tel_input).setVisibility(View.VISIBLE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_tel)
+                        .setVisibility(View.VISIBLE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_tel_input)
+                        .setVisibility(View.VISIBLE);
                 StringBuilder sb = new StringBuilder();
                 for (Telephone t : vcard.getTelephoneNumbers()) {
                     sb.append(separator).append(t.getText());
                 }
                 String result = sb.substring(separator.length());
-                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_tel_input)).setText(result);
+                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_tel_input))
+                        .setText(result);
             }
 
-            if (vcard == null || vcard.getEmails() == null || vcard.getEmails().size() == 0 || vcard.getEmails().get(0).getValue() == "") {
-                activity.findViewById(R.id.act_show_more_info_text_contactos_mail).setVisibility(View.GONE);
-                activity.findViewById(R.id.act_show_more_info_text_contactos_mail_input).setVisibility(View.GONE);
+            if (vcard == null || vcard.getEmails() == null || vcard.getEmails().size() == 0
+                    || vcard.getEmails().get(0).getValue() == "") {
+                activity.findViewById(R.id.act_show_more_info_text_contactos_mail)
+                        .setVisibility(View.GONE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_mail_input)
+                        .setVisibility(View.GONE);
             } else {
                 allDisabled = false;
-                activity.findViewById(R.id.act_show_more_info_text_contactos_mail).setVisibility(View.VISIBLE);
-                activity.findViewById(R.id.act_show_more_info_text_contactos_mail_input).setVisibility(View.VISIBLE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_mail)
+                        .setVisibility(View.VISIBLE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_mail_input)
+                        .setVisibility(View.VISIBLE);
                 StringBuilder sb = new StringBuilder();
                 for (Email t : vcard.getEmails()) {
                     sb.append(separator).append(t.getValue());
                 }
                 String result = sb.substring(separator.length());
-                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_mail_input)).setText(result);
+                ((TextView) activity
+                        .findViewById(R.id.act_show_more_info_text_contactos_mail_input))
+                        .setText(result);
             }
 
-            if (vcard == null || vcard.getUrls() == null || vcard.getUrls().size() == 0 || vcard.getUrls().get(0).getValue() == "") {
-                activity.findViewById(R.id.act_show_more_info_text_contactos_url).setVisibility(View.GONE);
-                activity.findViewById(R.id.act_show_more_info_text_contactos_url_input).setVisibility(View.GONE);
+            if (vcard == null || vcard.getUrls() == null || vcard.getUrls().size() == 0
+                    || vcard.getUrls().get(0).getValue() == "") {
+                activity.findViewById(R.id.act_show_more_info_text_contactos_url)
+                        .setVisibility(View.GONE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_url_input)
+                        .setVisibility(View.GONE);
             } else {
                 allDisabled = false;
-                activity.findViewById(R.id.act_show_more_info_text_contactos_url).setVisibility(View.VISIBLE);
-                activity.findViewById(R.id.act_show_more_info_text_contactos_url_input).setVisibility(View.VISIBLE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_url)
+                        .setVisibility(View.VISIBLE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_url_input)
+                        .setVisibility(View.VISIBLE);
                 StringBuilder sb = new StringBuilder();
                 for (Url t : vcard.getUrls()) {
                     sb.append(separator).append(t.getValue());
                 }
                 String result = sb.substring(separator.length());
-                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_url_input)).setText(result);
+                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_url_input))
+                        .setText(result);
             }
 
-            if (vcard == null || vcard.getAddresses() == null || vcard.getAddresses().size() == 0 || vcard.getAddresses().get(0).getExtendedAddress() == "") {
-                activity.findViewById(R.id.act_show_more_info_text_contactos_address).setVisibility(View.GONE);
-                activity.findViewById(R.id.act_show_more_info_text_contactos_address_input).setVisibility(View.GONE);
+            if (vcard == null || vcard.getAddresses() == null || vcard.getAddresses().size() == 0
+                    || vcard.getAddresses().get(0).getExtendedAddress() == "") {
+                activity.findViewById(R.id.act_show_more_info_text_contactos_address)
+                        .setVisibility(View.GONE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_address_input)
+                        .setVisibility(View.GONE);
             } else {
                 allDisabled = false;
-                activity.findViewById(R.id.act_show_more_info_text_contactos_address).setVisibility(View.VISIBLE);
-                activity.findViewById(R.id.act_show_more_info_text_contactos_address_input).setVisibility(View.VISIBLE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_address)
+                        .setVisibility(View.VISIBLE);
+                activity.findViewById(R.id.act_show_more_info_text_contactos_address_input)
+                        .setVisibility(View.VISIBLE);
                 StringBuilder sb = new StringBuilder();
                 for (Address t : vcard.getAddresses()) {
                     sb.append(separator).append(t.getExtendedAddress());
                 }
                 String result = sb.substring(separator.length());
-                ((TextView) activity.findViewById(R.id.act_show_more_info_text_contactos_address_input)).setText(result);
+                ((TextView) activity
+                        .findViewById(R.id.act_show_more_info_text_contactos_address_input))
+                        .setText(result);
             }
             if (allDisabled = true) {
-                activity.findViewById(R.id.act_show_more_info_text_contacts).setVisibility(View.GONE);
+                activity.findViewById(R.id.act_show_more_info_text_contacts)
+                        .setVisibility(View.GONE);
             }
-            activity.findViewById(R.id.act_show_more_info_text_contacts).setVisibility(View.VISIBLE);
+            activity.findViewById(R.id.act_show_more_info_text_contacts)
+                    .setVisibility(View.VISIBLE);
 
         } else {
             activity.findViewById(R.id.act_show_more_info_text_contacts).setVisibility(View.GONE);
@@ -228,19 +260,24 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
             activity.findViewById(R.id.act_show_more_info_text_sch).setVisibility(View.VISIBLE);
 
             for (POITermType poiTermType : pois.getTime()) {
-                if (poiTermType.getType() == null || !poiTermType.getType().equalsIgnoreCase("text/icalendar")) {
-                    activity.findViewById(R.id.act_show_more_info_text_start_end).setVisibility(View.GONE);
-                    activity.findViewById(R.id.act_show_more_info_text_all).setVisibility(View.VISIBLE);
-                    ((TextView) activity.findViewById(R.id.act_show_more_info_text_all)).setText(poiTermType.getValue());
+                if (poiTermType.getType() == null || !poiTermType.getType()
+                        .equalsIgnoreCase("text/icalendar")) {
+                    activity.findViewById(R.id.act_show_more_info_text_start_end)
+                            .setVisibility(View.GONE);
+                    activity.findViewById(R.id.act_show_more_info_text_all)
+                            .setVisibility(View.VISIBLE);
+                    ((TextView) activity.findViewById(R.id.act_show_more_info_text_all))
+                            .setText(poiTermType.getValue());
                 } else if (poiTermType.getType().equalsIgnoreCase("text/icalendar")) {
-                    activity.findViewById(R.id.act_show_more_info_text_start_end).setVisibility(View.VISIBLE);
-                    activity.findViewById(R.id.act_show_more_info_text_all).setVisibility(View.GONE);
+                    activity.findViewById(R.id.act_show_more_info_text_start_end)
+                            .setVisibility(View.VISIBLE);
+                    activity.findViewById(R.id.act_show_more_info_text_all)
+                            .setVisibility(View.GONE);
 
                     StringReader sin = new StringReader(poiTermType.getValue());
                     CalendarBuilder builder = new CalendarBuilder();
                     try {
                         Calendar calendar = builder.build(sin);
-
 
                         for (Iterator i = calendar.getComponents().iterator(); i.hasNext(); ) {
                             Component component = (Component) i.next();
@@ -248,13 +285,16 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
 
                             for (Iterator j = component.getProperties().iterator(); j.hasNext(); ) {
                                 Property property = (Property) j.next();
-                                System.out.println("Property [" + property.getName() + ", " + property.getValue() + "]");
+                                System.out.println(
+                                        "Property [" + property.getName() + ", " + property
+                                                .getValue() + "]");
                             }
                         }
 
-
-                        String start = calendar.getComponent("VEVENT").getProperty("DTSTART").getValue();
-                        String end = calendar.getComponent("VEVENT").getProperty("DTEND").getValue();
+                        String start = calendar.getComponent("VEVENT").getProperty("DTSTART")
+                                .getValue();
+                        String end = calendar.getComponent("VEVENT").getProperty("DTEND")
+                                .getValue();
 
                         try {
                             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
@@ -264,8 +304,12 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
                             String startDate = output.format(dstart);
                             String endDate = output.format(dend);
 
-                            ((TextView) activity.findViewById(R.id.act_show_more_info_text_start_input)).setText(startDate);
-                            ((TextView) activity.findViewById(R.id.act_show_more_info_text_end_input)).setText(endDate);
+                            ((TextView) activity
+                                    .findViewById(R.id.act_show_more_info_text_start_input))
+                                    .setText(startDate);
+                            ((TextView) activity
+                                    .findViewById(R.id.act_show_more_info_text_end_input))
+                                    .setText(endDate);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -286,7 +330,8 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
             activity.findViewById(R.id.act_show_more_info_text_desc).setVisibility(View.GONE);
         } else {
             activity.findViewById(R.id.act_show_more_info_text_desc).setVisibility(View.VISIBLE);
-            ((TextView) activity.findViewById(R.id.act_show_more_info_text_description)).setText(description);
+            ((TextView) activity.findViewById(R.id.act_show_more_info_text_description))
+                    .setText(description);
         }
 
         final List<ImageContent> imageContent = DataReader.getImagesUri(pois);
@@ -322,6 +367,7 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
     private class ImagePagerAdapter extends PagerAdapter {
 
         private String[] images;
+
         private LayoutInflater inflater;
 
         ImagePagerAdapter(String[] images) {
@@ -347,42 +393,45 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
             ImageView imageView = (ImageView) imageLayout.findViewById(R.id.image);
             final ProgressBar spinner = (ProgressBar) imageLayout.findViewById(R.id.loading);
 
-            ImageLoader.getInstance().displayImage(images[position], imageView, options, new SimpleImageLoadingListener() {
-                @Override
-                public void onLoadingStarted(String imageUri, View view) {
-                    spinner.setVisibility(View.VISIBLE);
-                }
+            ImageLoader.getInstance().displayImage(images[position], imageView, options,
+                    new SimpleImageLoadingListener() {
+                        @Override
+                        public void onLoadingStarted(String imageUri, View view) {
+                            spinner.setVisibility(View.VISIBLE);
+                        }
 
-                @Override
-                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                    String message = null;
-                    switch (failReason.getType()) {
-                        case IO_ERROR:
-                            message = "Input/Output error";
-                            break;
-                        case DECODING_ERROR:
-                            message = "Image can't be decoded";
-                            break;
-                        case NETWORK_DENIED:
-                            message = "Downloads are denied";
-                            break;
-                        case OUT_OF_MEMORY:
-                            message = "Out Of Memory error";
-                            break;
-                        case UNKNOWN:
-                            message = "Unknown error";
-                            break;
-                    }
-                    //Toast.makeText(ShowMoreInfoActivity.this, message, Toast.LENGTH_SHORT).show();
+                        @Override
+                        public void onLoadingFailed(String imageUri, View view,
+                                FailReason failReason) {
+                            String message = null;
+                            switch (failReason.getType()) {
+                                case IO_ERROR:
+                                    message = "Input/Output error";
+                                    break;
+                                case DECODING_ERROR:
+                                    message = "Image can't be decoded";
+                                    break;
+                                case NETWORK_DENIED:
+                                    message = "Downloads are denied";
+                                    break;
+                                case OUT_OF_MEMORY:
+                                    message = "Out Of Memory error";
+                                    break;
+                                case UNKNOWN:
+                                    message = "Unknown error";
+                                    break;
+                            }
+                            //Toast.makeText(ShowMoreInfoActivity.this, message, Toast.LENGTH_SHORT).show();
 
-                    spinner.setVisibility(View.GONE);
-                }
+                            spinner.setVisibility(View.GONE);
+                        }
 
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    spinner.setVisibility(View.GONE);
-                }
-            });
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view,
+                                Bitmap loadedImage) {
+                            spinner.setVisibility(View.GONE);
+                        }
+                    });
 
             view.addView(imageLayout, 0);
             return imageLayout;

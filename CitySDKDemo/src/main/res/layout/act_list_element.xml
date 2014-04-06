@@ -5,11 +5,11 @@
               android:padding="6dip">
 
     <TextView
-        android:id="@+id/secondLine"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"/>
+            android:id="@+id/secondLine"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"/>
 
 </LinearLayout>

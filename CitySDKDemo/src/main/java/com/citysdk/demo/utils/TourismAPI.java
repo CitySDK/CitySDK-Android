@@ -1,9 +1,5 @@
 package com.citysdk.demo.utils;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
-
 import com.citysdk.demo.domain.CategoryDomain;
 import com.citysdk.demo.invoker.CategoriesInvoker;
 import com.citysdk.demo.invoker.Invoker;
@@ -12,6 +8,10 @@ import com.citysdk.demo.invoker.ListPoiInvoker;
 import com.citysdk.demo.invoker.ListRouteInvoker;
 import com.citysdk.demo.invoker.PoiInvoker;
 import com.citysdk.demo.listener.OnResultsListener;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,10 +43,13 @@ import citysdk.tourism.client.terms.Term;
 final public class TourismAPI {
 
     private static final String PREFS_NAME = "PrefsEndpoint";
+
     private static final String URL_ENDPOINT = "urlEndpoint";
+
     private static final String URL_LOCALE = "urlEndpointLocale";
 
     static String uriDirectory = "http://directory.citysdk.cm-lisboa.pt/resources";
+
     static FetchTourismDataTask task;
 
     static public void setURL(Context context, String url, String locale) {
@@ -68,7 +71,6 @@ final public class TourismAPI {
         } else {
             locale = new Locale("en", "GB");
         }
-
 
         Object[] array = {settings.getString(URL_ENDPOINT, ""), locale};
         return array;
@@ -101,7 +103,8 @@ final public class TourismAPI {
         return list;
     }
 
-    static public List<CategoryDomain> getCategoriesInformation(Context context, POI poi, String parameterTerm) {
+    static public List<CategoryDomain> getCategoriesInformation(Context context, POI poi,
+            String parameterTerm) {
         List<CategoryDomain> categoryList = new ArrayList<CategoryDomain>();
 
         Locale locale = (Locale) getURL(context)[1];
@@ -111,11 +114,11 @@ final public class TourismAPI {
         return categoryList;
     }
 
-    static public void getSubCategoriesInformation(Category category, List<CategoryDomain> categoryList, Locale locale, String parameterTerm) {
+    static public void getSubCategoriesInformation(Category category,
+            List<CategoryDomain> categoryList, Locale locale, String parameterTerm) {
         List<Category> categories = category.getSubCategories();
         if (categories != null) {
             for (Category cat : categories) {
-
 
                 String name = DataReader.getLabel(cat, Term.LABEL_TERM_PRIMARY, locale);
                 String id = cat.getId();
@@ -165,7 +168,6 @@ final public class TourismAPI {
             throws InvalidParameterException, IOException, ResourceNotAllowedException,
             UnknownErrorException, ServerErrorException, VersionNotAvailableException,
             InvalidValueException {
-
 
         PointOfInterest poi = null;
 
@@ -246,8 +248,9 @@ final public class TourismAPI {
 
             // get an image (always a URI)
             List<ImageContent> imgUri = DataReader.getImagesUri(item);
-            if (imgUri.size() > 0)
+            if (imgUri.size() > 0) {
                 image = imgUri.get(0).getContent();
+            }
 
             // print the values
             System.out.println("LABEL: " + label);
@@ -267,7 +270,6 @@ final public class TourismAPI {
         //		SharedPreferences prefs = PreferenceManager
         //				.getDefaultSharedPreferences();
         //		boolean enabled = prefs.getBoolean("parent_results_preference", false);
-
 
         try {
             TourismClient client = getClientWithUrl(uri);
@@ -304,7 +306,8 @@ final public class TourismAPI {
         getDataCategories(uriDirectory, 0, invoker, resultListener, list, "");
     }
 
-    static public void getSinglePoi(Context context, OnResultsListener resultListener, ParameterList list) {
+    static public void getSinglePoi(Context context, OnResultsListener resultListener,
+            ParameterList list) {
         PoiInvoker invoker = new PoiInvoker();
         String id = (String) list.getWithTerm(ParameterTerms.ID).getValue();
         String base = (String) list.getWithTerm(ParameterTerms.BASE).getValue();
@@ -315,7 +318,8 @@ final public class TourismAPI {
         getData(context, 0, invoker, resultListener, list, "");
     }
 
-    static public void getCategories(Context context, OnResultsListener resultListener, ParameterList list) {
+    static public void getCategories(Context context, OnResultsListener resultListener,
+            ParameterList list) {
         String uri = (String) getURL(context)[0];
 
         CategoriesInvoker invoker = new CategoriesInvoker();
@@ -325,7 +329,8 @@ final public class TourismAPI {
         getDataCategories(uri, 0, invoker, resultListener, list, "");
     }
 
-    static public void getPlaceCategories(Context context, OnResultsListener resultListener, ParameterList list, String bytesOfMessage, String option) {
+    static public void getPlaceCategories(Context context, OnResultsListener resultListener,
+            ParameterList list, String bytesOfMessage, String option) {
         ListPoiInvoker invoker = new ListPoiInvoker();
         invoker.setVersion("1.0");
         invoker.setItemId(1);
@@ -333,7 +338,8 @@ final public class TourismAPI {
         getData(context, 0, invoker, resultListener, list, bytesOfMessage);
     }
 
-    static public void getEventCategories(Context context, OnResultsListener resultListener, ParameterList list, String bytesOfMessage, String option) {
+    static public void getEventCategories(Context context, OnResultsListener resultListener,
+            ParameterList list, String bytesOfMessage, String option) {
         ListEventInvoker invoker = new ListEventInvoker();
         invoker.setVersion("1.0");
         invoker.setItemId(1);
@@ -341,7 +347,8 @@ final public class TourismAPI {
         getData(context, 0, invoker, resultListener, list, bytesOfMessage);
     }
 
-    static public void getItinerariesCategories(Context context, OnResultsListener resultListener, ParameterList list, String bytesOfMessage, String option) {
+    static public void getItinerariesCategories(Context context, OnResultsListener resultListener,
+            ParameterList list, String bytesOfMessage, String option) {
         ListRouteInvoker invoker = new ListRouteInvoker();
         invoker.setVersion("1.0");
         invoker.setItemId(1);
@@ -350,18 +357,20 @@ final public class TourismAPI {
     }
 
     static private void getDataCategories(String url, int search, Invoker invoker,
-                                          OnResultsListener listener, ParameterList list, String bytesOfMessage) {
+            OnResultsListener listener, ParameterList list, String bytesOfMessage) {
 
-        FetchTourismDataTask categoriestask = new FetchTourismDataTask(url, invoker, listener, bytesOfMessage);
+        FetchTourismDataTask categoriestask = new FetchTourismDataTask(url, invoker, listener,
+                bytesOfMessage);
         categoriestask.execute(list);
 
     }
 
     static private void getData(Context context, int search, Invoker invoker,
-                                OnResultsListener listener, ParameterList list, String bytesOfMessage) {
+            OnResultsListener listener, ParameterList list, String bytesOfMessage) {
 
         String uri = (String) getURL(context)[0];
-        if (task != null && (task.getStatus().equals(AsyncTask.Status.PENDING) || task.getStatus().equals(AsyncTask.Status.RUNNING))) {
+        if (task != null && (task.getStatus().equals(AsyncTask.Status.PENDING) || task.getStatus()
+                .equals(AsyncTask.Status.RUNNING))) {
             System.out.println("task cancelled");
             task.cancel(true);
             task = new FetchTourismDataTask(uri, invoker, listener, bytesOfMessage);

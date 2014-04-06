@@ -1,23 +1,5 @@
 package com.citysdk.demo.activities;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.location.Location;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.citysdk.demo.R;
-import com.citysdk.demo.maps.Marker;
-import com.citysdk.demo.utils.TourismAPI;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
@@ -37,6 +19,25 @@ import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.google.maps.android.ui.IconGenerator;
 
+import com.citysdk.demo.R;
+import com.citysdk.demo.maps.Marker;
+import com.citysdk.demo.utils.TourismAPI;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.location.Location;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,15 +55,25 @@ import citysdk.tourism.client.poi.lists.POIS;
 import citysdk.tourism.client.poi.single.POI;
 import citysdk.tourism.client.terms.Term;
 
-public class MapsActivity extends Fragment implements Observer, ConnectionCallbacks, OnConnectionFailedListener, ClusterManager.OnClusterClickListener<Marker>, ClusterManager.OnClusterItemClickListener<Marker>, OnMapLongClickListener {
+public class MapsActivity extends Fragment
+        implements Observer, ConnectionCallbacks, OnConnectionFailedListener,
+        ClusterManager.OnClusterClickListener<Marker>,
+        ClusterManager.OnClusterItemClickListener<Marker>, OnMapLongClickListener {
 
     public static final String PREFS_NAME = "MyPrefsFile";
+
     private GoogleMap map;
+
     private ClusterManager<Marker> mClusterManager;
+
     private ActNavigationDrawer actNavigationDrawer;
+
     private SupportMapFragment fragment;
+
     private LocationClient locationClient;
+
     private com.google.android.gms.maps.model.Marker markerMyPosition;
+
     private boolean myPositionFlag = false;
 
     public MapsActivity(ActNavigationDrawer actNavigationDrawer) {
@@ -70,7 +81,8 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         setRetainInstance(true);
         View fragmentView = inflater.inflate(R.layout.act_maps, container, false);
         return fragmentView;
@@ -187,7 +199,6 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
         map.setMyLocationEnabled(true);
         map.setIndoorEnabled(true);
 
-
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
         map.setOnMarkerClickListener(mClusterManager);
@@ -196,7 +207,6 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
         mClusterManager.setOnClusterClickListener(this);
         mClusterManager.setOnClusterItemClickListener(this);
         mClusterManager.setRenderer(new MarkerRenderer());
-
 
         if (latitude == 0 && longitude == 0) {
             myPositionFlag = false;
@@ -290,7 +300,6 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
             setupMap();
         }
 
-
         clearMarker();
         drawSearchPoint(null);
         Locale locale = (Locale) TourismAPI.getURL(getActivity().getApplicationContext())[1];
@@ -305,7 +314,11 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
                 for (LocationDetails point : latlng) {
                     if (point.getType() == 1) {
                         LatLng pointToWrite = point.getLatLngList().get(0);
-                        mClusterManager.addItem(new Marker(pointToWrite.latitude, pointToWrite.longitude, DataReader.getLabel(poi, Term.LABEL_TERM_PRIMARY, locale), DataReader.getCategories(poi, locale).get(0), poi.getId(), poi.getBase()));
+                        mClusterManager.addItem(
+                                new Marker(pointToWrite.latitude, pointToWrite.longitude,
+                                        DataReader.getLabel(poi, Term.LABEL_TERM_PRIMARY, locale),
+                                        DataReader.getCategories(poi, locale).get(0), poi.getId(),
+                                        poi.getBase()));
                     } else if (point.getType() == 2) {
                         PolylineOptions rectOptions = new PolylineOptions();
                         rectOptions.width(3);
@@ -313,7 +326,11 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
                             rectOptions.add(pointToWrite);
                         }
                         LatLng latlngToWrite = centroPosition(point.getLatLngList());
-                        mClusterManager.addItem(new Marker(latlngToWrite.latitude, latlngToWrite.longitude, DataReader.getLabel(poi, Term.LABEL_TERM_PRIMARY, locale), DataReader.getCategories(poi, locale).get(0), poi.getId(), poi.getBase()));
+                        mClusterManager.addItem(
+                                new Marker(latlngToWrite.latitude, latlngToWrite.longitude,
+                                        DataReader.getLabel(poi, Term.LABEL_TERM_PRIMARY, locale),
+                                        DataReader.getCategories(poi, locale).get(0), poi.getId(),
+                                        poi.getBase()));
 
                         map.addPolyline(rectOptions);
 
@@ -324,7 +341,11 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
                             rectOptions.add(pointToWrite);
                         }
                         LatLng latlngToWrite = centroPosition(point.getLatLngList());
-                        mClusterManager.addItem(new Marker(latlngToWrite.latitude, latlngToWrite.longitude, DataReader.getLabel(poi, Term.LABEL_TERM_PRIMARY, locale), DataReader.getCategories(poi, locale).get(0), poi.getId(), poi.getBase()));
+                        mClusterManager.addItem(
+                                new Marker(latlngToWrite.latitude, latlngToWrite.longitude,
+                                        DataReader.getLabel(poi, Term.LABEL_TERM_PRIMARY, locale),
+                                        DataReader.getCategories(poi, locale).get(0), poi.getId(),
+                                        poi.getBase()));
 
                         map.addPolyline(rectOptions);
                     }
@@ -338,7 +359,8 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
 
     private List<LocationDetails> getLocation(POI poi) throws Exception {
 
-        java.util.List<GeometryContent> list = DataReader.getLocationGeometry(poi, Term.POINT_TERM_ENTRANCE);
+        java.util.List<GeometryContent> list = DataReader
+                .getLocationGeometry(poi, Term.POINT_TERM_ENTRANCE);
         if (list.size() == 0) {
             list = DataReader.getLocationGeometry(poi, Term.POINT_TERM_CENTER);
             if (list.size() == 0) {
@@ -346,8 +368,9 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
             }
         }
 
-        if (list.size() == 0)
+        if (list.size() == 0) {
             throw new Exception("POI " + poi.getId() + " has no geometries");
+        }
 
         List<LocationDetails> listLatLng = new ArrayList<LocationDetails>();
 
@@ -358,14 +381,19 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
                 LocationDetails locationDetails = new LocationDetails(1);
                 PointContent content = (PointContent) gc;
                 LocationContent location = content.getLocation();
-                locationDetails.addLatLngList(new LatLng((Float.parseFloat(location.getLatitude())), (Float.parseFloat(location.getLongitude()))));
+                locationDetails.addLatLngList(new LatLng((Float.parseFloat(location.getLatitude())),
+                        (Float.parseFloat(location.getLongitude()))));
                 listLatLng.add(locationDetails);
             }
             if (numGeo == 2) {
                 LocationDetails locationDetails = new LocationDetails(2);
                 LineContent content = (LineContent) gc;
-                locationDetails.addLatLngList(new LatLng((Float.parseFloat(content.getPointOne().getLatitude())), (Float.parseFloat(content.getPointOne().getLongitude()))));
-                locationDetails.addLatLngList(new LatLng((Float.parseFloat(content.getPointTwo().getLatitude())), (Float.parseFloat(content.getPointTwo().getLongitude()))));
+                locationDetails.addLatLngList(
+                        new LatLng((Float.parseFloat(content.getPointOne().getLatitude())),
+                                (Float.parseFloat(content.getPointOne().getLongitude()))));
+                locationDetails.addLatLngList(
+                        new LatLng((Float.parseFloat(content.getPointTwo().getLatitude())),
+                                (Float.parseFloat(content.getPointTwo().getLongitude()))));
                 listLatLng.add(locationDetails);
             }
 
@@ -373,7 +401,9 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
                 LocationDetails locationDetails = new LocationDetails(3);
                 PolygonContent content = (PolygonContent) gc;
                 for (LocationContent locationContent : content.getValues()) {
-                    locationDetails.addLatLngList(new LatLng((Float.parseFloat(locationContent.getLatitude())), (Float.parseFloat(locationContent.getLongitude()))));
+                    locationDetails.addLatLngList(
+                            new LatLng((Float.parseFloat(locationContent.getLatitude())),
+                                    (Float.parseFloat(locationContent.getLongitude()))));
                 }
                 listLatLng.add(locationDetails);
             }
@@ -441,7 +471,8 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
 
         LatLng pointToAdd;
         if (point == null) {
-            SharedPreferences userDetails = getActivity().getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
+            SharedPreferences userDetails = getActivity()
+                    .getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
             float lat = userDetails.getFloat("latPoint", 0);
             float lng = userDetails.getFloat("lngPoint", 0);
             pointToAdd = new LatLng(lat, lng);
@@ -467,6 +498,7 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
     }
 
     private class MarkerRenderer extends DefaultClusterRenderer<Marker> {
+
         private final IconGenerator mIconGenerator = new IconGenerator(getActivity());
 
         private String mTextName = "";
@@ -481,8 +513,8 @@ public class MapsActivity extends Fragment implements Observer, ConnectionCallba
 
             mTextName = person.getName();
 
-
-            View multiProfile = getActivity().getLayoutInflater().inflate(R.layout.act_maps_marker, null);
+            View multiProfile = getActivity().getLayoutInflater()
+                    .inflate(R.layout.act_maps_marker, null);
             TextView name = (TextView) multiProfile.findViewById(R.id.act_maps_marker_name);
             name.setText(mTextName);
 
