@@ -7,6 +7,7 @@
     <string name="menu_settings_search">Searching Settings</string>
     <string name="menu_events_number_days">Searching days for events</string>
 
+    <string name="categories">Categories</string>
     <string name="contacts">Contacts</string>
     <string name="phone">Phone:</string>
     <string name="mail">Mail:</string>

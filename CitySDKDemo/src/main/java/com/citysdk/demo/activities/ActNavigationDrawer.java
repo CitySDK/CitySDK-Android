@@ -86,7 +86,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
 
     private NavDrawerActivityConfiguration navDrawerActivityConfiguration;
 
-    private POIS<POI> mPoi;
+    private static POIS<POI> mPoi;
 
     private List<CategoryDomain> mCategories;
 
@@ -203,7 +203,6 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
         updateSetSelected(selectedOptions, 200);
         updateSetSelectedCategories(selectedOptions, 300);
 
-        //changeOptions();
         if (selectedOptions.equalsIgnoreCase(STR_PLACE)) {
             selectedCategories = new ArrayList<String>(selectedPlaces);
         } else if (selectedOptions.equalsIgnoreCase(STR_EVENT)) {
@@ -211,9 +210,8 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
         } else if (selectedOptions.equalsIgnoreCase(STR_ITINERARIES)) {
             selectedCategories = new ArrayList<String>(selectedItineraries);
         }
-        //performSearch();
         if (mPoi == null || mPoi.size() == 0) {
-            getPois();
+            performSearch();
         }
     }
 
@@ -407,11 +405,6 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
 
     @Override
     protected void performSearch() {
-        getPois();
-    }
-
-    private void getPois() {
-
         SharedPreferences userDetails = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
         float lat = userDetails.getFloat("latPoint", 0);
         float lng = userDetails.getFloat("lngPoint", 0);
@@ -668,14 +661,13 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
                 return;
             }
 
-            mPoi = (POIS<POI>) poi;
-            //for(int i=0; i< mPoi.size(); i++) {
-            if (mPoi.size() == 0) {
+            POIS<POI> poiEndpoint = (POIS<POI>) poi;
+            if (poiEndpoint.size() == 0) {
                 Toast.makeText(getApplicationContext(), "No endpoint available for this position." +
                         " Try in other position please", Toast.LENGTH_SHORT).show();
                 return;
             }
-            List<POITermType> links = mPoi.get(0).getLink();
+            List<POITermType> links = poiEndpoint.get(0).getLink();
 
             for (POITermType link : links) {
                 if (link.getTerm().equals(Term.LINK_TERM_DESCRIBEDBY.getTerm())) {
@@ -757,14 +749,13 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
 
     public class ObservableClass extends Observable {
 
-        private POIS<POI> poi;
 
         public POIS<POI> getValue() {
-            return poi;
+            return mPoi;
         }
 
         public void setValue(POIS<POI> poi) {
-            this.poi = poi;
+            mPoi = poi;
             setChanged();
             notifyObservers();
         }

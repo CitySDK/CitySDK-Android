@@ -1,34 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:background="#E0E0E0"
+              android:layout_height="fill_parent"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/act_show_more_info_text_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#f26522"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"/>
+
+    <ScrollView
+        android:background="#E0E0E0"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <LinearLayout
+            android:background="#E0E0E0"
+            android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
 
-    <LinearLayout
-            android:layout_width="fill_parent"
-            android:background="#E0E0E0"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-        <TextView
-                android:id="@+id/act_show_more_info_text_title"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="#f26522"
-                android:paddingBottom="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="10dp"
-                android:textColor="@android:color/white"
-                android:textSize="24sp"
-                android:textStyle="bold"/>
-
-        <android.support.v4.view.ViewPager
+            <android.support.v4.view.ViewPager
                 android:id="@+id/pager"
                 android:layout_width="fill_parent"
-                android:layout_height="600dp"
+                android:layout_height="400dp"
                 android:background="#E0E0E0"/>
 
-        <TextView
+            <TextView
                 android:id="@+id/act_show_more_info_text_image_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -36,7 +44,7 @@
                 android:paddingRight="10dp"
                 android:text=""/>
 
-        <LinearLayout
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:orientation="vertical"
@@ -45,17 +53,47 @@
                 android:paddingRight="15dp"
                 android:paddingTop="5dp">
 
-            <TextView
-                    android:id="@+id/act_show_more_info_text_category"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="15dp"
-                    android:paddingLeft="8dp"
-                    android:textColor="#f26522"
-                    android:textSize="18sp"
-                    android:textStyle="bold"/>
 
-            <LinearLayout
+
+                <LinearLayout
+                    android:id="@+id/act_show_more_info_text_category_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="4dp"
+                    android:background="@drawable/bg_card"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/act_show_more_info_text_category_header"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="10dp"
+                        android:text="@string/categories"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                    <View
+                        android:id="@+id/act_show_more_info_text_category_sep"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:background="#E0E0E0"/>
+
+
+                    <TextView
+                        android:id="@+id/act_show_more_info_text_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:paddingLeft="8dp"
+                        android:textColor="#f26522"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/act_show_more_info_text_contacts"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -64,7 +102,7 @@
                     android:orientation="vertical"
                     android:visibility="gone">
 
-                <TextView
+                    <TextView
                         android:id="@+id/act_show_more_info_text_contacts_header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -75,13 +113,13 @@
                         android:textSize="18sp"
                         android:textStyle="bold"/>
 
-                <View
+                    <View
                         android:id="@+id/act_show_more_info_text_contacts_sep"
                         android:layout_width="fill_parent"
                         android:layout_height="1dp"
                         android:background="#E0E0E0"/>
 
-                <LinearLayout
+                    <LinearLayout
                         android:id="@+id/act_show_more_info_text_contacts_rel"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
@@ -89,10 +127,10 @@
                         android:paddingBottom="15dp"
                         android:paddingTop="15dp">
 
-                    <RelativeLayout
+                        <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
-                        <TextView
+                            <TextView
                                 android:id="@+id/act_show_more_info_text_contactos_tel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -101,7 +139,7 @@
                                 android:text="@string/phone"
                                 android:textSize="16sp"/>
 
-                        <TextView
+                            <TextView
                                 android:id="@+id/act_show_more_info_text_contactos_tel_input"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -109,13 +147,13 @@
                                 android:autoLink="phone"
                                 android:text=""
                                 android:textSize="16sp"/>
-                    </RelativeLayout>
+                        </RelativeLayout>
 
 
-                    <RelativeLayout
+                        <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
-                        <TextView
+                            <TextView
                                 android:id="@+id/act_show_more_info_text_contactos_mail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -124,7 +162,7 @@
                                 android:text="@string/mail"
                                 android:textSize="16sp"/>
 
-                        <TextView
+                            <TextView
                                 android:id="@+id/act_show_more_info_text_contactos_mail_input"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -132,13 +170,13 @@
                                 android:autoLink="email"
                                 android:text=""
                                 android:textSize="16sp"/>
-                    </RelativeLayout>
+                        </RelativeLayout>
 
 
-                    <RelativeLayout
+                        <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
-                        <TextView
+                            <TextView
                                 android:id="@+id/act_show_more_info_text_contactos_url"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -147,7 +185,7 @@
                                 android:text="@string/url"
                                 android:textSize="16sp"/>
 
-                        <TextView
+                            <TextView
                                 android:id="@+id/act_show_more_info_text_contactos_url_input"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -155,12 +193,12 @@
                                 android:autoLink="web"
                                 android:text=""
                                 android:textSize="16sp"/>
-                    </RelativeLayout>
+                        </RelativeLayout>
 
-                    <RelativeLayout
+                        <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
-                        <TextView
+                            <TextView
                                 android:id="@+id/act_show_more_info_text_contactos_address"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -169,18 +207,18 @@
                                 android:text="@string/address"
                                 android:textSize="16sp"/>
 
-                        <TextView
+                            <TextView
                                 android:id="@+id/act_show_more_info_text_contactos_address_input"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_toRightOf="@+id/act_show_more_info_text_contactos_address"
                                 android:text=""
                                 android:textSize="16sp"/>
-                    </RelativeLayout>
+                        </RelativeLayout>
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
 
-            <LinearLayout
+                <LinearLayout
                     android:id="@+id/act_show_more_info_text_sch"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -189,7 +227,7 @@
                     android:orientation="vertical"
                     android:visibility="gone">
 
-                <TextView
+                    <TextView
                         android:id="@+id/act_show_more_info_text_schedule_header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -200,12 +238,12 @@
                         android:textSize="18sp"
                         android:textStyle="bold"/>
 
-                <View
+                    <View
                         android:layout_width="fill_parent"
                         android:layout_height="1dp"
                         android:background="#E0E0E0"/>
 
-                <RelativeLayout
+                    <RelativeLayout
                         android:id="@+id/act_show_more_info_text_start_end"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -213,7 +251,7 @@
                         android:paddingTop="15dp"
                         android:visibility="gone">
 
-                    <TextView
+                        <TextView
                             android:id="@+id/act_show_more_info_text_start"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -222,7 +260,7 @@
                             android:text="@string/since"
                             android:textSize="16sp"/>
 
-                    <TextView
+                        <TextView
                             android:id="@+id/act_show_more_info_text_start_input"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -231,7 +269,7 @@
                             android:text=""
                             android:textSize="16sp"/>
 
-                    <TextView
+                        <TextView
                             android:id="@+id/act_show_more_info_text_end"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -241,7 +279,7 @@
                             android:text="@string/until"
                             android:textSize="16sp"/>
 
-                    <TextView
+                        <TextView
                             android:id="@+id/act_show_more_info_text_end_input"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -249,9 +287,9 @@
                             android:layout_toRightOf="@+id/act_show_more_info_text_end"
                             android:text=""
                             android:textSize="16sp"/>
-                </RelativeLayout>
+                    </RelativeLayout>
 
-                <TextView
+                    <TextView
                         android:id="@+id/act_show_more_info_text_all"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -262,9 +300,9 @@
                         android:text=""
                         android:textSize="16sp"
                         android:visibility="gone"/>
-            </LinearLayout>
+                </LinearLayout>
 
-            <LinearLayout
+                <LinearLayout
                     android:id="@+id/act_show_more_info_text_desc"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -272,7 +310,7 @@
                     android:orientation="vertical"
                     android:visibility="gone">
 
-                <TextView
+                    <TextView
                         android:id="@+id/act_show_more_info_text_description_header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -283,12 +321,12 @@
                         android:textSize="18sp"
                         android:textStyle="bold"/>
 
-                <View
+                    <View
                         android:layout_width="fill_parent"
                         android:layout_height="1dp"
                         android:background="#E0E0E0"/>
 
-                <TextView
+                    <TextView
                         android:id="@+id/act_show_more_info_text_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -298,8 +336,8 @@
                         android:paddingTop="10dp"
                         android:text=""
                         android:textSize="16sp"/>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-
-</ScrollView>
+    </ScrollView>
+</LinearLayout>
