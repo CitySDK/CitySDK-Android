@@ -1,8 +1,8 @@
 <resources>
 
-    <string name="app_name">CitySDK Demo</string>
-    <string name="drawer_open">CitySDK Demo</string>
-    <string name="drawer_close">CitySDK Demo</string>
+    <string name="app_name">CitySDK Tourism</string>
+    <string name="drawer_open">CitySDK Tourism</string>
+    <string name="drawer_close">CitySDK Tourism</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_settings_search">Searching Settings</string>
     <string name="menu_events_number_days">Searching days for events</string>
