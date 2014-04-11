@@ -26,7 +26,11 @@ public class PoisProvider extends ContentProvider {
         sUriMatcher.addURI(AUTHORITY, "categories/*", CATEGORY_ID);
     }
 
-    FeedDatabase mDatabaseHelper;
+    static FeedDatabase mDatabaseHelper;
+
+    public static SQLiteDatabase getDatabaseHelper() {
+        return mDatabaseHelper.getWritableDatabase();
+    }
 
     @Override
     public boolean onCreate() {

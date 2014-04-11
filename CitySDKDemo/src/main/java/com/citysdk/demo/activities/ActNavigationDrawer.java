@@ -4,6 +4,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import com.citysdk.demo.R;
 import com.citysdk.demo.contracts.PoisContract;
+import com.citysdk.demo.contracts.PoisProvider;
 import com.citysdk.demo.domain.CategoryDomain;
 import com.citysdk.demo.listener.OnResultsListener;
 import com.citysdk.demo.navigationdrawer.AbstractNavDrawerActivity;
@@ -20,15 +21,18 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
@@ -399,11 +403,6 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
         saveMenuOptions();
     }
 
-
-    private void updateCategories() {
-        SyncUtils.TriggerRefresh();
-    }
-
     @Override
     protected void performSearch() {
         SharedPreferences userDetails = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
@@ -425,7 +424,6 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
 
         if (hash.equals(selectedOptions + selectedCategories.hashCode()) && hasPois && compareFloat
                 (getSavedPoint()[0], lat) && compareFloat(getSavedPoint()[1], lng)) {
-            Log.d(TAG, "Already has the information");
             return;
         }
 
@@ -521,7 +519,6 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
     private void selectElementCategories(String label) {
 
         if (selectedCategories.contains(label)) {
-            Log.d(TAG, "contains: " + label);
             setItemCheckedCategories(300, label, false);
             selectedCategories.remove(selectedCategories.indexOf(label));
         } else {
@@ -537,7 +534,6 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
                 }
             }
 
-            Log.d(TAG, "not contains: " + label);
             setItemCheckedCategories(300, label, true);
             selectedCategories.add(label);
         }
@@ -647,7 +643,6 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
             String bytesOfMessage) {
 
         if (id == 1) {
-
             if (poi == null || ((POIS<POI>) poi).size() == 0) {
                 observerClass.setValue(null);
 
@@ -657,21 +652,36 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
             setProgressBarIndeterminateVisibility(false);
 
         } else if (id == 2) {
-
             if (poi == null) {
+
+                SQLiteDatabase db= PoisProvider.getDatabaseHelper();
+                String deleteSQL = "DELETE FROM " + "category";
+                db.execSQL(deleteSQL);
+                getApplicationContext().getContentResolver().notifyChange(
+                        PoisContract.Category.CONTENT_URI,
+                        null,
+                        false);
+
                 setProgressBarIndeterminateVisibility(false);
                 return;
             }
 
             POIS<POI> poiEndpoint = (POIS<POI>) poi;
             if (poiEndpoint.size() == 0) {
+                SQLiteDatabase db= PoisProvider.getDatabaseHelper();
+                String deleteSQL = "DELETE FROM " + "category";
+                db.execSQL(deleteSQL);
+                getApplicationContext().getContentResolver().notifyChange(
+                        PoisContract.Category.CONTENT_URI,
+                        null,
+                        false);
+
                 Toast.makeText(getApplicationContext(), "No endpoint available for this position." +
                         " Try in other position please", Toast.LENGTH_SHORT).show();
                 setProgressBarIndeterminateVisibility(false);
                 return;
             }
             List<POITermType> links = poiEndpoint.get(0).getLink();
-
             for (POITermType link : links) {
                 if (link.getTerm().equals(Term.LINK_TERM_DESCRIBEDBY.getTerm())) {
                     if (!link.getValue().equals("")) {
@@ -689,6 +699,20 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
                                 "http://tourism.citysdk.lamia-city.gr/resources")) {
                             TourismAPI.setURL(this, link.getValue(), "el-GR");
                         }
+                        else {
+                            SQLiteDatabase db= PoisProvider.getDatabaseHelper();
+                            String deleteSQL = "DELETE FROM " + "category";
+                            db.execSQL(deleteSQL);
+                            getApplicationContext().getContentResolver().notifyChange(
+                                    PoisContract.Category.CONTENT_URI,
+                                    null,
+                                    false);
+
+                            Toast.makeText(getApplicationContext(), "No endpoint available for this position." +
+                                    " Try in other position please", Toast.LENGTH_SHORT).show();
+                            setProgressBarIndeterminateVisibility(false);
+                            return;
+                        }
 
                         SyncUtils.TriggerRefresh();
 
@@ -699,7 +723,6 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
     }
 
     public void changeEndpoint(LatLng point) {
-
         SharedPreferences userDetails = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
         float latitude = userDetails.getFloat("latPoint", 0);
         float longitude = userDetails.getFloat("lngPoint", 0);
@@ -739,7 +762,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
         c.close();
 
         if ((oldPoint.latitude == 0 && oldPoint.longitude == 0)
-                || distanceToPoints(oldPoint, newPoint) > 10000 || rows == 0) {
+                || distanceToPoints(oldPoint, newPoint) > 1000 || rows == 0) {
             setProgressBarIndeterminateVisibility(true);
 
             selectedCategories = new ArrayList<String>();
@@ -748,7 +771,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
 
             TourismAPI.getEndpoint((OnResultsListener) this, list);
 
-            updateCategories();
+            //SyncUtils.TriggerRefresh();
         }
     }
 
