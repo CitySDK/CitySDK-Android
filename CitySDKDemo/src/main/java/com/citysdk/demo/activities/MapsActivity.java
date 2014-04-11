@@ -36,6 +36,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.lang.reflect.Field;
@@ -76,6 +77,7 @@ public class MapsActivity extends Fragment
 
     private boolean myPositionFlag = false;
 
+    private View fragmentView;
     public MapsActivity(ActNavigationDrawer actNavigationDrawer) {
         this.actNavigationDrawer = actNavigationDrawer;
     }
@@ -84,7 +86,7 @@ public class MapsActivity extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         setRetainInstance(true);
-        View fragmentView = inflater.inflate(R.layout.act_maps, container, false);
+        fragmentView = inflater.inflate(R.layout.act_maps, container, false);
         return fragmentView;
     }
 
@@ -106,6 +108,30 @@ public class MapsActivity extends Fragment
         setupMap();
         actNavigationDrawer.getObservableClass().addObserver(this);
 
+
+        View background = fragmentView.findViewById(R.id.act_navdrawer_background);
+        Button btn = (Button) fragmentView.findViewById(R.id.act_navdrawer_btn);
+        SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, 0);
+        boolean firstTime = prefs.getBoolean("firstTime", true);
+        if (firstTime) {
+            background.setVisibility(View.VISIBLE);
+        } else {
+            background.setVisibility(View.GONE);
+        }
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View backgroud = fragmentView.findViewById(R.id.act_navdrawer_background);
+                backgroud.setVisibility(View.GONE);
+
+                SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("firstTime", false);
+                editor.commit();
+            }
+        });
+
         //if(actNavigationDrawer.getObservableClass().getValue() != null && actNavigationDrawer
         //      .getObservableClass().getValue().size()!=0) {
         //showMarker(actNavigationDrawer.getObservableClass().getValue());
@@ -120,7 +146,7 @@ public class MapsActivity extends Fragment
         actNavigationDrawer.getObservableClass().deleteObserver(this);
         SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.clear();
+        //editor.clear();
         if (map != null) {
             editor.putFloat("zoom", map.getCameraPosition().zoom);
             editor.putFloat("tilt", map.getCameraPosition().tilt);
@@ -260,12 +286,20 @@ public class MapsActivity extends Fragment
     @Override
     public void onMapLongClick(final LatLng point) {
 
+        View backgroud = fragmentView.findViewById(R.id.act_navdrawer_background);
+        backgroud.setVisibility(View.GONE);
+
+        SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("firstTime", false);
+        editor.commit();
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setTitle("Search");
-        builder.setMessage("Do you want to search for information around here?");
+        builder.setTitle(R.string.search);
+        builder.setMessage(R.string.searchHere);
 
-        builder.setPositiveButton("Pick Category", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.pickCategory, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -276,7 +310,7 @@ public class MapsActivity extends Fragment
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
             }

@@ -18,4 +18,9 @@
     <string name="until">Until:</string>
     <string name="description">Description</string>
 
+    <string name="search">Search</string>
+    <string name="searchHere">Use this location?</string>
+    <string name="pickCategory">Choose Category</string>
+    <string name="cancel">Cancel</string>
+
 </resources>

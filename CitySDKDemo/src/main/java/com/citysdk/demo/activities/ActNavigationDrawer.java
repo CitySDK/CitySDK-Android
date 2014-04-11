@@ -39,6 +39,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -658,6 +659,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
         } else if (id == 2) {
 
             if (poi == null) {
+                setProgressBarIndeterminateVisibility(false);
                 return;
             }
 
@@ -665,6 +667,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
             if (poiEndpoint.size() == 0) {
                 Toast.makeText(getApplicationContext(), "No endpoint available for this position." +
                         " Try in other position please", Toast.LENGTH_SHORT).show();
+                setProgressBarIndeterminateVisibility(false);
                 return;
             }
             List<POITermType> links = poiEndpoint.get(0).getLink();
@@ -722,8 +725,21 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
         } catch (InvalidValueException e) {
             e.printStackTrace();
         }
+
+        final ContentResolver contentResolver = getApplicationContext().getContentResolver();
+        Cursor c = contentResolver.query(
+                PoisContract.Category.CONTENT_URI,
+                PoisContract.Category.PROJECTION_CATEGORY,
+                PoisContract.Category.COLUMN_CATEGORY_OPTION + "= '" + convertSTRtoDB(
+                        selectedOptions) + "'",
+                null,
+                PoisContract.Category._ID);
+
+        int rows = c.getCount();
+        c.close();
+
         if ((oldPoint.latitude == 0 && oldPoint.longitude == 0)
-                || distanceToPoints(oldPoint, newPoint) > 10000) {
+                || distanceToPoints(oldPoint, newPoint) > 10000 || rows == 0) {
             setProgressBarIndeterminateVisibility(true);
 
             selectedCategories = new ArrayList<String>();
