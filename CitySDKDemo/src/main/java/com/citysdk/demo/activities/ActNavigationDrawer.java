@@ -69,6 +69,8 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
 
     private static final String TAG = "NavigationDrawer";
 
+    private static final int SEARCH_LIMIT_POIS = 300;
+
     private static final int FETCH_CATEGORIES = 0;
 
     private static String STR_PLACE = "places";
@@ -433,11 +435,15 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
 
         try {
             if (selectedCategories.contains("All Categories")) {
-                list.add(new Parameter(ParameterTerms.LIMIT, 300));
-                list.add(new Parameter(ParameterTerms.COORDS, lat + " " + lng + " " + 400));
+                list.add(new Parameter(ParameterTerms.LIMIT, SEARCH_LIMIT_POIS));
+                list.add(new Parameter(ParameterTerms.COORDS, lat + " " + lng + " " + 500));
 
             } else {
-                list.add(new Parameter(ParameterTerms.LIMIT, 300));
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+                String syncConnPref = sharedPref.getString(SettingsActivity.PREF_SEARCH_RADIUS, "10000");
+
+                list.add(new Parameter(ParameterTerms.LIMIT, SEARCH_LIMIT_POIS));
+                list.add(new Parameter(ParameterTerms.COORDS, lat + " " + lng + " " + syncConnPref));
                 list.add(new Parameter(ParameterTerms.CATEGORY, selectedCategories));
             }
 
@@ -647,6 +653,9 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
                 observerClass.setValue(null);
 
             } else {
+                if(((POIS<POI>) poi).size() == SEARCH_LIMIT_POIS) {
+                    Toast.makeText(this, R.string.limit_search, Toast.LENGTH_LONG).show();
+                }
                 observerClass.setValue((POIS<POI>) poi);
             }
             setProgressBarIndeterminateVisibility(false);

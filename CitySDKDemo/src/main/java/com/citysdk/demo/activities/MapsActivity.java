@@ -275,6 +275,8 @@ public class MapsActivity extends Fragment
             map = fragment.getMap();
             if (map != null) {
                 map.clear();
+                drawSearchPoint(null);
+
             }
             if (mClusterManager != null) {
                 mClusterManager.clearItems();

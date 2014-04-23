@@ -23,6 +23,11 @@ public class SettingsFragment extends PreferenceFragment
         Preference connectionPref = findPreference(SettingsActivity.PREF_MENU_EVENTS_DAYS);
         connectionPref.setSummary(
                 sharedPreferences.getString(SettingsActivity.PREF_MENU_EVENTS_DAYS, "7"));
+
+        Preference radiusPref = findPreference(SettingsActivity.PREF_SEARCH_RADIUS);
+        String radius = sharedPreferences.getString(SettingsActivity.PREF_SEARCH_RADIUS, "10000");
+        radiusPref.setSummary(radius + "m");
+
     }
 
 
@@ -44,6 +49,11 @@ public class SettingsFragment extends PreferenceFragment
         if (key.equals(SettingsActivity.PREF_MENU_EVENTS_DAYS)) {
             Preference connectionPref = findPreference(key);
             connectionPref.setSummary(sharedPreferences.getString(key, "7"));
+        } else if (key.equals(SettingsActivity.PREF_SEARCH_RADIUS)) {
+            Preference connectionPref = findPreference(key);
+            String radius = sharedPreferences.getString(key, "10000");
+            connectionPref.setSummary(radius + "m");
         }
+
     }
 }

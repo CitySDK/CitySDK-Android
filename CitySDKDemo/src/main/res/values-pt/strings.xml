@@ -6,6 +6,9 @@
     <string name="menu_settings">Opções</string>
     <string name="menu_settings_search">Opções de Procura</string>
     <string name="menu_events_number_days">Dias de procura para eventos</string>
+    <string name="menu_search_radius">Raio de procura em metros</string>
+
+    <string name="limit_search">Resultado da procura chegou ao limite, por favor ajuste o raio de procura nas definições.</string>
 
     <string name="categories">Categorias</string>
     <string name="contacts">Contactos</string>
