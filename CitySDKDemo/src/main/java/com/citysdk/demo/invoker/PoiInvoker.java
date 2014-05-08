@@ -15,8 +15,10 @@ public class PoiInvoker extends Invoker {
     public POI invoke(ParameterList parameterList, String homeUrl) {
         try {
             TourismClient client = TourismClientFactory.getInstance().getClient(homeUrl);
-            client.useVersion(version);
-            return client.getPoi(base, id);
+            if (client != null) {
+                client.useVersion(version);
+                return client.getPoi(base, id);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (UnknownErrorException e) {

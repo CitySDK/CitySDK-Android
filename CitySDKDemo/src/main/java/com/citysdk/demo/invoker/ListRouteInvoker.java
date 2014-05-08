@@ -18,8 +18,10 @@ public class ListRouteInvoker extends Invoker {
     public POI invoke(ParameterList parameterList, String homeUrl) {
         try {
             TourismClient client = TourismClientFactory.getInstance().getClient(homeUrl);
-            client.useVersion(version);
-            return client.getRoutes(parameterList);
+            if (client != null) {
+                client.useVersion(version);
+                return client.getRoutes(parameterList);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InvalidParameterException e) {

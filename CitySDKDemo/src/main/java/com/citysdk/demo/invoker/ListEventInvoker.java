@@ -21,9 +21,11 @@ public class ListEventInvoker extends Invoker {
     public POI invoke(ParameterList parameterList, String homeUrl) {
         try {
             client = TourismClientFactory.getInstance().getClient(homeUrl);
-            client.useVersion(version);
-            ListEvent list = client.getEvents(parameterList);
-            return list;
+            if (client != null) {
+                client.useVersion(version);
+                ListEvent list = client.getEvents(parameterList);
+                return list;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InvalidParameterException e) {

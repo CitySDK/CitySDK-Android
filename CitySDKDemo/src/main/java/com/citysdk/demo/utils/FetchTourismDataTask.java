@@ -1,6 +1,5 @@
 package com.citysdk.demo.utils;
 
-
 import com.citysdk.demo.invoker.Invoker;
 import com.citysdk.demo.listener.OnResultsListener;
 

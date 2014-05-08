@@ -371,12 +371,10 @@ final public class TourismAPI {
         String uri = (String) getURL(context)[0];
         if (task != null && (task.getStatus().equals(AsyncTask.Status.PENDING) || task.getStatus()
                 .equals(AsyncTask.Status.RUNNING))) {
-            System.out.println("task cancelled");
             task.cancel(true);
             task = new FetchTourismDataTask(uri, invoker, listener, bytesOfMessage);
             task.execute(list);
         } else {
-            System.out.println("task executing");
             task = new FetchTourismDataTask(uri, invoker, listener, bytesOfMessage);
             task.execute(list);
         }

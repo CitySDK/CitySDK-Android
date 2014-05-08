@@ -18,9 +18,10 @@ public class CategoriesInvoker extends Invoker {
     public POI invoke(ParameterList parameterList, String homeUrl) {
         try {
             TourismClient client = TourismClientFactory.getInstance().getClient(homeUrl);
-            client.useVersion(version);
-
-            return client.getCategories(parameterList);
+            if (client != null) {
+                client.useVersion(version);
+                return client.getCategories(parameterList);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (UnknownErrorException e) {
