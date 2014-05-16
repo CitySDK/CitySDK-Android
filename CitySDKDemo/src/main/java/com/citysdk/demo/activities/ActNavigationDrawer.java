@@ -32,11 +32,13 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -61,7 +63,8 @@ import citysdk.tourism.client.terms.ParameterTerms;
 import citysdk.tourism.client.terms.Term;
 
 public class ActNavigationDrawer extends AbstractNavDrawerActivity
-        implements OnResultsListener, LocationListener, LoaderManager.LoaderCallbacks<Cursor> {
+        implements OnResultsListener, LocationListener, LoaderManager.LoaderCallbacks<Cursor>,
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = "NavigationDrawer";
 
@@ -132,6 +135,10 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
 
         observerClass = new ObservableClass();
         locationManager.requestLocationUpdates(provider, 1000, 1, this);
+
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(this);
+        prefs.registerOnSharedPreferenceChangeListener(this);
 
         if (location != null) {
             onLocationChanged(location);
@@ -431,8 +438,12 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
 
         try {
             if (selectedCategories.contains("All Categories")) {
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
                 list.add(new Parameter(ParameterTerms.LIMIT, SEARCH_LIMIT_POIS));
-                list.add(new Parameter(ParameterTerms.COORDS, lat + " " + lng + " " + 500));
+                //list.add(new Parameter(ParameterTerms.COORDS, lat + " " + lng + " " + 500));
+                String syncConnPref = sharedPref.getString(SettingsActivity.PREF_SEARCH_RADIUS, "10000");
+                list.add(new Parameter(ParameterTerms.COORDS, lat + " " + lng + " " + syncConnPref));
+
 
             } else {
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -789,6 +800,15 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
         double x = (lon2 - lon1) * Math.cos((lat1 + lat2) / 2);
         double y = (lat2 - lat1);
         return Math.sqrt(x * x + y * y) * R;
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(SettingsActivity.PREF_MENU_EVENTS_DAYS)) {
+            observerClass.setValue(null);
+        } else if (key.equals(SettingsActivity.PREF_SEARCH_RADIUS)) {
+            observerClass.setValue(null);
+        }
     }
 
     public class ObservableClass extends Observable {
