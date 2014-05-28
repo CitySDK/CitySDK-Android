@@ -2,8 +2,8 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.citysdk.demo"
-          android:versionCode="34"
-          android:versionName="0.20140516">
+          android:versionCode="35"
+          android:versionName="0.20140528">
 
     <uses-feature
             android:glEsVersion="0x00020000"
