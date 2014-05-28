@@ -41,6 +41,8 @@ import android.widget.TextView;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
@@ -470,7 +472,16 @@ public class MapsActivity extends Fragment
 
         CharSequence[] arr = new CharSequence[cluster.getSize()];
 
-        final Marker[] list = cluster.getItems().toArray(new Marker[cluster.getItems().size()]);
+        Collection<Marker> items = cluster.getItems();
+        java.util.Collections.sort((List<Marker>) items, new Comparator<Marker>() {
+            @Override
+            public int compare(Marker lhs, Marker rhs) {
+                return lhs.getName().compareTo(rhs.getName());
+            }
+        });
+
+
+        final Marker[] list = items.toArray(new Marker[items.size()]);
         for (int i = 0; i < list.length; i++) {
             arr[i] = list[i].getName();
         }

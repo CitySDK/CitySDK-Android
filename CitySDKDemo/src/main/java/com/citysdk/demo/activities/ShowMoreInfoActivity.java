@@ -25,6 +25,9 @@ import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -115,6 +118,49 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
             e.printStackTrace();
         } catch (InvalidValueException e) {
             e.printStackTrace();
+        }
+
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                try {
+//                    APIWrapper wrapper = new APIWrapperFactory("http://web4.cm-lisboa.pt/citySDK/v1",
+//                            Format.XML).build();
+//                    for (Service s : wrapper.getServiceList()) {
+//                        System.out.println("    -     " + s.getServiceCode());
+//                    }
+//                    APIWrapper wrapperPost = new APIWrapperFactory("http://web4.cm-lisboa.pt/citySDK/v1",Format.XML).setApiKey("***REMOVED***").build();
+//
+//                    POSTServiceRequestData psrd = new POSTServiceRequestData("652", 38.715209f ,-9.140453f, null);
+//
+//                    psrd.setDescription("Teste Teste Teste Teste Teste Teste Teste Teste Teste Teste");
+//                    psrd.setLatLong(38.715209f, -9.140453f);
+//                    POSTServiceRequestResponse response =  wrapperPost.postServiceRequest(psrd);
+//                    System.out.println("~~~~"+ response.getServiceRequestId());
+//                } catch (APIWrapperException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }).start();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

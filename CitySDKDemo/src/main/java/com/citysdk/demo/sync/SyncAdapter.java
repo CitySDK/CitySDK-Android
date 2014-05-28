@@ -56,9 +56,29 @@ class SyncAdapter extends AbstractThreadedSyncAdapter implements OnResultsListen
             ContentProviderClient provider, SyncResult syncResult) {
         Log.i(TAG, "onPerformSync()");
 
-        getCategories(ParameterTerms.POIS.getTerm());
-        getCategories(ParameterTerms.EVENTS.getTerm());
-        getCategories(ParameterTerms.ROUTES.getTerm());
+        new Thread() {
+            @Override
+            public void run() {
+                getCategories(ParameterTerms.POIS.getTerm());
+
+            }
+        }.start();
+
+        new Thread() {
+            @Override
+            public void run() {
+                getCategories(ParameterTerms.EVENTS.getTerm());
+
+            }
+        }.start();
+
+        new Thread() {
+            @Override
+            public void run() {
+                getCategories(ParameterTerms.ROUTES.getTerm());
+
+            }
+        }.start();
     }
 
     private void getCategories(String pois) {

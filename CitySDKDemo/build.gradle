@@ -80,5 +80,8 @@ dependencies {
     compile group: 'com.nostra13.universalimageloader', name: 'universal-image-loader',
             version: '1.9.1'
 
+    compile group: 'org.codeforamerica.open311', name: 'jreport',
+            version: '0.0.4'
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }

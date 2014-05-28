@@ -21,6 +21,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
@@ -114,7 +116,17 @@ public class ListActivity extends Fragment implements Observer {
             }
         }
 
-        mAdapter = new MarkerAdapter(getActivity().getApplicationContext(), lista);
+
+        Collection<Marker> items = lista;
+        java.util.Collections.sort((List<Marker>) items, new Comparator<Marker>() {
+            @Override
+            public int compare(Marker lhs, Marker rhs) {
+                return lhs.getName().compareTo(rhs.getName());
+            }
+        });
+
+        mAdapter = new MarkerAdapter(getActivity().getApplicationContext(),
+                (ArrayList<Marker>) items);
         mListView.setAdapter(mAdapter);
 
         mListView.setOnItemClickListener(new OnItemClickListener() {
