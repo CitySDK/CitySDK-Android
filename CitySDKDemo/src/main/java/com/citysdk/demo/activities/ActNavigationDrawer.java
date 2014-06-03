@@ -32,13 +32,11 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -401,7 +399,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
             }
             changeOptions();
 
-        } else if (id > 300 && id < 400) {
+        } else if (id > 300) {
             selectElementCategories(label);
         }
 
