@@ -27,4 +27,6 @@
     <string name="pickCategory">Choose Category</string>
     <string name="cancel">Cancel</string>
 
+    <string name="reportProblem">Report Problem</string>
+    <string name="report">Report</string>
 </resources>

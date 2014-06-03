@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/dialog_report_layout"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:padding="15dp"
+              android:layout_height="match_parent">
+
+    <TextView
+            android:id="@+id/dialog_report_name"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:textSize="18sp"
+            android:textColor="@android:color/darker_gray"
+            android:paddingBottom="10dp"
+            android:text="id"/>
+
+    <EditText
+            android:id="@+id/dialog_report_input"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp"
+            android:hint="Describe the problem to be submitted"
+            />
+
+</LinearLayout>

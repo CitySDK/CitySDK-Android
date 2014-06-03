@@ -1,5 +1,7 @@
 package com.citysdk.demo.activities;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import com.citysdk.demo.R;
 import com.citysdk.demo.listener.OnResultsListener;
 import com.citysdk.demo.utils.TourismAPI;
@@ -16,8 +18,17 @@ import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
 
 import org.apache.commons.lang3.StringUtils;
+import org.codeforamerica.open311.facade.APIWrapper;
+import org.codeforamerica.open311.facade.APIWrapperFactory;
+import org.codeforamerica.open311.facade.Format;
+import org.codeforamerica.open311.facade.data.POSTServiceRequestResponse;
+import org.codeforamerica.open311.facade.data.operations.POSTServiceRequestData;
+import org.codeforamerica.open311.facade.exceptions.APIWrapperException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -33,6 +44,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -45,7 +57,12 @@ import java.util.Locale;
 import citysdk.tourism.client.exceptions.InvalidParameterException;
 import citysdk.tourism.client.exceptions.InvalidValueException;
 import citysdk.tourism.client.parser.DataReader;
+import citysdk.tourism.client.parser.data.GeometryContent;
 import citysdk.tourism.client.parser.data.ImageContent;
+import citysdk.tourism.client.parser.data.LineContent;
+import citysdk.tourism.client.parser.data.LocationContent;
+import citysdk.tourism.client.parser.data.PointContent;
+import citysdk.tourism.client.parser.data.PolygonContent;
 import citysdk.tourism.client.poi.base.POITermType;
 import citysdk.tourism.client.poi.single.POI;
 import citysdk.tourism.client.poi.single.PointOfInterest;
@@ -71,6 +88,12 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
     int positionGeral = 1;
 
     TextView imageNumber;
+
+    String name;
+    String url;
+    String idMoreInfo;
+
+    List<GeometryContent> pos;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -107,13 +130,13 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
         Intent i = getIntent();
         String id = i.getStringExtra("id");
         String base = i.getStringExtra("base");
-
+        url = base+id;
+        idMoreInfo = id;
         try {
             ParameterList list = new ParameterList();
             list.add(new Parameter(ParameterTerms.ID, id));
             list.add(new Parameter(ParameterTerms.BASE, base));
             TourismAPI.getSinglePoi(getApplicationContext(), this, list);
-
         } catch (InvalidParameterException e) {
             e.printStackTrace();
         } catch (InvalidValueException e) {
@@ -149,7 +172,7 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
+        inflater.inflate(R.menu.moreinfo, menu);
         return true;
     }
 
@@ -159,6 +182,9 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
             case R.id.menu_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
+            case R.id.menu_report:
+                showReportDialog();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -167,6 +193,91 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
     @Override
     public void onPause() {
         super.onPause();
+    }
+
+    private void showReportDialog() {
+        Context mContext = getApplicationContext();
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.dialog_report, (ViewGroup) findViewById(R.id.dialog_report_layout));
+
+        if(StringUtils.isEmpty(name)) {
+            Toast.makeText(getApplicationContext(), "problem in name", Toast.LENGTH_SHORT);
+        }
+
+        if (pos.size() == 0) {
+            Toast.makeText(getApplicationContext(), "has no geometries", Toast.LENGTH_SHORT);
+        }
+
+        ((TextView) layout.findViewById(R.id.dialog_report_name)).setText(name);
+        final TextView description = ((TextView) layout.findViewById(R.id.dialog_report_input));
+        final LatLng latLng;
+
+        int numGeo = pos.get(0).getNumGeo();
+
+        if (numGeo == 1) {
+            PointContent content = (PointContent) pos.get(0);
+            LocationContent location = content.getLocation();
+            latLng = new LatLng((Float.parseFloat(location.getLatitude())), (Float.parseFloat(location.getLongitude())));
+
+        }
+        else if (numGeo == 2) {
+            LineContent content = (LineContent) pos.get(0);
+            latLng = new LatLng((Float.parseFloat(content.getPointOne().getLatitude())), (Float.parseFloat(content.getPointOne().getLongitude())));
+
+        }
+        else if (numGeo > 2) {
+            PolygonContent content = (PolygonContent) pos.get(0);
+            latLng =  new LatLng((Float.parseFloat(content.getValues().get(0).getLatitude())),(Float.parseFloat(content.getValues().get(0).getLongitude())));
+
+        }
+        else {
+            latLng = new LatLng(0,0);
+        }
+
+        new AlertDialog.Builder(this)
+                .setView(layout)
+                .setTitle(R.string.reportProblem)
+                .setPositiveButton(R.string.report, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String desc = "ID: "+idMoreInfo+" URL: "+url + " Description: "+description.getText().toString();
+                        if(!StringUtils.isEmpty(desc)) {
+
+                            sendReport(desc, latLng);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "You must provide a description", Toast.LENGTH_SHORT);
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    } })
+                .show();
+    }
+
+    private void sendReport(final String description, final LatLng latlng) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    /*
+                    APIWrapper wrapper = new APIWrapperFactory("http://web4.cm-lisboa.pt/citySDK/v1",
+                            Format.XML).build();
+                    for (Service s : wrapper.getServiceList()) {
+                        System.out.println("    -     " + s.getServiceCode());
+                    }
+                    */
+                    APIWrapper wrapperPost = new APIWrapperFactory("http://web4.cm-lisboa.pt/citySDK/v1",Format.XML).setApiKey("***REMOVED***").build();
+                    POSTServiceRequestData psrd = new POSTServiceRequestData("652", (float)latlng.latitude , (float)latlng.longitude, null);
+                    psrd.setDescription(description);
+                    //psrd.setLatLong(38.715209f, -9.140453f);
+                    POSTServiceRequestResponse response =  wrapperPost.postServiceRequest(psrd);
+                    System.out.println("~~~~"+ response.getServiceRequestId());
+                } catch (APIWrapperException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     @Override
@@ -181,7 +292,15 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
 
         Locale locale = (Locale) TourismAPI.getURL(getApplicationContext())[1];
 
-        String name = DataReader.getLabel(pois, Term.LABEL_TERM_PRIMARY, locale);
+        name = DataReader.getLabel(pois, Term.LABEL_TERM_PRIMARY, locale);
+
+        pos = DataReader.getLocationGeometry(poi, Term.POINT_TERM_ENTRANCE);
+        if (pos.size() == 0) {
+            pos = DataReader.getLocationGeometry(poi, Term.POINT_TERM_CENTER);
+            if (pos.size() == 0) {
+                pos = DataReader.getLocationGeometry(poi, Term.POINT_TERM_NAVIGATION_POINT);
+            }
+        }
 
         String contacts = DataReader.getContacts(pois);
 
