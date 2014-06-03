@@ -30,6 +30,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -172,7 +173,15 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.moreinfo, menu);
+        String apikey = getPrefApiKey();
+        String endpoint = getPrefEndpoint();
+        String serviceCode = getPrefServiceCode();
+        if (!StringUtils.isEmpty(apikey) && !StringUtils.isEmpty(endpoint)
+                && !StringUtils.isEmpty(serviceCode)) {
+            inflater.inflate(R.menu.moreinfo, menu);
+        } else {
+            inflater.inflate(R.menu.main, menu);
+        }
         return true;
     }
 
@@ -239,40 +248,62 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
                 .setTitle(R.string.reportProblem)
                 .setPositiveButton(R.string.report, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        String desc = "ID: "+idMoreInfo+" URL: "+url + " Description: "+description.getText().toString();
-                        if(!StringUtils.isEmpty(desc)) {
-
-                            sendReport(desc, latLng);
+                        String desc = "ID: " + idMoreInfo + " URL: " + url + " Description: "
+                                + description.getText().toString();
+                        if (!StringUtils.isEmpty(description.getText())) {
+                            String apikey = getPrefApiKey();
+                            String endpoint = getPrefEndpoint();
+                            String serviceCode = getPrefServiceCode();
+                            if (!StringUtils.isEmpty(apikey) && !StringUtils.isEmpty(endpoint)
+                                    && !StringUtils.isEmpty(serviceCode)) {
+                                sendReport(desc, latLng, endpoint,serviceCode, apikey );
+                            }
                         } else {
-                            Toast.makeText(getApplicationContext(), "You must provide a description", Toast.LENGTH_SHORT);
+                            Toast.makeText(getApplicationContext(),
+                                    "You must provide a description", Toast.LENGTH_SHORT).show();
                         }
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
-                    } })
+                    }
+                })
                 .show();
     }
 
-    private void sendReport(final String description, final LatLng latlng) {
+    private String getPrefApiKey() {
+        SharedPreferences userDetails = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
+        return userDetails.getString("openApiKey", "");
+    }
+
+    private String getPrefEndpoint() {
+        SharedPreferences userDetails = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
+        return userDetails.getString("openEndpoint", "");
+    }
+    private String getPrefServiceCode() {
+        SharedPreferences userDetails = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
+        return userDetails.getString("openServiceCode", "");
+    }
+
+    private void sendReport(final String description, final LatLng latlng, final String url, final String serviceCode, final String key) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    /*
-                    APIWrapper wrapper = new APIWrapperFactory("http://web4.cm-lisboa.pt/citySDK/v1",
-                            Format.XML).build();
-                    for (Service s : wrapper.getServiceList()) {
-                        System.out.println("    -     " + s.getServiceCode());
-                    }
-                    */
-                    APIWrapper wrapperPost = new APIWrapperFactory("http://web4.cm-lisboa.pt/citySDK/v1",Format.XML).setApiKey("***REMOVED***").build();
-                    POSTServiceRequestData psrd = new POSTServiceRequestData("652", (float)latlng.latitude , (float)latlng.longitude, null);
+                    //http://web4.cm-lisboa.pt/citySDK/v1
+                    //***REMOVED***
+                    //652
+                    APIWrapper wrapperPost = new APIWrapperFactory(url,Format.XML).setApiKey(key).build();
+                    POSTServiceRequestData psrd = new POSTServiceRequestData(serviceCode, (float)latlng.latitude , (float)latlng.longitude, null);
                     psrd.setDescription(description);
-                    //psrd.setLatLong(38.715209f, -9.140453f);
-                    POSTServiceRequestResponse response =  wrapperPost.postServiceRequest(psrd);
-                    System.out.println("~~~~"+ response.getServiceRequestId());
+                    final POSTServiceRequestResponse response =  wrapperPost.postServiceRequest(psrd);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "Problem submitted with id: "+response.getServiceRequestId(), Toast.LENGTH_LONG).show();
+                        }
+                    });
                 } catch (APIWrapperException e) {
                     e.printStackTrace();
                 }

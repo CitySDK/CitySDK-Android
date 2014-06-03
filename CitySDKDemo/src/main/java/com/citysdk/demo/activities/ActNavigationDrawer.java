@@ -14,6 +14,7 @@ import com.citysdk.demo.navigationdrawer.NavDrawerItem;
 import com.citysdk.demo.navigationdrawer.NavMenuItem;
 import com.citysdk.demo.navigationdrawer.NavMenuSection;
 import com.citysdk.demo.sync.SyncUtils;
+import com.citysdk.demo.utils.Const;
 import com.citysdk.demo.utils.TourismAPI;
 import com.citysdk.demo.utils.XmlParser;
 
@@ -703,15 +704,19 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
                         if (link.getValue().equalsIgnoreCase(
                                 "http://tourism.citysdk.cm-lisboa.pt/resources")) {
                             TourismAPI.setURL(this, link.getValue(), "pt-PT");
+                            changeOpen311(Const.OPEN311_LISBON_APIKEY, Const.OPEN311_LISBON_ENDPOINT, Const.OPEN311_LISBON_SERVICECODE);
                         } else if (link.getValue()
                                 .equalsIgnoreCase("http://citysdk.dmci.hva.nl/CitySDK/resources")) {
                             TourismAPI.setURL(this, link.getValue(), "nl-NL");
+                            changeOpen311("","","");
                         } else if (link.getValue().equalsIgnoreCase(
                                 "http://citysdk.inroma.roma.it/CitySDK/resources")) {
                             TourismAPI.setURL(this, link.getValue(), "it-IT");
+                            changeOpen311("","","");
                         } else if (link.getValue().equalsIgnoreCase(
                                 "http://tourism.citysdk.lamia-city.gr/resources")) {
                             TourismAPI.setURL(this, link.getValue(), "el-GR");
+                            changeOpen311("","","");
                         }
                         else {
                             SQLiteDatabase db= PoisProvider.getDatabaseHelper();
@@ -725,6 +730,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
                             Toast.makeText(getApplicationContext(), "No endpoint available for this position." +
                                     " Try in other position please", Toast.LENGTH_SHORT).show();
                             setProgressBarIndeterminateVisibility(false);
+                            changeOpen311("","","");
                             return;
                         }
 
@@ -734,6 +740,15 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
                 }
             }
         }
+    }
+
+    private void changeOpen311(String apiKey, String endpoint, String serviceCode) {
+        SharedPreferences preferences = getSharedPreferences("sharedPrefs", 0);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("openApiKey", apiKey);
+        editor.putString("openEndpoint", endpoint);
+        editor.putString("openServiceCode", serviceCode);
+        editor.commit();
     }
 
     public void changeEndpoint(LatLng point) {
