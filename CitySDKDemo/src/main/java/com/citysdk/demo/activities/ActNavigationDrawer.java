@@ -413,6 +413,9 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
         float lat = userDetails.getFloat("latPoint", 0);
         float lng = userDetails.getFloat("lngPoint", 0);
 
+        if(lat != 0 && lng != 0) {
+            changeEndpoint(new LatLng(lat, lng));
+        }
         List<String> selectedCategories = new ArrayList<String>(
                 userDetails.getStringSet("selectedCategories", new HashSet<String>()));
 
