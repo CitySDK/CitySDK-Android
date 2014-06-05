@@ -18,6 +18,7 @@ import com.citysdk.demo.utils.Const;
 import com.citysdk.demo.utils.TourismAPI;
 import com.citysdk.demo.utils.XmlParser;
 
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -26,6 +27,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Criteria;
@@ -38,6 +41,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -219,6 +223,34 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
         } else if (selectedOptions.equalsIgnoreCase(STR_ITINERARIES)) {
             selectedCategories = new ArrayList<String>(selectedItineraries);
         }
+
+
+        SharedPreferences preferences = getSharedPreferences("sharedPrefs", 0);
+        SharedPreferences.Editor editor = preferences.edit();
+        PackageInfo pInfo;
+        try {
+            Log.d(TAG, "Forcing the Open311 endpoint update");
+            pInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_META_DATA);
+            if ( preferences.getLong( "lastRunVersionCode", 0) < pInfo.versionCode ) {
+
+                float latitude = userDetails.getFloat("latPoint", 0);
+                float longitude = userDetails.getFloat("lngPoint", 0);
+                if(latitude != 0 && longitude != 0) {
+                    editor.putFloat("latPoint", (float) 0);
+                    editor.putFloat("lngPoint", (float) 0);
+                    editor.putLong("lastRunVersionCode", pInfo.versionCode);
+                    editor.commit();
+                    changeEndpoint(new LatLng(latitude, longitude));
+                } else {
+                    editor.putLong("lastRunVersionCode", pInfo.versionCode);
+                    editor.commit();
+                }
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
         if (mPoi == null || mPoi.size() == 0) {
             performSearch();
         }
@@ -413,9 +445,6 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
         float lat = userDetails.getFloat("latPoint", 0);
         float lng = userDetails.getFloat("lngPoint", 0);
 
-        if(lat != 0 && lng != 0) {
-            changeEndpoint(new LatLng(lat, lng));
-        }
         List<String> selectedCategories = new ArrayList<String>(
                 userDetails.getStringSet("selectedCategories", new HashSet<String>()));
 
@@ -599,7 +628,8 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
                 PoisContract.Category.COLUMN_CATEGORY_OPTION + "= '" + convertSTRtoDB(
                         selectedOptions) + "'",
                 null,
-                PoisContract.Category.COLUMN_CATEGORY_NAME + " ASC");
+                PoisContract.Category.COLUMN_CATEGORY_NAME + " ASC"
+        );
         assert c != null;
         mCategories.add(new CategoryDomain("", "", "All Categories"));
 
@@ -746,6 +776,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
     }
 
     private void changeOpen311(String apiKey, String endpoint, String serviceCode) {
+        Log.d(TAG, "Changed the Open311 Endpoint to: " + endpoint);
         SharedPreferences preferences = getSharedPreferences("sharedPrefs", 0);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("openApiKey", apiKey);
@@ -754,14 +785,14 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
         editor.commit();
     }
 
-    public void changeEndpoint(LatLng point) {
+    public void changeEndpoint(LatLng newPoint) {
         SharedPreferences userDetails = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
         float latitude = userDetails.getFloat("latPoint", 0);
         float longitude = userDetails.getFloat("lngPoint", 0);
         LatLng oldPoint = new LatLng(latitude, longitude);
 
-        double lat = point.latitude;
-        double lng = point.longitude;
+        double lat = newPoint.latitude;
+        double lng = newPoint.longitude;
 
         SharedPreferences preferences = getSharedPreferences("sharedPrefs", 0);
         SharedPreferences.Editor editor = preferences.edit();
@@ -769,7 +800,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
         editor.putFloat("lngPoint", (float) lng);
         editor.commit();
 
-        LatLng newPoint = new LatLng(lat, lng);
+        //LatLng newPoint = new LatLng(lat, lng);
 
         ParameterList list = new ParameterList();
         try {
