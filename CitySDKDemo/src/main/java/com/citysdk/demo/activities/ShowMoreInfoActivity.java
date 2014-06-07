@@ -4,6 +4,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import com.citysdk.demo.R;
 import com.citysdk.demo.listener.OnResultsListener;
+import com.citysdk.demo.utils.Const;
 import com.citysdk.demo.utils.TourismAPI;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -36,6 +37,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -291,10 +293,20 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
             @Override
             public void run() {
                 try {
-                    //http://web4.cm-lisboa.pt/citySDK/v1
-                    //***REMOVED***
-                    //652
-                    APIWrapper wrapperPost = new APIWrapperFactory(url,Format.XML).setApiKey(key).build();
+
+                    Log.d("ShowMoreInfo", "URL: " + url + " ServiceCode: " + serviceCode);
+                    APIWrapper wrapperPost;
+                    if(url.equalsIgnoreCase(Const.OPEN311_LISBON_ENDPOINT)) {
+                        wrapperPost = new APIWrapperFactory(url, Format.XML)
+                                .setApiKey(key).build();
+                    } else if (url.equalsIgnoreCase(Const.OPEN311_LAMIA_ENDPOINT)) {
+                        wrapperPost = new APIWrapperFactory(url, Format.JSON)
+                                .setApiKey(key).build();
+                    } else {
+                        return;
+                    }
+
+
                     POSTServiceRequestData psrd = new POSTServiceRequestData(serviceCode, (float)latlng.latitude , (float)latlng.longitude, null);
                     psrd.setDescription(description);
                     final POSTServiceRequestResponse response =  wrapperPost.postServiceRequest(psrd);

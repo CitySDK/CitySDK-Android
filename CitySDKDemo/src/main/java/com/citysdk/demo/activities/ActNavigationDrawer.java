@@ -719,7 +719,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
                         } else if (link.getValue().equalsIgnoreCase(
                                 "http://tourism.citysdk.lamia-city.gr/resources")) {
                             TourismAPI.setURL(this, link.getValue(), "el-GR");
-                            changeOpen311("","","");
+                            changeOpen311(Const.OPEN311_LAMIA_APIKEY, Const.OPEN311_LAMIA_ENDPOINT, Const.OPEN311_LAMIA_SERVICECODE);
                         }
                         else {
                             SQLiteDatabase db= PoisProvider.getDatabaseHelper();
