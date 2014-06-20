@@ -147,29 +147,6 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
             e.printStackTrace();
         }
 
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//                try {
-//                    APIWrapper wrapper = new APIWrapperFactory("http://web4.cm-lisboa.pt/citySDK/v1",
-//                            Format.XML).build();
-//                    for (Service s : wrapper.getServiceList()) {
-//                        System.out.println("    -     " + s.getServiceCode());
-//                    }
-//                    APIWrapper wrapperPost = new APIWrapperFactory("http://web4.cm-lisboa.pt/citySDK/v1",Format.XML).setApiKey("***REMOVED***").build();
-//
-//                    POSTServiceRequestData psrd = new POSTServiceRequestData("652", 38.715209f ,-9.140453f, null);
-//
-//                    psrd.setDescription("Teste Teste Teste Teste Teste Teste Teste Teste Teste Teste");
-//                    psrd.setLatLong(38.715209f, -9.140453f);
-//                    POSTServiceRequestResponse response =  wrapperPost.postServiceRequest(psrd);
-//                    System.out.println("~~~~"+ response.getServiceRequestId());
-//                } catch (APIWrapperException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
     }
 
 
