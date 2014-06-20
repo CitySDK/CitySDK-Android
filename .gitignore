@@ -12,9 +12,11 @@
 # generated files
 bin/
 gen/
+build/
 
 # Local configuration file (sdk path, etc)
 local.properties
+open311.properties
 
 # Eclipse project files
 .classpath
