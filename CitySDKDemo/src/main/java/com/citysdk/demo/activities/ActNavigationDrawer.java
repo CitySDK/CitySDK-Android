@@ -14,11 +14,10 @@ import com.citysdk.demo.navigationdrawer.NavDrawerItem;
 import com.citysdk.demo.navigationdrawer.NavMenuItem;
 import com.citysdk.demo.navigationdrawer.NavMenuSection;
 import com.citysdk.demo.sync.SyncUtils;
-import com.citysdk.demo.utils.Const;
+import com.citysdk.demo.utils.AssetsPropertyReader;
 import com.citysdk.demo.utils.TourismAPI;
 import com.citysdk.demo.utils.XmlParser;
 
-import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -54,6 +53,7 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Observable;
+import java.util.Properties;
 
 import citysdk.tourism.client.exceptions.InvalidParameterException;
 import citysdk.tourism.client.exceptions.InvalidValueException;
@@ -729,6 +729,8 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
                 setProgressBarIndeterminateVisibility(false);
                 return;
             }
+            AssetsPropertyReader assetsPropertyReader = new AssetsPropertyReader(getApplicationContext());
+
             List<POITermType> links = poiEndpoint.get(0).getLink();
             for (POITermType link : links) {
                 if (link.getTerm().equals(Term.LINK_TERM_DESCRIBEDBY.getTerm())) {
@@ -737,7 +739,12 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
                         if (link.getValue().equalsIgnoreCase(
                                 "http://tourism.citysdk.cm-lisboa.pt/resources")) {
                             TourismAPI.setURL(this, link.getValue(), "pt-PT");
-                            changeOpen311(Const.OPEN311_LISBON_APIKEY, Const.OPEN311_LISBON_ENDPOINT, Const.OPEN311_LISBON_SERVICECODE);
+                            Properties properties = assetsPropertyReader.getProperties();
+                            String endpoint = properties.getProperty("OPEN311_LISBON_ENDPOINT", "");
+                            String key = properties.getProperty("OPEN311_LISBON_APIKEY", "");
+                            String serviceCode = properties.getProperty("OPEN311_LISBON_SERVICECODE", "");
+
+                            changeOpen311(endpoint, key, serviceCode);
                         } else if (link.getValue()
                                 .equalsIgnoreCase("http://citysdk.dmci.hva.nl/CitySDK/resources")) {
                             TourismAPI.setURL(this, link.getValue(), "nl-NL");
@@ -749,7 +756,11 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
                         } else if (link.getValue().equalsIgnoreCase(
                                 "http://tourism.citysdk.lamia-city.gr/resources")) {
                             TourismAPI.setURL(this, link.getValue(), "el-GR");
-                            changeOpen311(Const.OPEN311_LAMIA_APIKEY, Const.OPEN311_LAMIA_ENDPOINT, Const.OPEN311_LAMIA_SERVICECODE);
+                            Properties properties = assetsPropertyReader.getProperties();
+                            String endpoint = properties.getProperty("OPEN311_LAMIA_ENDPOINT", "");
+                            String key = properties.getProperty("OPEN311_LAMIA_APIKEY", "");
+                            String serviceCode = properties.getProperty("OPEN311_LAMIA_SERVICECODE", "");
+                            changeOpen311(endpoint, key, serviceCode);
                         }
                         else {
                             SQLiteDatabase db= PoisProvider.getDatabaseHelper();
@@ -775,7 +786,7 @@ public class ActNavigationDrawer extends AbstractNavDrawerActivity
         }
     }
 
-    private void changeOpen311(String apiKey, String endpoint, String serviceCode) {
+    private void changeOpen311(String endpoint, String apiKey, String serviceCode) {
         Log.d(TAG, "Changed the Open311 Endpoint to: " + endpoint);
         SharedPreferences preferences = getSharedPreferences("sharedPrefs", 0);
         SharedPreferences.Editor editor = preferences.edit();

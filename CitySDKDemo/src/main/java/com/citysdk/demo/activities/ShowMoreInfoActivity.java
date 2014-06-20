@@ -4,7 +4,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import com.citysdk.demo.R;
 import com.citysdk.demo.listener.OnResultsListener;
-import com.citysdk.demo.utils.Const;
+import com.citysdk.demo.utils.AssetsPropertyReader;
 import com.citysdk.demo.utils.TourismAPI;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -56,6 +56,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 
 import citysdk.tourism.client.exceptions.InvalidParameterException;
 import citysdk.tourism.client.exceptions.InvalidValueException;
@@ -293,13 +294,17 @@ public class ShowMoreInfoActivity extends Activity implements OnResultsListener 
             @Override
             public void run() {
                 try {
+                    AssetsPropertyReader assetsPropertyReader = new AssetsPropertyReader(getApplicationContext());
+                    Properties properties = assetsPropertyReader.getProperties();
+                    String endpointLisbon = properties.getProperty("OPEN311_LISBON_ENDPOINT", "");
+                    String endpointLamia = properties.getProperty("OPEN311_LAMIA_ENDPOINT", "");
 
                     Log.d("ShowMoreInfo", "URL: " + url + " ServiceCode: " + serviceCode);
                     APIWrapper wrapperPost;
-                    if(url.equalsIgnoreCase(Const.OPEN311_LISBON_ENDPOINT)) {
+                    if(url.equalsIgnoreCase(endpointLisbon)) {
                         wrapperPost = new APIWrapperFactory(url, Format.XML)
                                 .setApiKey(key).build();
-                    } else if (url.equalsIgnoreCase(Const.OPEN311_LAMIA_ENDPOINT)) {
+                    } else if (url.equalsIgnoreCase(endpointLamia)) {
                         wrapperPost = new APIWrapperFactory(url, Format.JSON)
                                 .setApiKey(key).build();
                     } else {
